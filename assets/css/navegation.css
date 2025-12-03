@@ -7,9 +7,10 @@
 	left: 0;
 	right: 0;
 	z-index: 100;
-	background: rgba(15, 15, 15, 0.9);
+	background: rgba(0, 0, 0, 0.9);
 	backdrop-filter: blur(10px);
-	padding: var(--space-md) 0;
+	padding: var(--space-md) 8cap;
+	margin-bottom: 80px;
 }
 
 .nav-container {
@@ -39,4 +40,22 @@
 .nav-links a:hover,
 .nav-links a:focus {
 	color: var(--color-accent);
+}
+
+.nav-links {
+	display: flex;
+	gap: 20px;  
+	list-style: none;
+}
+
+.nav-links li {
+    border-right: 1px solid rgba(255, 255, 255, 0.4); 
+    padding-right: 25px	; 
+    margin-right: 2px;  
+}
+
+.nav-links li:last-child {
+    border-right: none;
+    padding-right: 0;
+    margin-right: 0;
 }

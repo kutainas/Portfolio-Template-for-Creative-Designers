@@ -33,7 +33,7 @@
 .hero-bg {
 	position: absolute;
 	inset: 0;
-	background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+	background: linear-gradient(135deg, #d6d6d6 0%, #e7e8ec 50%, #ffffff 100%);
 	z-index: -1;
 }
 
@@ -137,7 +137,7 @@
 /* Scroll Indicator */
 .scroll-indicator {
 	position: absolute;
-	bottom: var(--space-xl);
+	bottom: 3rem;
 	left: 50%;
 	transform: translateX(-50%);
 	display: flex;

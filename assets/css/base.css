@@ -68,6 +68,12 @@ img {
 	display: block;
 }
 
+p {
+	font-family: var(--font-serif);
+	font-size: var(--text-base);
+	line-height: var(--line-height-base);
+	margin-bottom: var(--space-md);
+}
 /*
  * LINK RESET
  *
