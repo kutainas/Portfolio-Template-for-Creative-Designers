@@ -17,6 +17,24 @@
 	text-align: center;
 }
 
+/* Align these section titles with the page content (container) and
+   increase vertical spacing above and below. Titles remain large and
+   responsive but keep the same left margin as other content. */
+#about .section-title,
+#projects .section-title,
+#contact .section-title {
+	width: auto;               /* don't force full-viewport width */
+	box-sizing: border-box;
+	padding-left: 0;           /* align with container left edge */
+	text-align: left;
+	/* Much larger, responsive typography */
+	font-size: clamp(2rem, 4vw + 1.5rem, 4rem);
+	line-height: var(--line-height-3xl);
+	/* More breathing room above and below the titles */
+	margin-top: 4rem;
+	margin-bottom: 2.5rem;
+}
+
 /* --------------------------------------------------------------------------
    5. Hero Section
    -------------------------------------------------------------------------- */

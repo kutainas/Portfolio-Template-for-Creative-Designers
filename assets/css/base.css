@@ -111,3 +111,32 @@ a {
 .skip-link:focus {
 	top: 0;  /* Slides into view when focused via keyboard */
 }
+
+/* --------------------------------------------------------------------------
+   CURSOR FOLLOWER
+
+   Small red circular element that follows the mouse with a slight delay.
+   - 20x20px red circle
+   - fixed positioning centered on the cursor via translate(-50%, -50%)
+   - pointer-events: none so it never blocks clicks
+   - high z-index so it's above page content
+   - smooth delayed movement via transition on transform
+   -------------------------------------------------------------------------- */
+.cursor-follower {
+	width: 30px;
+	height: 30px;
+	background: red;
+	position: fixed;
+	left: 0;
+	top: 0;
+	/* --cf-x and --cf-y are set via JS using clientX/clientY */
+	transform: translate(var(--cf-x, -9999px), var(--cf-y, -9999px)) translate(-50%, -50%) scale(var(--cf-scale, 1));
+	border-radius: 50%;
+	pointer-events: none;
+	z-index: 1; /* keep low so content and UI always appear above */
+	/* Increased transition so the follower trails further behind the cursor */
+	transition: transform 0.28s ease-out;
+	transform-origin: center center;
+	will-change: transform;
+}
+

@@ -342,6 +342,78 @@ document.addEventListener('DOMContentLoaded', () => {
 	console.log('🚀 Grade 1 Demo: Vanilla scroll animations initialized');
 });
 
+// -------------------------------------------------------------------------
+// CURSOR FOLLOWER
+// -------------------------------------------------------------------------
+// Implements a small red circular element that follows the user's cursor
+// with a slight delay. Uses e.clientX and e.clientY as requested. The
+// element must have the class `cursor-follower` and is non-interactive.
+// -------------------------------------------------------------------------
+(function setupCursorFollower() {
+	const follower = document.querySelector('.cursor-follower');
+	if (!follower) return; // nothing to do if element not present
+
+	/*
+	 * Use CSS custom properties to set the follower position and scale.
+	 * JS updates --cf-x and --cf-y using clientX/clientY. Hover detection
+	 * uses elementFromPoint to determine if the pointer is over an
+	 * interactive/text element and toggles --cf-scale.
+	 */
+	// Elements that should trigger the follower to grow when hovered.
+	// Includes interactive elements and common text containers.
+	const GROW_SELECTOR = 'a, button, input[type="button"], input[type="submit"], [role="button"], .btn, label, textarea, select, p, span, h1, h2, h3, h4, h5, h6, li';
+
+	// Initialize off-screen so the follower isn't visible before pointer moves
+	follower.style.setProperty('--cf-x', '-9999px');
+	follower.style.setProperty('--cf-y', '-9999px');
+	follower.style.setProperty('--cf-scale', '1');
+
+	const onPointerMove = (e) => {
+		const x = eclientX;
+		const y = e.clientY;
+
+		// Update CSS vars for position — CSS transition on transform will animate
+		follower.style.setProperty('--cf-x', `${x}px`);
+		follower.style.setProperty('--cf-y', `${y}px`);
+
+		// Hover detection: find the element beneath the pointer and check selector
+		// elementFromPoint ignores elements with pointer-events: none (our follower)
+		const el = document.elementFromPoint(x, y);
+		if (el && el.closest) {
+			// If we're over a <button>, make the follower triple size (30px -> 90px)
+			if (el.closest('button')) {
+				follower.style.setProperty('--cf-scale', '3');
+			} else if (el.closest(GROW_SELECTOR)) {
+				// Other interactive/text elements grow to double size (30px -> 60px)
+				follower.style.setProperty('--cf-scale', '2');
+			} else {
+				follower.style.setProperty('--cf-scale', '1');
+			}
+		} else {
+			follower.style.setProperty('--cf-scale', '1');
+		}
+	};
+
+	const onTouchMove = (e) => {
+		if (!e.touches || e.touches.length === 0) return;
+		const t = e.touches[0];
+		// Touch devices do not show a cursor, but follow to avoid unexpected behavior
+		follower.style.setProperty('--cf-x', `${t.clientX}px`);
+		follower.style.setProperty('--cf-y', `${t.clientY}px`);
+		// Do not enable hover-on-touch
+		follower.style.setProperty('--cf-scale', '1');
+	};
+
+	window.addEventListener('mousemove', onPointerMove, { passive: true });
+	window.addEventListener('touchmove', onTouchMove, { passive: true });
+
+	// Cleanup helper for SPA environments
+	window.cleanupCursorFollower = () => {
+		window.removeEventListener('mousemove', onPointerMove);
+		window.removeEventListener('touchmove', onTouchMove);
+	};
+})();
+
 // ==========================================================================
 // 6. CLEANUP (FOR SPA ENVIRONMENTS)
 // ==========================================================================

@@ -24,16 +24,29 @@
 .nav-logo {
 	font-size: var(--text-xl);
 	font-weight: 700;
+	color: white;
+    text-decoration: none;
+
 }
 
+.nav-logo {
+    color: white;
+    text-decoration: none;
+}
+
+.nav-logo:hover {
+    color: var(--color-accent);
+
+}
 .nav-links {
 	display: flex;
 	gap: var(--space-lg);
 	list-style: none;
 }
 
+/* ===== AQUÍ: texto blanco ===== */
 .nav-links a {
-	color: var(--color-text-muted);
+	color: white;     /* antes tenía var(--color-text-muted) */
 	transition: color 0.3s;
 }
 
@@ -50,7 +63,7 @@
 
 .nav-links li {
     border-right: 1px solid rgba(255, 255, 255, 0.4); 
-    padding-right: 25px	; 
+    padding-right: 25px; 
     margin-right: 2px;  
 }
 
@@ -58,4 +71,9 @@
     border-right: none;
     padding-right: 0;
     margin-right: 0;
+}
+
+.scroll-indicator span {
+    font-size: 2.5cap;   /* ajusta el tamaño a tu gusto */
+    font-weight: 300;    /* opcional, para que resalte más */
 }
