@@ -52,8 +52,11 @@
 
 	/* ===== TYPOGRAPHY ===== */
 	--font-sans: 'Bebas Neue', sans-serif;
-	--font-serif: 'Libertinus Serif', serif;
+	--font-serif: 'Outfit', serif;
 	--font-mono: 'Anonymous Pro', monospace;
+
+	/* Cursor follower z-index (keep low so texts and UI appear above) */
+	--cf-z: 0;
 
 	/* ===== COLOR DEFINITIONS FOR TAILWIND ===== */
 	/*

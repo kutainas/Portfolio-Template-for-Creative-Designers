@@ -349,67 +349,72 @@ document.addEventListener('DOMContentLoaded', () => {
 // with a slight delay. Uses e.clientX and e.clientY as requested. The
 // element must have the class `cursor-follower` and is non-interactive.
 // -------------------------------------------------------------------------
-(function setupCursorFollower() {
+(function () {
 	const follower = document.querySelector('.cursor-follower');
-	if (!follower) return; // nothing to do if element not present
+	if (!follower) return;
 
-	/*
-	 * Use CSS custom properties to set the follower position and scale.
-	 * JS updates --cf-x and --cf-y using clientX/clientY. Hover detection
-	 * uses elementFromPoint to determine if the pointer is over an
-	 * interactive/text element and toggles --cf-scale.
-	 */
-	// Elements that should trigger the follower to grow when hovered.
-	// Includes interactive elements and common text containers.
-	const GROW_SELECTOR = 'a, button, input[type="button"], input[type="submit"], [role="button"], .btn, label, textarea, select, p, span, h1, h2, h3, h4, h5, h6, li';
+	// --- CONFIG (adjustable) ---
+	const BASE_DIAM = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--cf-base-size')) || 40;
+	const DEFAULT_GROW_SCALE = 1.6;   // generic interactive
+	const NAV_GROW_SCALE = 2.5;       // nav links
+	const BUTTON_GROW_SCALE = 2.2;    // buttons
+	const LERP_POS = 0.14;            // small lag but responsive
+	const LERP_SCALE = Math.min(0.22, LERP_POS + 0.06);
 
-	// Initialize off-screen so the follower isn't visible before pointer moves
-	follower.style.setProperty('--cf-x', '-9999px');
-	follower.style.setProperty('--cf-y', '-9999px');
-	follower.style.setProperty('--cf-scale', '1');
+	// State
+	let targetX = -9999, targetY = -9999;
+	let currentX = -9999, currentY = -9999;
+	let targetScale = 1, currentScale = 1;
+	let visible = false;
 
-	const onPointerMove = (e) => {
-		const x = eclientX;
-		const y = e.clientY;
+	const CUSTOM_ATTR = '[data-cursor-grow]';
 
-		// Update CSS vars for position — CSS transition on transform will animate
-		follower.style.setProperty('--cf-x', `${x}px`);
-		follower.style.setProperty('--cf-y', `${y}px`);
+	const lerp = (a, b, t) => a + (b - a) * t;
 
-		// Hover detection: find the element beneath the pointer and check selector
-		// elementFromPoint ignores elements with pointer-events: none (our follower)
-		const el = document.elementFromPoint(x, y);
-		if (el && el.closest) {
-			// If we're over a <button>, make the follower triple size (30px -> 90px)
-			if (el.closest('button')) {
-				follower.style.setProperty('--cf-scale', '3');
-			} else if (el.closest(GROW_SELECTOR)) {
-				// Other interactive/text elements grow to double size (30px -> 60px)
-				follower.style.setProperty('--cf-scale', '2');
-			} else {
-				follower.style.setProperty('--cf-scale', '1');
-			}
-		} else {
-			follower.style.setProperty('--cf-scale', '1');
+	function resolveScaleForElement(el){
+		if (!el) return 1;
+		const custom = el.closest(CUSTOM_ATTR);
+		if (custom){
+			const v = custom.getAttribute('data-cursor-grow');
+			const parsed = parseFloat(v);
+			if (!Number.isNaN(parsed) && parsed > 0) return parsed;
+			return DEFAULT_GROW_SCALE;
 		}
-	};
+		if (el.closest('nav a, .nav-links a')) return NAV_GROW_SCALE;
+		if (el.closest('button, [role="button"], .btn')) return BUTTON_GROW_SCALE;
+		if (el.closest('a, input, textarea, select, label')) return DEFAULT_GROW_SCALE;
+		return 1;
+	}
 
-	const onTouchMove = (e) => {
+	function onMouseMove(e){
+		targetX = e.clientX;
+		targetY = e.clientY;
+		if (!visible){ follower.classList.add('is-visible'); visible = true; }
+		const el = document.elementFromPoint(targetX, targetY);
+		targetScale = resolveScaleForElement(el);
+	}
+
+	function onTouchMove(e){
 		if (!e.touches || e.touches.length === 0) return;
 		const t = e.touches[0];
-		// Touch devices do not show a cursor, but follow to avoid unexpected behavior
-		follower.style.setProperty('--cf-x', `${t.clientX}px`);
-		follower.style.setProperty('--cf-y', `${t.clientY}px`);
-		// Do not enable hover-on-touch
-		follower.style.setProperty('--cf-scale', '1');
-	};
+		targetX = t.clientX; targetY = t.clientY; targetScale = 1;
+		if (!visible){ follower.classList.add('is-visible'); visible = true; }
+	}
 
-	window.addEventListener('mousemove', onPointerMove, { passive: true });
+	function animate(){
+		currentX = lerp(currentX, targetX, LERP_POS);
+		currentY = lerp(currentY, targetY, LERP_POS);
+		currentScale = lerp(currentScale, targetScale, LERP_SCALE);
+		follower.style.transform = `translate(${currentX}px, ${currentY}px) translate(-50%, -50%) scale(${currentScale})`;
+		requestAnimationFrame(animate);
+	}
+
+	window.addEventListener('mousemove', onMouseMove, { passive: true });
 	window.addEventListener('touchmove', onTouchMove, { passive: true });
+	requestAnimationFrame(animate);
 
-	// Cleanup helper for SPA environments
-	window.cleanupCursorFollower = () => {
-		window.removeEventListener('mousemove', onPointerMove);
+	window.cleanupCursorFollower = function(){
+		window.removeEventListener('mousemove', onMouseMove);
 		window.removeEventListener('touchmove', onTouchMove);
 	};
 })();

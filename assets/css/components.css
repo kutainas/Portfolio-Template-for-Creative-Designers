@@ -41,50 +41,6 @@
 	color: var(--color-text-muted);
 }
 
-.skills-grid {
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	gap: var(--space-md);
-}
-
-.skill-card {
-	background: var(--color-bg);
-	padding: var(--space-md);
-	border-radius: 12px;
-	text-align: center;
-}
-
-.skill-icon {
-	font-size: var(--text-2xl);
-	display: block;
-	margin-bottom: var(--space-sm);
-}
-
-.skill-card h3 {
-	font-size: var(--text-sm);
-	margin-bottom: var(--space-sm);
-}
-
-.skill-bar {
-	height: 6px;
-	background: var(--color-bg-alt);
-	border-radius: 3px;
-	overflow: hidden;
-}
-
-.skill-fill {
-	height: 100%;
-	width: 0;
-	background: var(--color-accent);
-	border-radius: 3px;
-	transition: width 1s var(--ease-out) 0.3s;
-}
-
-/* Animate skill bars when revealed */
-[data-reveal-stagger].revealed .skill-fill {
-	width: var(--fill);
-}
-
 /* --------------------------------------------------------------------------
    8. Projects Section
    -------------------------------------------------------------------------- */
@@ -388,10 +344,7 @@
 	/*
 	 * SKILL BARS: Show at full width immediately
 	 */
-	.skill-fill {
-		width: var(--fill);
-		transition: none;
-	}
+
 }
 
 /* --------------------------------------------------------------------------

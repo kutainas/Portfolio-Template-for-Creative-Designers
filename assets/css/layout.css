@@ -30,9 +30,14 @@
 	/* Much larger, responsive typography */
 	font-size: clamp(2rem, 4vw + 1.5rem, 4rem);
 	line-height: var(--line-height-3xl);
-	/* More breathing room above and below the titles */
+	/* More breathing room above and below the titles (reduced below for About) */
 	margin-top: 4rem;
 	margin-bottom: 2.5rem;
+}
+
+/* Reduce gap specifically between the About title and its first paragraph */
+#about .section-title {
+	margin-bottom: 1rem; /* tighter spacing to bring paragraph closer */
 }
 
 /* --------------------------------------------------------------------------
@@ -173,6 +178,24 @@
 	border-bottom: 2px solid currentColor;
 	transform: rotate(45deg);
 	animation: bounce 2s infinite;
+}
+
+/* Make the "VER TRABAJOS" link more prominent */
+.scroll-indicator__link {
+	font-size: clamp(0.95rem, 1.6vw, 1.5rem);
+	font-weight: 700;
+	color: #000000; /* black text */
+	text-decoration: none;
+	padding: 0;             /* no extra box */
+	background: none;      /* no background */
+	border-radius: 0;      /* no rounding */
+	box-shadow: none;      /* no shadow */
+	transition: color 0.12s ease;
+}
+.scroll-indicator__link:hover,
+.scroll-indicator__link:focus {
+	color: #000000; /* remain black on hover */
+	text-decoration: none; /* no underline */
 }
 
 @keyframes bounce {

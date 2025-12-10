@@ -70,7 +70,7 @@ img {
 
 p {
 	font-family: var(--font-serif);
-	font-size: var(--text-base);
+	font-size: var(--text-lg);
 	line-height: var(--line-height-base);
 	margin-bottom: var(--space-md);
 }
@@ -115,28 +115,38 @@ a {
 /* --------------------------------------------------------------------------
    CURSOR FOLLOWER
 
-   Small red circular element that follows the mouse with a slight delay.
-   - 20x20px red circle
-   - fixed positioning centered on the cursor via translate(-50%, -50%)
-   - pointer-events: none so it never blocks clicks
-   - high z-index so it's above page content
-   - smooth delayed movement via transition on transform
+   A red circular follower that lags slightly behind the pointer. Variables
+   are provided here with sensible defaults; you can override them in
+   `:root` (for example in `theme.css`) if you prefer.
    -------------------------------------------------------------------------- */
+:root {
+	--cf-base-size: 40px;           /* diameter (30-50px recommended) */
+	--cf-color: #ff0000;            /* follower color */
+	--cf-z: 5;                      /* z-index (keep low so menu/text are above) */
+	--cf-scale-transition: 0.24s;   /* scale transition duration */
+}
+
 .cursor-follower {
-	width: 30px;
-	height: 30px;
-	background: red;
+	width: var(--cf-base-size);
+	height: var(--cf-base-size);
+	background: var(--cf-color);
 	position: fixed;
 	left: 0;
 	top: 0;
-	/* --cf-x and --cf-y are set via JS using clientX/clientY */
-	transform: translate(var(--cf-x, -9999px), var(--cf-y, -9999px)) translate(-50%, -50%) scale(var(--cf-scale, 1));
 	border-radius: 50%;
 	pointer-events: none;
-	z-index: 1; /* keep low so content and UI always appear above */
-	/* Increased transition so the follower trails further behind the cursor */
-	transition: transform 0.28s ease-out;
-	transform-origin: center center;
-	will-change: transform;
+	z-index: var(--cf-z);
+	transform: translate(-50%, -50%) scale(1);
+	will-change: transform, opacity;
+	transition: transform var(--cf-scale-transition) cubic-bezier(.22,1,.36,1), opacity 0.12s ease;
+	opacity: 0; /* hidden until pointer moves */
+}
+
+/* Visible state added by JS on first pointer move */
+.cursor-follower.is-visible { opacity: 1; }
+
+/* Hide on touch devices (optional) */
+@media (hover: none) and (pointer: coarse) {
+	.cursor-follower { display: none; }
 }
 
