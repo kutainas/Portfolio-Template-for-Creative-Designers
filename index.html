@@ -62,30 +62,39 @@
 			<div class="hero-bottom" data-nav-theme="dark" aria-hidden="true"></div>
 		</section>
 
-		<!-- About Section -->
-		<section id="servicios" class="section about" data-nav-theme="light">
-			<div class="container">
-				<h2 class="section-title animate-on-scroll">Sobre mi</h2>
-				<div class="about-grid">
-					<div class="about-text animate-on-scroll">
-						<p>
-							 Hola, soy Lucas, diseñador gráfico y audiovisual. A lo largo de mi carrera he colaborado en proyectos que van desde empresas novedosas y emergentes hasta marcas consolidadas, aportando una mezcla de diseño visual, motion graphics e ilustración. Mi especialidad es transformar ideas en piezas claras, potentes y memorables. Desde la fotografía y el video hasta el branding pasando por el diseño editorial, packaging e ilustración.
-						</p>
+		<!-- Sobre Mi (Full-width editorial frame) -->
+		<section id="sobre-mi" class="section sobre-mi" data-nav-theme="dark">
+			<div class="container-fluid g-0">
+				<div class="row g-0 align-items-stretch">
+					<!-- Left: Black editorial panel -->
+					<div class="col-12 col-lg-6 sobre-left d-flex">
+						<div class="container d-flex flex-column justify-content-between">
+							<div class="text-block animate-on-scroll">
+								<p>Soy kutainas, Diseñador Gráfico & Audiovisual.</p>
+								<p>A lo largo de mi carrera he colaborado en proyectos que van desde empresas novedosas y emergentes hasta marcas consolidadas, aportando una mezcla de diseño visual, motion graphics e ilustración.</p>
+								<p>Mi especialidad es transformar ideas en piezas claras, potentes y memorables. Desde la fotografía y el video hasta el branding pasando por el diseño editorial, packaging e ilustración. Manteniendo siempre una mirada crítica y especial atención en el detalle y buscando soluciones que tengan sentido más allá de lo visual.</p>
+								<p>¡Estás a un paso de trabajar conmigo!</p>
+							</div>
+							<a href="#contacto" class="about-frame__cta animate-on-scroll" aria-label="CONTÁCTAME">
+						<span class="about-frame__cta-arrow" aria-hidden="true">→</span>
+						<span class="about-frame__cta-text">CONTÁCTAME</span>
+					</a> 
+						</div>
 					</div>
-					<!-- Skills section removed per request -->
+					<!-- Right: Image -->
+					<div class="col-12 col-lg-6 sobre-right">
+						<img src="https://picsum.photos/1200/1200?grayscale=1" alt="Portrait" class="frame-image animate-on-scroll" />
+					</div>
 				</div>
 			</div>
 		</section>
 
+
+
+
 		<!-- Projects Section -->
-		<section id="proyectos" class="section projects" data-nav-theme="light">
-			<div class="container">
-				<h2 class="section-title animate-on-scroll">Proyectos Destacados</h2>
-				<div class="projects-grid" data-reveal-stagger>
 					<article class="project-card">
-						<div class="project-image">
-							<img src="https://picsum.photos/400/300?random=1" alt="E-commerce Platform" loading="lazy" />
-						</div>
+
 						<div class="project-content">
 							<h3>E-commerce Platform</h3>
 							<p>A fully responsive online store with cart functionality and payment integration.</p>
@@ -106,9 +115,7 @@
 
 					</article>
 					<article class="project-card">
-						<div class="project-image">
-							<img src="https://picsum.photos/400/300?random=2" alt="Dashboard UI" loading="lazy" />
-						</div>
+
 						<div class="project-content">
 							<h3>Analytics Dashboard</h3>
 							<p>Real-time data visualization dashboard with dark mode support.</p>
@@ -129,9 +136,7 @@
 
 					</article>
 					<article class="project-card">
-						<div class="project-image">
-							<img src="https://picsum.photos/400/300?random=3" alt="Mobile App Landing" loading="lazy" />
-						</div>
+
 						<div class="project-content">
 							<h3>App Landing Page</h3>
 							<p>Conversion-optimized landing page with scroll animations.</p>
@@ -197,48 +202,9 @@
 </button>
 
 					</article>
-					<article class="project-card">
-						<div class="project-image">
-							<img src="https://picsum.photos/400/300?random=1" alt="E-commerce Platform" loading="lazy" />
-						</div>
-						<div class="project-content">
-							<h3>E-commerce Platform</h3>
-							<p>A fully responsive online store with cart functionality and payment integration.</p>
-							<div class="project-tags">
-								<span>HTML</span><span>CSS</span><span>JS</span>
-							</div>
-						</div>
 
-						<button
-  class="btn"
-  data-open-modal="projectDialog"
-  data-title="TÍTULO AQUÍ"
-  data-description="DESCRIPCIÓN AQUÍ"
-  data-image="img/tu-imagen.jpg"
->
-  Ver proyecto
-</button>
+	
 
-					</article>
-				</div>
-			</div>
-		</section>
-
-		<!-- Contact Section -->
-		<section id="contacto" class="section contact" data-nav-theme="light">
-			<div class="container">
-				<h2 class="section-title animate-on-scroll">Contacta conmigo	</h2>
-				<div class="contact-content animate-on-scroll">
-					<p>Interested in working together? Let's talk about your project.</p>
-					<a href="mailto:hello@example.com" class="btn btn-primary">Say Hello</a>
-					<div class="social-links">
-						<a href="#" aria-label="GitHub">LinkedIn</a>
-						<a href="#" aria-label="LinkedIn">Instagram</a>
-						<a href="#" aria-label="Twitter">Gmail</a>
-					</div>
-				</div>
-			</div>
-		</section>
 	</main>
   <div id="modal-1" class="modal">
     <div class="modal__backdrop">

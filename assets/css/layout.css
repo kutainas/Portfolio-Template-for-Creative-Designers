@@ -365,3 +365,96 @@ body { padding-top: var(--header-h); }
 	}
 	.hero-nav .nav-right { display: none; } /* simple collapse */
 }
+
+/* --------------------------------------------------------------------------
+   Sobre Mi editorial frame
+   -------------------------------------------------------------------------- */
+.sobre-mi {
+	width: 100%;
+}
+.sobre-mi .row {
+	min-height: 60vh; /* ensures a strong visual frame */
+}
+.sobre-left {
+	background: #000;
+	color: #ffffff;
+	padding-block: clamp(2rem, 6vw, 4rem);
+}
+.sobre-left .container {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+.sobre-left .text-block p {
+	font-family: 'Source Code Pro', monospace;
+	color: #fff;
+	line-height: 1.6;
+	margin-bottom: 1rem;
+	font-size: clamp(1.05rem, 1.2vw, 1.2rem); /* increased ~10-15% */
+}
+
+/* Editorial inline CTA: text-only arrow + text (no box) */
+.about-frame__cta {
+	display: inline-block; /* simplified per spec */
+	position: relative;
+	width: fit-content; /* underline matches content width */
+	color: #fff;
+	text-decoration: none;
+	padding: 0;
+	margin-top: 1rem;
+}
+
+.about-frame__cta-arrow{
+	font-family: 'Source Code Pro', monospace;
+	display: inline-block;
+	font-size: 1.05rem;
+	line-height: 1.3;
+	margin-right: 8px;
+}
+
+.about-frame__cta-text{
+	font-family: 'Source Code Pro', monospace;
+	text-transform: uppercase;
+	font-size: 1.05rem;
+	line-height: 1.3;
+	letter-spacing: 0.04em;
+	display: inline-block;
+}
+
+/* Centered thin underline under the entire CTA */
+.about-frame__cta::after{
+	content: "";
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	bottom: -12px; /* increased breathing room */
+	width: 100%;
+	height: 1px;
+	background: currentColor;
+}
+
+.about-frame__cta:hover{ opacity: .9; }
+
+@media (prefers-reduced-motion: reduce) {
+	.about-frame__cta::after { transition: none; }
+}
+.sobre-right {
+	position: relative;
+}
+.frame-image {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+/* Mobile: stack with image below and ensure text readable */
+@media (max-width: 768px) {
+	.sobre-left, .sobre-right {
+		min-height: auto;
+	}
+	.sobre-mi .row { min-height: 40vh; }
+	.sobre-left { padding-block: 2rem; }
+	.sobre-right { margin-top: 1rem; }
+}
