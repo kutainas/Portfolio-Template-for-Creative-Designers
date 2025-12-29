@@ -99,6 +99,12 @@
 	--duration-normal: 0.6s;  
 }
 
+body {
+	font-family: 'Source Code Pro', monospace;
+	color: #000000;
+	background-color: #ffffff;
+}
+
 :root.dark {
 	--color-background: #0f172a; /* dark neutral background */
 	--color-foreground: #f8fafc; /* use light palette foreground for contrast */

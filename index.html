@@ -9,45 +9,63 @@
 	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./assets/css/index.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
     	<script src="./assets/js/main.js" defer></script>
 </head>
+
+	<dialog id="projectDialog" class="project-dialog">
+  <form method="dialog" class="project-dialog__form">
+    <button class="project-dialog__close" value="close" aria-label="Cerrar">×</button>
+
+    <h2 data-modal-title>TÍTULO AQUÍ</h2>
+    <p data-modal-description>DESCRIPCIÓN AQUÍ</p>
+
+    <img data-modal-image alt="" class="project-dialog__img">
+  </form>
+</dialog>
+
 <body>
 	<!-- Skip link for accessibility -->
 	<a href="#main" class="skip-link">Skip to main content</a>
 
-	<!-- Navigation -->
-	<nav class="nav">
-		<div class="nav-container">
-			<a href="#" class="nav-logo">Portfolio</a>
-			<ul class="nav-links">
-				<li><a href="#hero">Inicio</a></li>
-				<li><a href="#about">Sobre mi </a></li>
-				<li><a href="#projects">Proyectos</a></li>
-				<li><a href="#contact">Contacto</a></li>
-			</ul>
+	<header class="site-header" role="banner">
+		<div class="container">
+			<nav class="hero-nav" aria-label="Primary">
+				<a href="#inicio" class="nav-left nav-link"><span class="nav-text">INICIO</span></a>
+				<ul class="nav-right">
+					<li><a href="#servicios" class="nav-link"><span class="nav-text">SERVICIOS</span></a></li>
+					<li><a href="#proyectos" class="nav-link"><span class="nav-text">PROYECTOS</span></a></li>
+					<li><a href="#contacto" class="nav-link"><span class="nav-text">CONTACTO</span></a></li>
+				</ul>
+				<span class="nav-underline" aria-hidden="true"></span>
+			</nav>
 		</div>
-	</nav>
+	</header>
 
 	<main id="main">
 		<!-- Hero Section -->
-		<section id="hero" class="hero">
-			<div class="hero-bg parallax-bg"></div>
-			<div class="hero-content">
-				<h1 class="hero-title animate-on-scroll">Lucas Ucelay de Luis</h1>
-				<p class="hero-subtitle animate-on-scroll">Diseñador Gráfico & Audiovisual</p>
+		<section id="inicio" class="hero" data-nav-theme="light">
+			<div class="hero-top">
 
+				<div class="container hero-grid">
+					<div class="hero-bottom-row">
+						<h1 class="hero-logo">kutainas<span class="logo-mark">®</span></h1>
+						<p class="hero-role">GRAPHIC & AUDIOVISUAL<br>DESIGNER</p>
+					</div>
+				</div> 
 			</div>
-			<div class="scroll-indicator">
-				<a href="#projects" class="scroll-indicator__link" aria-label="Ver trabajos">VER TRABAJOS</a>
-				<div class="scroll-arrow"></div>
-			</div>
+
+			<div class="hero-bottom" data-nav-theme="dark" aria-hidden="true"></div>
 		</section>
 
 		<!-- About Section -->
-		<section id="about" class="section about">
+		<section id="servicios" class="section about" data-nav-theme="light">
 			<div class="container">
-				<h2 class="section-title animate-on-scroll">Sobre mi. About me</h2>
+				<h2 class="section-title animate-on-scroll">Sobre mi</h2>
 				<div class="about-grid">
 					<div class="about-text animate-on-scroll">
 						<p>
@@ -60,9 +78,9 @@
 		</section>
 
 		<!-- Projects Section -->
-		<section id="projects" class="section projects">
+		<section id="proyectos" class="section projects" data-nav-theme="light">
 			<div class="container">
-				<h2 class="section-title animate-on-scroll">Proyectos Destacados. Featured Projects</h2>
+				<h2 class="section-title animate-on-scroll">Proyectos Destacados</h2>
 				<div class="projects-grid" data-reveal-stagger>
 					<article class="project-card">
 						<div class="project-image">
@@ -75,6 +93,17 @@
 								<span>HTML</span><span>CSS</span><span>JS</span>
 							</div>
 						</div>
+						
+						<button
+  class="btn"
+  data-open-modal="projectDialog"
+  data-title="TÍTULO AQUÍ"
+  data-description="DESCRIPCIÓN AQUÍ"
+  data-image="img/tu-imagen.jpg"
+>
+  Ver proyecto
+</button>
+
 					</article>
 					<article class="project-card">
 						<div class="project-image">
@@ -87,6 +116,17 @@
 								<span>CSS Grid</span><span>Charts</span><span>API</span>
 							</div>
 						</div>
+
+						<button
+  class="btn"
+  data-open-modal="projectDialog"
+  data-title="TÍTULO AQUÍ"
+  data-description="DESCRIPCIÓN AQUÍ"
+  data-image="img/tu-imagen.jpg"
+>
+  Ver proyecto
+</button>
+
 					</article>
 					<article class="project-card">
 						<div class="project-image">
@@ -99,15 +139,95 @@
 								<span>Animation</span><span>A/B Test</span><span>SEO</span>
 							</div>
 						</div>
+
+						<button
+  class="btn"
+  data-open-modal="projectDialog"
+  data-title="TÍTULO AQUÍ"
+  data-description="DESCRIPCIÓN AQUÍ"
+  data-image="img/tu-imagen.jpg"
+>
+  Ver proyecto
+</button>
+
+					</article>
+					<article class="project-card">
+						<div class="project-image">
+							<img src="https://picsum.photos/400/300?random=1" alt="E-commerce Platform" loading="lazy" />
+						</div>
+						<div class="project-content">
+							<h3>E-commerce Platform</h3>
+							<p>A fully responsive online store with cart functionality and payment integration.</p>
+							<div class="project-tags">
+								<span>HTML</span><span>CSS</span><span>JS</span>
+							</div>
+						</div>
+
+						<button
+  class="btn"
+  data-open-modal="projectDialog"
+  data-title="TÍTULO AQUÍ"
+  data-description="DESCRIPCIÓN AQUÍ"
+  data-image="img/tu-imagen.jpg"
+>
+  Ver proyecto
+</button>
+
+					</article>
+					<article class="project-card">
+						<div class="project-image">
+							<img src="https://picsum.photos/400/300?random=1" alt="E-commerce Platform" loading="lazy" />
+						</div>
+						<div class="project-content">
+							<h3>E-commerce Platform</h3>
+							<p>A fully responsive online store with cart functionality and payment integration.</p>
+							<div class="project-tags">
+								<span>HTML</span><span>CSS</span><span>JS</span>
+							</div>
+						</div>
+
+						<button
+  class="btn"
+  data-open-modal="projectDialog"
+  data-title="TÍTULO AQUÍ"
+  data-description="DESCRIPCIÓN AQUÍ"
+  data-image="img/tu-imagen.jpg"
+>
+  Ver proyecto
+</button>
+
+					</article>
+					<article class="project-card">
+						<div class="project-image">
+							<img src="https://picsum.photos/400/300?random=1" alt="E-commerce Platform" loading="lazy" />
+						</div>
+						<div class="project-content">
+							<h3>E-commerce Platform</h3>
+							<p>A fully responsive online store with cart functionality and payment integration.</p>
+							<div class="project-tags">
+								<span>HTML</span><span>CSS</span><span>JS</span>
+							</div>
+						</div>
+
+						<button
+  class="btn"
+  data-open-modal="projectDialog"
+  data-title="TÍTULO AQUÍ"
+  data-description="DESCRIPCIÓN AQUÍ"
+  data-image="img/tu-imagen.jpg"
+>
+  Ver proyecto
+</button>
+
 					</article>
 				</div>
 			</div>
 		</section>
 
 		<!-- Contact Section -->
-		<section id="contact" class="section contact">
+		<section id="contacto" class="section contact" data-nav-theme="light">
 			<div class="container">
-				<h2 class="section-title animate-on-scroll">Contacta conmigo. Contact with me</h2>
+				<h2 class="section-title animate-on-scroll">Contacta conmigo	</h2>
 				<div class="contact-content animate-on-scroll">
 					<p>Interested in working together? Let's talk about your project.</p>
 					<a href="mailto:hello@example.com" class="btn btn-primary">Say Hello</a>
@@ -120,17 +240,104 @@
 			</div>
 		</section>
 	</main>
+  <div id="modal-1" class="modal">
+    <div class="modal__backdrop">
+      <div class="modal__panel" role="dialog" aria-labelledby="modal-1-title">
+        <header class="modal__header">
+          <h2 id="modal-1-title" class="modal__title">Brand Identity System</h2>
+          <a href="#" class="modal__close" aria-label="Close modal">×</a>
+        </header>
+        <div class="modal__image">🎨</div>
+        <div class="modal__body">
+          <p class="modal__description">
+            A comprehensive visual identity system for EcoThreads, a sustainable fashion startup.
+            The project included logo design, color palette development, typography selection,
+            and brand guidelines documentation. The design emphasizes organic shapes and earthy
+            tones to reflect the brand's commitment to environmental responsibility.
+          </p>
+          <div class="modal__tags">
+            <span class="modal__tag">Branding</span>
+            <span class="modal__tag">Logo Design</span>
+            <span class="modal__tag">Typography</span>
+            <span class="modal__tag">Sustainability</span>
+          </div>
+          <div class="modal__actions">
+            <a href="#" class="btn btn--primary">View Full Case Study →</a>
+            <a href="#" class="btn btn--secondary">Close</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2: Mobile Banking -->
+  <div id="modal-2" class="modal">
+    <div class="modal__backdrop">
+      <div class="modal__panel" role="dialog" aria-labelledby="modal-2-title">
+        <header class="modal__header">
+          <h2 id="modal-2-title" class="modal__title">Mobile Banking App</h2>
+          <a href="#" class="modal__close" aria-label="Close modal">×</a>
+        </header>
+        <div class="modal__image">📱</div>
+        <div class="modal__body">
+          <p class="modal__description">
+            Complete redesign of NeoBank's mobile application with a focus on accessibility
+            and building user trust. The project involved extensive user research, prototyping,
+            and usability testing. Key improvements included simplified navigation, enhanced
+            security indicators, and WCAG 2.1 AA compliance throughout the interface.
+          </p>
+          <div class="modal__tags">
+            <span class="modal__tag">UX Design</span>
+            <span class="modal__tag">Mobile</span>
+            <span class="modal__tag">Accessibility</span>
+            <span class="modal__tag">Fintech</span>
+          </div>
+          <div class="modal__actions">
+            <a href="#" class="btn btn--primary">View Full Case Study →</a>
+            <a href="#" class="btn btn--secondary">Close</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3: E-commerce -->
+  <div id="modal-3" class="modal">
+    <div class="modal__backdrop">
+      <div class="modal__panel" role="dialog" aria-labelledby="modal-3-title">
+        <header class="modal__header">
+          <h2 id="modal-3-title" class="modal__title">E-commerce Platform</h2>
+          <a href="#" class="modal__close" aria-label="Close modal">×</a>
+        </header>
+        <div class="modal__image">🌐</div>
+        <div class="modal__body">
+          <p class="modal__description">
+            A full-stack marketplace solution built for artisan craftspeople. The platform
+            features a custom checkout flow, real-time inventory management, and integrated
+            shipping calculations. The frontend was built with a focus on performance,
+            achieving a 95+ Lighthouse score across all metrics.
+          </p>
+          <div class="modal__tags">
+            <span class="modal__tag">Full-Stack</span>
+            <span class="modal__tag">E-commerce</span>
+            <span class="modal__tag">Performance</span>
+            <span class="modal__tag">React</span>
+          </div>
+          <div class="modal__actions">
+            <a href="#" class="btn btn--primary">View Full Case Study →</a>
+            <a href="#" class="btn btn--secondary">Close</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 	<!-- Footer -->
 	<footer class="footer">
 		<div class="container">
 			<p>&copy; 2025 Jane Developer. Built with vanilla HTML, CSS & JS.</p>
-			<a href="#hero" class="back-to-top" aria-label="Back to top">↑</a>
+				<a href="#inicio" class="back-to-top" aria-label="Back to top">↑</a>
 		</div>
 	</footer>
-
-	<!-- Cursor follower element (follows mouse with slight delay) -->
-	<div class="cursor-follower" aria-hidden="true"></div>
-
 </body>
 </html>

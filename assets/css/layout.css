@@ -20,9 +20,9 @@
 /* Align these section titles with the page content (container) and
    increase vertical spacing above and below. Titles remain large and
    responsive but keep the same left margin as other content. */
-#about .section-title,
-#projects .section-title,
-#contact .section-title {
+#servicios .section-title,
+#proyectos .section-title,
+#contacto .section-title {
 	width: auto;               /* don't force full-viewport width */
 	box-sizing: border-box;
 	padding-left: 0;           /* align with container left edge */
@@ -35,8 +35,8 @@
 	margin-bottom: 2.5rem;
 }
 
-/* Reduce gap specifically between the About title and its first paragraph */
-#about .section-title {
+/* Reduce gap specifically between the Services title and its first paragraph */
+#servicios .section-title {
 	margin-bottom: 1rem; /* tighter spacing to bring paragraph closer */
 }
 
@@ -208,4 +208,160 @@
 	60% {
 		transform: rotate(45deg) translateY(5px);
 	}
+}
+
+/* --------------------------------------------------------------------------
+   Custom hero layout for mockup (white editorial top + black bottom)
+   -------------------------------------------------------------------------- */
+.hero {
+	min-height: 100vh;
+	display: block;
+	overflow: hidden;
+}
+
+.hero-top {
+	background: #f2f2f0;
+	height: 55vh; /* top area */
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	position: relative;
+}
+
+.hero-bottom {
+	background: #000;
+	height: 45vh;
+	width: 100%;
+}
+
+:root { --header-h: 72px; }
+
+.site-header { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: transparent !important; height: var(--header-h); }
+.site-header .container { height: 100%; display:flex; align-items:center; }
+
+/* Ensure content sits below the fixed header and matches hero background */
+html, body { background: #f2f2f0; }
+body { padding-top: var(--header-h); }
+
+/* Remove earlier top padding (we now use the fixed header + body padding) */
+.hero-top { padding-top: 0; }
+
+/* Nav inside the fixed header - container is the .container inside .site-header */
+.hero-nav { position: relative; display:flex; justify-content:space-between; align-items:center; gap:1rem; padding-inline: 1rem; height:100%; width:100%; }
+
+/* Slightly larger menu typography for improved readability */
+.hero-nav .nav-left, .hero-nav .nav-right .nav-link { font-family: 'Source Code Pro', monospace; text-transform: uppercase; font-weight: 400; font-size: clamp(0.95rem, 1.1vw, 1rem); letter-spacing: 0.16em; color: currentColor; text-decoration: none; display: inline-block; padding: 0 0.25rem; opacity: 0.95; line-height: 1; }
+.hero-nav .nav-left { margin-right: 1rem; }
+.hero-nav .nav-right { display:flex; gap: 1.5rem; list-style:none; margin:0; padding:0; align-items:center; }
+
+/* Header is visually transparent; color toggles via .nav-on-light / .nav-on-dark classes */
+.site-header { background: transparent !important; }
+.site-header.nav-on-light { color: #000; }
+.site-header.nav-on-dark { color: #fff; }
+.site-header .nav-link { color: currentColor; }
+.site-header .nav-link:hover { opacity: 0.85; }
+.site-header.nav-on-dark .nav-underline { background: #fff; }
+.site-header.nav-on-light .nav-underline { background: #000; }
+
+/* Single underline element positioned inside the nav container. Move it further down to avoid touching letters */
+.nav-underline { position: absolute; left: 0; bottom: 12px; height: 1px; background: #000; width: 0; transform: translateX(0); transition: transform 220ms cubic-bezier(0.22,1,0.36,1), width 220ms cubic-bezier(0.22,1,0.36,1); will-change: transform, width; pointer-events: none; }
+
+/* Ensure text baseline has some breathing room so underline never touches glyphs */
+.nav-link .nav-text { display: inline-block; padding-bottom: 6px; }
+.nav-link.is-active { opacity: 1; }
+
+.nav-link .nav-text { display: inline-block; }
+.nav-link.is-active { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) { .nav-underline { transition: none; } }
+@media (max-width: 768px) { .site-header { height: 56px; } body { padding-top: var(--header-h); } .hero-nav .nav-right { display:none; } }
+
+.nav-link .nav-text { display: inline-block; }
+
+.nav-link.is-active { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+	.nav-underline { transition: none; }
+}
+
+.hero-grid {
+	display:grid;
+	grid-template-columns: 1fr 1fr;
+	align-items:end;
+	padding-bottom: 2.5rem;
+}
+
+/* Bottom row holding logo and role, aligned to the same baseline */
+.hero-bottom-row {
+	display: flex;
+	justify-content: space-between; /* logo left, role right */
+	align-items: flex-end; /* align bottoms */
+	gap: clamp(48px, 10vw, 160px); /* increased horizontal separation */
+	width: 100%;
+}
+
+/* On narrow screens, stack and keep spacing to avoid overlap */
+@media (max-width: 640px) {
+	.hero-bottom-row {
+		flex-direction: column;
+		align-items: flex-start; /* keep left alignment for text */
+		gap: 1rem;
+	}
+	.hero-role { margin-left: 0; transform: none; }
+}
+.hero-logo {
+	display: inline-flex;       /* keep wordmark on a single line */
+	align-items: baseline;      /* ensure mark and letters align on baseline */
+	gap: 0;
+	white-space: nowrap;        /* prevent wrapping inside the wordmark */
+	word-break: keep-all;
+	overflow-wrap: normal;
+	font-family: 'Funnel Display', sans-serif;
+	font-size: clamp(3rem, 10vw, 8.5rem);
+	color: #000;
+	margin: 0;
+	line-height: 0.9;
+	letter-spacing: -0.015em; /* tighter tracking for the wordmark */
+}
+
+.hero-logo .logo-mark {
+	font-size: 0.82em;        /* slightly smaller but baseline-aligned */
+	vertical-align: baseline; /* sit on the same baseline */
+	margin-left: 0.04em;      /* tighter gap to feel like single wordmark */
+	line-height: inherit;
+	display: inline-block;
+	white-space: nowrap;      /* ensure mark doesn't break */
+}
+
+.hero-role {
+	font-family: 'Source Code Pro', monospace;
+	text-transform: uppercase;
+	text-align: left;
+	font-size: clamp(0.9rem, 1.4vw, 1.2rem);
+	line-height: 1;
+	margin: 0;
+	margin-left: clamp(80px, 14vw, 320px); /* increase horizontal separation from logo */
+	transform: translateY(-6px); /* lift slightly for visual alignment */
+	transition: transform 160ms ease;
+}
+
+@media (max-width: 768px) {
+	.hero-top {
+		height: 60vh;
+	}
+	.hero-bottom {
+		height: 40vh;
+	}
+	.hero-grid {
+		grid-template-columns: 1fr;
+	}
+	.hero-logo {
+		font-size: clamp(2.25rem, 10vw, 4.5rem);
+		text-align: left;
+	}
+	.hero-role {
+		text-align: left;
+		margin-top: 1rem;
+	}
+	.hero-nav .nav-right { display: none; } /* simple collapse */
 }

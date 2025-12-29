@@ -206,6 +206,16 @@ function initScrollAnimations() {
  * 4. Smoothly scroll to that position
  * 5. Update URL for bookmarking/sharing
  */
+function updateHeaderHeight(){
+	const header = document.querySelector('.site-header');
+	const h = header ? header.offsetHeight : 0;
+	// Update CSS var so CSS-based offsets (body padding) remain correct
+	document.documentElement.style.setProperty('--header-h', `${h}px`);
+	// Trigger a resize so other components (observers, underline) recalculate
+	window.dispatchEvent(new Event('resize'));
+	return h;
+}
+
 function initSmoothScroll() {
 	// Select all anchor links (href starts with "#")
 	document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
@@ -223,41 +233,17 @@ function initSmoothScroll() {
 				/**
 				 * CALCULATE SCROLL POSITION
 				 *
-				 * We need to account for the fixed navigation bar, otherwise
+				 * We need to account for the fixed site header height, otherwise
 				 * the target would be hidden behind it.
-				 *
-				 * getBoundingClientRect().top = distance from viewport top
-				 * window.scrollY = how far page is already scrolled
-				 * navHeight = height of fixed nav to offset
 				 */
-				const navHeight = document.querySelector('.nav')?.offsetHeight || 0;
-				const targetPosition = target.getBoundingClientRect().top + window.scrollY - navHeight;
+				const headerH = document.querySelector('.site-header')?.offsetHeight || 0;
+				const targetPosition = target.getBoundingClientRect().top + window.scrollY - headerH;
 
-				/**
-				 * SCROLL WITH SMOOTH BEHAVIOR
-				 *
-				 * window.scrollTo() with behavior: 'smooth' animates the scroll.
-				 * This is supported in all modern browsers.
-				 *
-				 * Note: CSS scroll-behavior: smooth on <html> provides a fallback
-				 * for browsers where this JS might fail.
-				 */
 				window.scrollTo({
 					top: targetPosition,
 					behavior: 'smooth',
 				});
 
-				/**
-				 * UPDATE URL WITHOUT PAGE RELOAD
-				 *
-				 * history.pushState() changes the URL in the address bar
-				 * without triggering a page reload or scroll jump.
-				 *
-				 * This means:
-				 * - Users can bookmark specific sections
-				 * - Sharing the URL goes to the right section
-				 * - Back button works as expected
-				 */
 				history.pushState(null, '', targetId);
 			}
 		});
@@ -285,38 +271,145 @@ function initSmoothScroll() {
  * - Only the section crossing this band is considered "active"
  */
 function initActiveNav() {
-	const sections = document.querySelectorAll('section[id]');
-	const navLinks = document.querySelectorAll('.nav-links a');
+	const navContainer = document.querySelector('.hero-nav');
+	if (!navContainer) return;
 
-	const observerOptions = {
-		root: null,
-		rootMargin: '-50% 0px -50% 0px',  // Detect section in middle of viewport
-		threshold: 0,                      // Trigger as soon as ANY part enters
-	};
+	// Also initialize the theme observer that toggles header light/dark classes
+	function initNavThemeObserver(){
+		const header = document.querySelector('.site-header');
+		if (!header) return;
+		const themed = document.querySelectorAll('[data-nav-theme]');
 
-	/**
-	 * NAV HIGHLIGHT OBSERVER
-	 *
-	 * When a section enters our detection zone (middle of viewport),
-	 * we find the corresponding nav link and highlight it.
-	 */
-	const navObserver = new IntersectionObserver((entries) => {
-		entries.forEach((entry) => {
-			if (entry.isIntersecting) {
-				const id = entry.target.getAttribute('id');
-
-				// Update all nav links: highlight matching, reset others
-				navLinks.forEach((link) => {
-					link.style.color = link.getAttribute('href') === `#${id}`
-						? 'var(--color-accent)'  // Highlighted color
-						: '';                     // Reset to default (inherits from CSS)
+		function createThemeObserver(){
+			const headerH = header.offsetHeight || 0;
+			return new IntersectionObserver((entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting){
+						const theme = entry.target.getAttribute('data-nav-theme') || 'light';
+						header.classList.remove('nav-on-light','nav-on-dark');
+						header.classList.add(`nav-on-${theme}`);
+					}
 				});
-			}
-		});
-	}, observerOptions);
+			}, {
+				root: null,
+				// Narrow detection band at the top of viewport (just under header)
+				rootMargin: `-${headerH + 4}px 0px -${window.innerHeight - headerH - 4}px 0px`,
+				threshold: 0,
+			});
+		}
 
-	// Observe all sections with IDs
+		let themeObserver = createThemeObserver();
+		themed.forEach((el) => themeObserver.observe(el));
+
+		// Initial theme heuristic (element at header position)
+		(function setInitial(){
+			const headerH = header.offsetHeight || 0;
+			const el = document.elementFromPoint(10, headerH + 2);
+			const themedAncestor = el ? el.closest('[data-nav-theme]') : null;
+			const theme = themedAncestor ? themedAncestor.getAttribute('data-nav-theme') : 'light';
+			header.classList.remove('nav-on-light','nav-on-dark');
+			header.classList.add(`nav-on-${theme}`);
+		})();
+
+		// Recreate observer on resize
+		let tResize = null;
+		window.addEventListener('resize', () => {
+			clearTimeout(tResize);
+			tResize = setTimeout(() => {
+				themeObserver.disconnect();
+				themeObserver = createThemeObserver();
+				themed.forEach((el) => themeObserver.observe(el));
+			}, 150);
+		});
+	}
+
+	initNavThemeObserver();
+
+	const links = navContainer.querySelectorAll('.nav-link');
+	const underline = navContainer.querySelector('.nav-underline');
+	const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+	const sections = document.querySelectorAll('#inicio, #servicios, #proyectos, #contacto');
+
+	// compute nav height and use it when building the observer rootMargin so
+	// intersections account for the sticky header height (prevents sections
+	// being hidden under the header)
+	function createObserver() {
+		// Use the fixed site header height when computing rootMargin so the
+		// 'active' detection accounts for the header covering part of the viewport.
+		const headerH = document.querySelector('.site-header')?.offsetHeight || navContainer.offsetHeight || 0;
+		const options = {
+			root: null,
+			rootMargin: `-${Math.round(headerH + 6)}px 0px -50% 0px`,
+			threshold: 0,
+		};
+
+		return new IntersectionObserver((entries) => {
+			entries.forEach((entry) => {
+				if (entry.isIntersecting) {
+					const id = entry.target.getAttribute('id');
+					const link = navContainer.querySelector(`.nav-link[href="#${id}"]`);
+					setActiveLink(link);
+				}
+			});
+		}, options);
+	}
+
+	let navObserver = createObserver();
 	sections.forEach((section) => navObserver.observe(section));
+
+	function setActiveLink(link) {
+		links.forEach((l) => l.classList.remove('is-active'));
+		if (!link) return;
+		link.classList.add('is-active');
+
+		if (!underline) return;
+
+		// Measure text and container and compute left relative to container
+		const containerRect = navContainer.getBoundingClientRect();
+		const textEl = link.querySelector('.nav-text') || link;
+		const textRect = textEl.getBoundingClientRect();
+		const offset = Math.round(textRect.left - containerRect.left + navContainer.scrollLeft);
+		const width = Math.round(textRect.width);
+
+		// Apply measured width & transform. Using translateX keeps layout stable.
+		underline.style.width = `${width}px`;
+		underline.style.transform = `translateX(${offset}px)`;
+
+		// If user prefers reduced motion, jump instantly (no transition)
+		if (prefersReducedMotion) {
+			underline.style.transition = 'none';
+			// Force a reflow to ensure the style takes effect then remove none so
+			// future interactions (if motion allowed) will animate.
+			underline.getBoundingClientRect();
+			underline.style.transition = '';
+		}
+	}
+
+	// Clicking a nav link should move the underline immediately while smooth scroll runs
+	links.forEach((link) => {
+		link.addEventListener('click', () => setActiveLink(link));
+	});
+
+	// Position the underline under INICIO by default
+	const startLink = navContainer.querySelector('.nav-link[href="#inicio"]') || links[0];
+	setActiveLink(startLink);
+
+	// Recalculate observer and underline on resize (debounced)
+	let resizeTimer = null;
+	window.addEventListener('resize', () => {
+		clearTimeout(resizeTimer);
+		resizeTimer = setTimeout(() => {
+			// Recreate observer to use updated navHeight
+			navObserver.disconnect();
+			navObserver = createObserver();
+			sections.forEach((section) => navObserver.observe(section));
+
+			// Reposition underline for the active link
+			const active = navContainer.querySelector('.nav-link.is-active') || startLink;
+			setActiveLink(active);
+		}, 120);
+	});
 }
 
 // ==========================================================================
@@ -335,9 +428,21 @@ function initActiveNav() {
  * If your script is at end of <body> or has 'defer', it's optional but good practice.
  */
 document.addEventListener('DOMContentLoaded', () => {
+	// Ensure CSS variable for header height is accurate before other init
+	updateHeaderHeight();
 	initScrollAnimations();
 	initSmoothScroll();
 	initActiveNav();
+
+	// Recompute header height after fonts/layout settle
+	setTimeout(updateHeaderHeight, 250);
+
+	// Keep header height accurate on resize (debounced)
+	let headerResizeTimer;
+	window.addEventListener('resize', () => {
+		clearTimeout(headerResizeTimer);
+		headerResizeTimer = setTimeout(updateHeaderHeight, 150);
+	});
 
 	console.log('🚀 Grade 1 Demo: Vanilla scroll animations initialized');
 });
