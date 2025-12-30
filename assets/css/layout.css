@@ -221,11 +221,16 @@
 
 .hero-top {
 	background: #f2f2f0;
-	height: 55vh; /* top area */
+	/* Move hero texts much lower by increasing the top area height considerably
+	   Use responsive clamp so the effect scales across viewports */
+	height: clamp(76vh, 80vh, 86vh); /* STRONGER downward shift */
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-end;
 	position: relative;
+	/* Align content with the same left/right content padding as the left panel */
+	padding-left: var(--hero-pad-x, clamp(24px, 4vw, 56px));
+	padding-right: var(--hero-pad-x, clamp(24px, 4vw, 56px));
 }
 
 .hero-bottom {
@@ -297,7 +302,34 @@ body { padding-top: var(--header-h); }
 	justify-content: space-between; /* logo left, role right */
 	align-items: flex-end; /* align bottoms */
 	gap: clamp(48px, 10vw, 160px); /* increased horizontal separation */
+	/* Inherit the same content padding as the left panel */
+	padding-left: var(--hero-pad-x, clamp(24px, 4vw, 56px));
 	width: 100%;
+}
+
+/* Keep the wordmark itself free of manual left nudges so it inherits the container padding */
+.hero-logo {
+	margin-left: 0;
+}
+
+/* Ensure the hero wordmark aligns exactly with content padding (no viewport hacks) */
+.hero-wordmark{
+  /* ensure it’s not being centered by parent rules */
+  display: block;
+  text-align: left;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+
+  /* use the same left padding value as the black panel */
+  padding-left: var(--hero-pad-x, clamp(24px, 4vw, 56px));
+
+  /* ensure it stays in normal flow and doesn't use viewport positioning */
+  position: relative;
+  left: auto !important;
+  width: auto !important;
+  box-sizing: border-box;
+  justify-self: start;
+  align-self: end;
 }
 
 /* On narrow screens, stack and keep spacing to avoid overlap */
@@ -317,7 +349,8 @@ body { padding-top: var(--header-h); }
 	word-break: keep-all;
 	overflow-wrap: normal;
 	font-family: 'Funnel Display', sans-serif;
-	font-size: clamp(3rem, 10vw, 8.5rem);
+	/* Final size: ~1.6–1.7× the original for improved balance */
+	font-size: clamp(4.8rem, 16vw, 13.6rem);
 	color: #000;
 	margin: 0;
 	line-height: 0.9;
@@ -331,6 +364,31 @@ body { padding-top: var(--header-h); }
 	line-height: inherit;
 	display: inline-block;
 	white-space: nowrap;      /* ensure mark doesn't break */
+}
+
+.hero-wordmark{
+  /* ensure it’s not being centered by parent rules */
+  display: block;
+  text-align: left;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+
+  /* force it to align with the same left padding as the left panel */
+  padding-left: var(--hero-pad-x, 0px);
+}
+
+/* Reuse the exact left padding used by the black left panel */
+.about-frame__left{
+  --hero-pad-x: clamp(16px, 3vw, 48px); /* slightly reduced to nudge wordmark left */
+}
+
+/* If the hero wordmark is inside a Bootstrap .container, ensure it remains in normal flow */
+.hero-wordmark{
+  position: relative;
+  left: auto !important;     /* remove viewport hack */
+  padding-left: var(--hero-pad-x);
+  width: auto !important;    /* avoid forcing full-viewport width */
+  box-sizing: border-box;
 }
 
 .hero-role {
@@ -347,7 +405,8 @@ body { padding-top: var(--header-h); }
 
 @media (max-width: 768px) {
 	.hero-top {
-		height: 60vh;
+		/* Strong downward shift on small screens */
+		height: clamp(78vh, 82vh, 88vh);
 	}
 	.hero-bottom {
 		height: 40vh;
@@ -356,7 +415,8 @@ body { padding-top: var(--header-h); }
 		grid-template-columns: 1fr;
 	}
 	.hero-logo {
-		font-size: clamp(2.25rem, 10vw, 4.5rem);
+		/* Mobile: final ~1.6× scale for mobile */
+		font-size: clamp(3.4rem, 16vw, 6.8rem);
 		text-align: left;
 	}
 	.hero-role {
@@ -393,6 +453,75 @@ body { padding-top: var(--header-h); }
 	margin-bottom: 1rem;
 	font-size: clamp(1.05rem, 1.2vw, 1.2rem); /* increased ~10-15% */
 }
+
+/* --------------------------------------------------------------------------
+   Custom site footer (minimal, black bar)
+   -------------------------------------------------------------------------- */
+.site-footer {
+  background: #000; /* use solid black per spec */
+  color: #fff;
+  position: relative; /* allow absolutely positioned brand */
+  overflow: visible;
+} 
+
+/* Keep footer container aligned with the main site content so elements line up with the CTA */
+.site-footer > .container {
+  width: min(90%, 1200px);
+  margin-inline: auto;
+  padding-inline: 0;
+}
+
+.site-footer__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* increased separation: keep left aligned with CTA, larger right padding */
+  padding-block: 24px;
+  padding-left: clamp(2rem, 6vw, 4rem); /* same as editorial left panel */
+  padding-right: clamp(4rem, 10vw, 8rem); /* more space to the right */
+  box-sizing: border-box;
+}     
+.site-footer__brand, .site-footer__brand:link, .site-footer__brand:visited {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Place the brand close to the viewport left edge and center vertically */
+.site-footer__brand {
+  position: absolute;
+  left: clamp(8px, 2vw, 24px); /* near the left viewport edge */
+  top: 50%;
+  transform: translateY(-50%);
+  padding-left: 0;
+} 
+.footer-logo {
+  font-family: 'Funnel Display', sans-serif;
+  letter-spacing: -0.015em; /* same tracking as hero */
+  font-size: clamp(22px, 2vw, 34px);
+  color: currentColor;
+  line-height: 1;
+  transform: none; /* positioned by the brand anchor */
+  display: inline-block;
+}  
+.site-footer .logo-mark {
+  font-size: 0.82em; /* same proportion as hero */
+  margin-left: 0em; /* tighten spacing to keep ® close */
+  vertical-align: baseline;
+} 
+.site-footer__social {
+  position: absolute; /* pin to the viewport right edge */
+  right: clamp(8px, 2vw, 24px);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 12px; /* icons closer together per request */
+  align-items: center;
+  z-index: 10;
+  padding: 0;
+} 
+.social-link { display: inline-block; }
+.social-icon { width: 22px; height: 22px; display: block; }
+.site-footer__brand:hover, .social-link:hover { opacity: 0.85; }
 
 /* Editorial inline CTA: text-only arrow + text (no box) */
 .about-frame__cta {

@@ -445,6 +445,27 @@ document.addEventListener('DOMContentLoaded', () => {
 	});
 
 	console.log('🚀 Grade 1 Demo: Vanilla scroll animations initialized');
+
+	// WhatsApp copy-to-clipboard handler (uses Clipboard API)
+	const copyBtn = document.getElementById('copyWhatsAppBtn');
+	if (copyBtn) {
+		copyBtn.addEventListener('click', async () => {
+			try {
+				await navigator.clipboard.writeText('+34 689 57 18 25');
+				const previous = copyBtn.textContent;
+				copyBtn.textContent = 'Copiado';
+				copyBtn.classList.add('is-copied');
+				copyBtn.setAttribute('aria-pressed', 'true');
+				setTimeout(() => {
+					copyBtn.textContent = previous;
+					copyBtn.classList.remove('is-copied');
+					copyBtn.removeAttribute('aria-pressed');
+				}, 1500);
+			} catch (err) {
+				console.warn('Clipboard copy failed', err);
+			}
+		});
+	}
 });
 
 // -------------------------------------------------------------------------
