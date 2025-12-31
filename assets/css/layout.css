@@ -6,9 +6,7 @@
 	margin-inline: auto;
 }
 
-.section {
-	padding: var(--space-2xl) 0;
-}
+.section { padding: var(--space-2xl) 0; }
 
 .section-title {
 	font-size: var(--text-3xl);
@@ -17,42 +15,34 @@
 	text-align: center;
 }
 
-/* Align these section titles with the page content (container) and
-   increase vertical spacing above and below. Titles remain large and
-   responsive but keep the same left margin as other content. */
+/* Section titles aligned with page content */
 #servicios .section-title,
 #proyectos .section-title,
 #contacto .section-title {
-	width: auto;               /* don't force full-viewport width */
+	width: auto;
 	box-sizing: border-box;
-	padding-left: 0;           /* align with container left edge */
+	padding-left: 0;
 	text-align: left;
-	/* Much larger, responsive typography */
 	font-size: clamp(2rem, 4vw + 1.5rem, 4rem);
 	line-height: var(--line-height-3xl);
-	/* More breathing room above and below the titles (reduced below for About) */
 	margin-top: 4rem;
 	margin-bottom: 2.5rem;
 }
 
-/* Reduce gap specifically between the Services title and its first paragraph */
-#servicios .section-title {
-	margin-bottom: 1rem; /* tighter spacing to bring paragraph closer */
-}
+/* Reduce gap specifically between Services title and its first paragraph */
+#servicios .section-title { margin-bottom: 1rem; }
 
 /* --------------------------------------------------------------------------
-   5. Hero Section
+   5. Hero Section (final custom editorial layout)
    -------------------------------------------------------------------------- */
 .hero {
 	position: relative;
 	min-height: 100vh;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	text-align: center;
-	overflow: hidden;
+	display: block;
+	overflow: hidden;	
 }
 
+/* If hero-bg/parallax still used somewhere else, keep it */
 .hero-bg {
 	position: absolute;
 	inset: 0;
@@ -60,89 +50,7 @@
 	z-index: -1;
 }
 
-/* --------------------------------------------------------------------------
-   CSS SCROLL-DRIVEN ANIMATIONS (MODERN PARALLAX)
-
-   🎓 THE FUTURE OF SCROLL ANIMATIONS:
-   CSS scroll-driven animations let you tie animations directly to scroll
-   position — NO JAVASCRIPT REQUIRED! This is more performant than JS-based
-   solutions because the browser handles everything on the compositor thread.
-
-   📐 HOW IT WORKS:
-   1. animation-timeline: scroll(root) — links animation to scroll progress
-   2. animation-range: 0% 100% — animation plays from 0% to 100% scroll
-   3. The @keyframes define what happens at start (0%) and end (100%) of scroll
-
-   ⚠️ BROWSER SUPPORT:
-   This only works in Chrome 115+, Edge 115+. We use @supports to detect it
-   and provide a fallback for other browsers.
-
-   🔗 LEARN MORE: https://developer.mozilla.org/en-US/docs/Web/CSS/animation-timeline
-   -------------------------------------------------------------------------- */
-@supports (animation-timeline: scroll()) {
-	.parallax-bg {
-		/*
-		 * SCROLL-LINKED ANIMATION
-		 *
-		 * - animation: parallaxShift — name of keyframes to use
-		 * - linear — no easing, direct 1:1 scroll mapping
-		 * - both — applies styles before and after animation
-		 */
-		animation: parallaxShift linear both;
-
-		/*
-		 * SCROLL TIMELINE
-		 *
-		 * scroll(root) = scroll progress of the root scroller (usually <html>)
-		 * Could also use scroll(nearest) for a scrollable container
-		 */
-		animation-timeline: scroll(root);
-
-		/*
-		 * ANIMATION RANGE
-		 *
-		 * 0% 100% = animation runs from top of page to bottom
-		 * You could use "entry 0% entry 100%" for element-specific triggers
-		 */
-		animation-range: 0% 100%;
-	}
-
-	@keyframes parallaxShift {
-		/*
-		 * PARALLAX EFFECT
-		 *
-		 * As user scrolls down:
-		 * - Background moves UP (negative translateY) — creates depth illusion
-		 * - Background scales UP slightly — adds visual interest
-		 *
-		 * -15% is subtle; -30% would be more dramatic but potentially nauseating
-		 */
-		from {
-			transform: translateY(0) scale(1);
-		}
-		to {
-			transform: translateY(-15%) scale(1.1);
-		}
-	}
-}
-
-/*
- * FALLBACK FOR OLDER BROWSERS
- *
- * @supports not (animation-timeline: scroll()) targets browsers that DON'T
- * support scroll-timeline. We give them a simpler parallax effect using
- * background-attachment: fixed (works everywhere but has performance costs).
- */
-@supports not (animation-timeline: scroll()) {
-	.parallax-bg {
-		background-attachment: fixed;  /* Classic parallax technique */
-	}
-}
-
-.hero-content {
-	position: relative;
-	z-index: 1;
-}
+.hero-content { position: relative; z-index: 1; }
 
 .hero-title {
 	font-size: var(--text-4xl);
@@ -157,7 +65,7 @@
 	margin-bottom: var(--space-lg);
 }
 
-/* Scroll Indicator */
+/* Scroll indicator */
 .scroll-indicator {
 	position: absolute;
 	bottom: 3rem;
@@ -180,57 +88,44 @@
 	animation: bounce 2s infinite;
 }
 
-/* Make the "VER TRABAJOS" link more prominent */
 .scroll-indicator__link {
 	font-size: clamp(0.95rem, 1.6vw, 1.5rem);
 	font-weight: 700;
-	color: #000000; /* black text */
+	color: #000000;
 	text-decoration: none;
-	padding: 0;             /* no extra box */
-	background: none;      /* no background */
-	border-radius: 0;      /* no rounding */
-	box-shadow: none;      /* no shadow */
+	padding: 0;
+	background: none;
+	border-radius: 0;
+	box-shadow: none;
 	transition: color 0.12s ease;
 }
 .scroll-indicator__link:hover,
 .scroll-indicator__link:focus {
-	color: #000000; /* remain black on hover */
-	text-decoration: none; /* no underline */
+	color: #000000;
+	text-decoration: none;
 }
 
 @keyframes bounce {
-	0%, 20%, 50%, 80%, 100% {
-		transform: rotate(45deg) translateY(0);
-	}
-	40% {
-		transform: rotate(45deg) translateY(10px);
-	}
-	60% {
-		transform: rotate(45deg) translateY(5px);
-	}
+	0%, 20%, 50%, 80%, 100% { transform: rotate(45deg) translateY(0); }
+	40% { transform: rotate(45deg) translateY(10px); }
+	60% { transform: rotate(45deg) translateY(5px); }
 }
 
-/* --------------------------------------------------------------------------
-   Custom hero layout for mockup (white editorial top + black bottom)
-   -------------------------------------------------------------------------- */
-.hero {
-	min-height: 100vh;
-	display: block;
-	overflow: hidden;
-}
+/* Editorial hero blocks */
+:root { --header-h: 72px; }
+
+html, body { background: #f2f2f0; }
+body { padding-top: var(--header-h); }
 
 .hero-top {
 	background: #f2f2f0;
-	/* Move hero texts much lower by increasing the top area height considerably
-	   Use responsive clamp so the effect scales across viewports */
-	height: clamp(76vh, 80vh, 86vh); /* STRONGER downward shift */
+	height: clamp(76vh, 80vh, 86vh);
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-end;
 	position: relative;
-	/* Align content with the same left/right content padding as the left panel */
-	padding-left: var(--hero-pad-x, clamp(24px, 4vw, 56px));
-	padding-right: var(--hero-pad-x, clamp(24px, 4vw, 56px));
+	padding-left: clamp(1px, 1vw, 1px);
+	padding-top: 0;
 }
 
 .hero-bottom {
@@ -239,91 +134,54 @@
 	width: 100%;
 }
 
-:root { --header-h: 72px; }
-
-.site-header { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: transparent !important; height: var(--header-h); }
-.site-header .container { height: 100%; display:flex; align-items:center; }
-
-/* Ensure content sits below the fixed header and matches hero background */
-html, body { background: #f2f2f0; }
-body { padding-top: var(--header-h); }
-
-/* Remove earlier top padding (we now use the fixed header + body padding) */
-.hero-top { padding-top: 0; }
-
-/* Nav inside the fixed header - container is the .container inside .site-header */
-.hero-nav { position: relative; display:flex; justify-content:space-between; align-items:center; gap:1rem; padding-inline: 1rem; height:100%; width:100%; }
-
-/* Slightly larger menu typography for improved readability */
-.hero-nav .nav-left, .hero-nav .nav-right .nav-link { font-family: 'Source Code Pro', monospace; text-transform: uppercase; font-weight: 400; font-size: clamp(0.95rem, 1.1vw, 1rem); letter-spacing: 0.16em; color: currentColor; text-decoration: none; display: inline-block; padding: 0 0.25rem; opacity: 0.95; line-height: 1; }
-.hero-nav .nav-left { margin-right: 1rem; }
-.hero-nav .nav-right { display:flex; gap: 1.5rem; list-style:none; margin:0; padding:0; align-items:center; }
-
-/* Header is visually transparent; color toggles via .nav-on-light / .nav-on-dark classes */
-.site-header { background: transparent !important; }
-.site-header.nav-on-light { color: #000; }
-.site-header.nav-on-dark { color: #fff; }
-.site-header .nav-link { color: currentColor; }
-.site-header .nav-link:hover { opacity: 0.85; }
-.site-header.nav-on-dark .nav-underline { background: #fff; }
-.site-header.nav-on-light .nav-underline { background: #000; }
-
-/* Single underline element positioned inside the nav container. Move it further down to avoid touching letters */
-.nav-underline { position: absolute; left: 0; bottom: 12px; height: 1px; background: #000; width: 0; transform: translateX(0); transition: transform 220ms cubic-bezier(0.22,1,0.36,1), width 220ms cubic-bezier(0.22,1,0.36,1); will-change: transform, width; pointer-events: none; }
-
-/* Ensure text baseline has some breathing room so underline never touches glyphs */
-.nav-link .nav-text { display: inline-block; padding-bottom: 6px; }
-.nav-link.is-active { opacity: 1; }
-
-.nav-link .nav-text { display: inline-block; }
-.nav-link.is-active { opacity: 1; }
-
-@media (prefers-reduced-motion: reduce) { .nav-underline { transition: none; } }
-@media (max-width: 768px) { .site-header { height: 56px; } body { padding-top: var(--header-h); } .hero-nav .nav-right { display:none; } }
-
-.nav-link .nav-text { display: inline-block; }
-
-.nav-link.is-active { opacity: 1; }
-
-@media (prefers-reduced-motion: reduce) {
-	.nav-underline { transition: none; }
-}
-
 .hero-grid {
-	display:grid;
-	grid-template-columns: 1fr 1fr;
-	align-items:end;
+	display: grid;
+	grid-template-columns: 1fr;
+	align-items: end;
 	padding-bottom: 2.5rem;
 }
 
-/* Bottom row holding logo and role, aligned to the same baseline */
 .hero-bottom-row {
 	display: flex;
-	justify-content: space-between; /* logo left, role right */
-	align-items: flex-end; /* align bottoms */
-	gap: clamp(48px, 10vw, 160px); /* increased horizontal separation */
-	/* Inherit the same content padding as the left panel */
-	padding-left: var(--hero-pad-x, clamp(24px, 4vw, 56px));
+	justify-content: space-between;
+	align-items: flex-end;
+	gap: clamp(48px, 10vw, 160px);
+	padding-left: 8px;  
 	width: 100%;
 }
 
-/* Keep the wordmark itself free of manual left nudges so it inherits the container padding */
+/* Wordmark */
 .hero-logo {
-	margin-left: 0;
+	display: inline-flex;
+	align-items: baseline;
+	gap: 0;
+	white-space: nowrap;
+	word-break: keep-all;
+	overflow-wrap: normal;
+	font-family: 'Funnel Display', sans-serif;
+	font-size: clamp(4.8rem, 16vw, 13.6rem);
+	color: #000;
+	margin: 0;
+	line-height: 0.9;
+	letter-spacing: -0.015em;
+	padding-left: 0 !important;
 }
 
-/* Ensure the hero wordmark aligns exactly with content padding (no viewport hacks) */
-.hero-wordmark{
-  /* ensure it’s not being centered by parent rules */
+.hero-logo .logo-mark {
+	font-size: 0.82em;
+	vertical-align: baseline;
+	margin-left: 0.04em;
+	line-height: inherit;
+	display: inline-block;
+	white-space: nowrap;
+}
+
+.hero-wordmark {
   display: block;
   text-align: left;
   margin-left: 0 !important;
   margin-right: 0 !important;
-
-  /* use the same left padding value as the black panel */
-  padding-left: var(--hero-pad-x, clamp(24px, 4vw, 56px));
-
-  /* ensure it stays in normal flow and doesn't use viewport positioning */
+  padding-left: 0 !important;   /* ✅ clave */
   position: relative;
   left: auto !important;
   width: auto !important;
@@ -332,65 +190,9 @@ body { padding-top: var(--header-h); }
   align-self: end;
 }
 
-/* On narrow screens, stack and keep spacing to avoid overlap */
-@media (max-width: 640px) {
-	.hero-bottom-row {
-		flex-direction: column;
-		align-items: flex-start; /* keep left alignment for text */
-		gap: 1rem;
-	}
-	.hero-role { margin-left: 0; transform: none; }
-}
-.hero-logo {
-	display: inline-flex;       /* keep wordmark on a single line */
-	align-items: baseline;      /* ensure mark and letters align on baseline */
-	gap: 0;
-	white-space: nowrap;        /* prevent wrapping inside the wordmark */
-	word-break: keep-all;
-	overflow-wrap: normal;
-	font-family: 'Funnel Display', sans-serif;
-	/* Final size: ~1.6–1.7× the original for improved balance */
-	font-size: clamp(4.8rem, 16vw, 13.6rem);
-	color: #000;
-	margin: 0;
-	line-height: 0.9;
-	letter-spacing: -0.015em; /* tighter tracking for the wordmark */
-}
 
-.hero-logo .logo-mark {
-	font-size: 0.82em;        /* slightly smaller but baseline-aligned */
-	vertical-align: baseline; /* sit on the same baseline */
-	margin-left: 0.04em;      /* tighter gap to feel like single wordmark */
-	line-height: inherit;
-	display: inline-block;
-	white-space: nowrap;      /* ensure mark doesn't break */
-}
 
-.hero-wordmark{
-  /* ensure it’s not being centered by parent rules */
-  display: block;
-  text-align: left;
-  margin-left: 0 !important;
-  margin-right: 0 !important;
-
-  /* force it to align with the same left padding as the left panel */
-  padding-left: var(--hero-pad-x, 0px);
-}
-
-/* Reuse the exact left padding used by the black left panel */
-.about-frame__left{
-  --hero-pad-x: clamp(16px, 3vw, 48px); /* slightly reduced to nudge wordmark left */
-}
-
-/* If the hero wordmark is inside a Bootstrap .container, ensure it remains in normal flow */
-.hero-wordmark{
-  position: relative;
-  left: auto !important;     /* remove viewport hack */
-  padding-left: var(--hero-pad-x);
-  width: auto !important;    /* avoid forcing full-viewport width */
-  box-sizing: border-box;
-}
-
+/* Role */
 .hero-role {
 	font-family: 'Source Code Pro', monospace;
 	text-transform: uppercase;
@@ -398,136 +200,164 @@ body { padding-top: var(--header-h); }
 	font-size: clamp(0.9rem, 1.4vw, 1.2rem);
 	line-height: 1;
 	margin: 0;
-	margin-left: clamp(80px, 14vw, 320px); /* increase horizontal separation from logo */
-	transform: translateY(-6px); /* lift slightly for visual alignment */
+	margin-left: clamp(80px, 14vw, 320px);
+	transform: translateY(-6px);
 	transition: transform 160ms ease;
 }
 
+/* Header / nav */
+.site-header {
+	position: fixed;
+	top: 0; left: 0; right: 0;
+	z-index: 1000;
+	background: transparent !important;
+	height: var(--header-h);
+}
+.site-header .container { height: 100%; display:flex; align-items:center; }
+
+.hero-nav {
+	position: relative;
+	display:flex;
+	justify-content:space-between;
+	align-items:center;
+	gap:1rem;
+	padding-inline: 1rem;
+	height:100%;
+	width:100%;
+}
+
+.hero-nav .nav-left,
+.hero-nav .nav-right .nav-link {
+	font-family: 'Source Code Pro', monospace;
+	text-transform: uppercase;
+	font-weight: 400;
+	font-size: clamp(0.95rem, 1.1vw, 1rem);
+	letter-spacing: 0.16em;
+	color: currentColor;
+	text-decoration: none;
+	display: inline-block;
+	padding: 0 0.25rem;
+	opacity: 0.95;
+	line-height: 1;
+}
+.hero-nav .nav-left { margin-right: 1rem; }
+
+.hero-nav .nav-right {
+	display:flex;
+	gap: 1.5rem;
+	list-style:none;
+	margin:0;
+	padding:0;
+	align-items:center;
+}
+
+.site-header.nav-on-light { color: #000; }
+.site-header.nav-on-dark { color: #fff; }
+.site-header .nav-link { color: currentColor; }
+.site-header .nav-link:hover { opacity: 0.85; }
+
+.site-header.nav-on-dark .nav-underline { background: #fff; }
+.site-header.nav-on-light .nav-underline { background: #000; }
+
+.nav-underline {
+	position: absolute;
+	left: 0;
+	bottom: 12px;
+	height: 1px;
+	background: #000;
+	width: 0;
+	transform: translateX(0);
+	transition: transform 220ms cubic-bezier(0.22,1,0.36,1), width 220ms cubic-bezier(0.22,1,0.36,1);
+	will-change: transform, width;
+	pointer-events: none;
+}
+
+.nav-link .nav-text { display: inline-block; padding-bottom: 6px; }
+.nav-link.is-active { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+	.nav-underline { transition: none; }
+}
+
+/* Responsive hero */
 @media (max-width: 768px) {
-	.hero-top {
-		/* Strong downward shift on small screens */
-		height: clamp(78vh, 82vh, 88vh);
-	}
-	.hero-bottom {
-		height: 40vh;
-	}
-	.hero-grid {
-		grid-template-columns: 1fr;
-	}
+	.site-header { height: 56px; }
+	body { padding-top: var(--header-h); }
+	.hero-nav .nav-right { display:none; }
+
+	.hero-top { height: clamp(78vh, 82vh, 88vh); }
+	.hero-bottom { height: 40vh; }
+
+	.hero-grid { grid-template-columns: 1fr; }
+
 	.hero-logo {
-		/* Mobile: final ~1.6× scale for mobile */
 		font-size: clamp(3.4rem, 16vw, 6.8rem);
 		text-align: left;
 	}
+
 	.hero-role {
 		text-align: left;
 		margin-top: 1rem;
 	}
-	.hero-nav .nav-right { display: none; } /* simple collapse */
+}
+
+@media (max-width: 640px) {
+	.hero-bottom-row {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 1rem;
+	}
+	.hero-role { margin-left: 0; transform: none; }
 }
 
 /* --------------------------------------------------------------------------
    Sobre Mi editorial frame
    -------------------------------------------------------------------------- */
-.sobre-mi {
-	width: 100%;
-}
-.sobre-mi .row {
-	min-height: 60vh; /* ensures a strong visual frame */
-}
+.sobre-mi { width: 100%; }
+.sobre-mi .row { min-height: 60vh; }
+
 .sobre-left {
 	background: #000;
 	color: #ffffff;
 	padding-block: clamp(2rem, 6vw, 4rem);
 }
+
 .sobre-left .container {
 	height: 100%;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 }
+
 .sobre-left .text-block p {
 	font-family: 'Source Code Pro', monospace;
 	color: #fff;
 	line-height: 1.6;
 	margin-bottom: 1rem;
-	font-size: clamp(1.05rem, 1.2vw, 1.2rem); /* increased ~10-15% */
+	font-size: clamp(1.05rem, 1.2vw, 1.2rem);
 }
 
-/* --------------------------------------------------------------------------
-   Custom site footer (minimal, black bar)
-   -------------------------------------------------------------------------- */
-.site-footer {
-  background: #000; /* use solid black per spec */
-  color: #fff;
-  position: relative; /* allow absolutely positioned brand */
-  overflow: visible;
-} 
+.sobre-right { position: relative; }
 
-/* Keep footer container aligned with the main site content so elements line up with the CTA */
-.site-footer > .container {
-  width: min(90%, 1200px);
-  margin-inline: auto;
-  padding-inline: 0;
+.frame-image {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
 }
 
-.site-footer__inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  /* increased separation: keep left aligned with CTA, larger right padding */
-  padding-block: 24px;
-  padding-left: clamp(2rem, 6vw, 4rem); /* same as editorial left panel */
-  padding-right: clamp(4rem, 10vw, 8rem); /* more space to the right */
-  box-sizing: border-box;
-}     
-.site-footer__brand, .site-footer__brand:link, .site-footer__brand:visited {
-  color: #fff;
-  text-decoration: none;
+@media (max-width: 768px) {
+	.sobre-left, .sobre-right { min-height: auto; }
+	.sobre-mi .row { min-height: 40vh; }
+	.sobre-left { padding-block: 2rem; }
+	.sobre-right { margin-top: 1rem; }
 }
 
-/* Place the brand close to the viewport left edge and center vertically */
-.site-footer__brand {
-  position: absolute;
-  left: clamp(8px, 2vw, 24px); /* near the left viewport edge */
-  top: 50%;
-  transform: translateY(-50%);
-  padding-left: 0;
-} 
-.footer-logo {
-  font-family: 'Funnel Display', sans-serif;
-  letter-spacing: -0.015em; /* same tracking as hero */
-  font-size: clamp(22px, 2vw, 34px);
-  color: currentColor;
-  line-height: 1;
-  transform: none; /* positioned by the brand anchor */
-  display: inline-block;
-}  
-.site-footer .logo-mark {
-  font-size: 0.82em; /* same proportion as hero */
-  margin-left: 0em; /* tighten spacing to keep ® close */
-  vertical-align: baseline;
-} 
-.site-footer__social {
-  position: absolute; /* pin to the viewport right edge */
-  right: clamp(8px, 2vw, 24px);
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  gap: 12px; /* icons closer together per request */
-  align-items: center;
-  z-index: 10;
-  padding: 0;
-} 
-.social-link { display: inline-block; }
-.social-icon { width: 22px; height: 22px; display: block; }
-.site-footer__brand:hover, .social-link:hover { opacity: 0.85; }
-
-/* Editorial inline CTA: text-only arrow + text (no box) */
+/* CTA */
 .about-frame__cta {
-	display: inline-block; /* simplified per spec */
+	display: inline-block;
 	position: relative;
-	width: fit-content; /* underline matches content width */
+	width: fit-content;
 	color: #fff;
 	text-decoration: none;
 	padding: 0;
@@ -551,13 +381,12 @@ body { padding-top: var(--header-h); }
 	display: inline-block;
 }
 
-/* Centered thin underline under the entire CTA */
 .about-frame__cta::after{
 	content: "";
 	position: absolute;
 	left: 50%;
 	transform: translateX(-50%);
-	bottom: -12px; /* increased breathing room */
+	bottom: -12px;
 	width: 100%;
 	height: 1px;
 	background: currentColor;
@@ -565,25 +394,266 @@ body { padding-top: var(--header-h); }
 
 .about-frame__cta:hover{ opacity: .9; }
 
-@media (prefers-reduced-motion: reduce) {
-	.about-frame__cta::after { transition: none; }
-}
-.sobre-right {
+/* --------------------------------------------------------------------------
+   Custom site footer (minimal, black bar)
+   -------------------------------------------------------------------------- */
+.site-footer {
+	background: #000;
+	color: #fff;
 	position: relative;
-}
-.frame-image {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	display: block;
+	overflow: visible;
 }
 
-/* Mobile: stack with image below and ensure text readable */
-@media (max-width: 768px) {
-	.sobre-left, .sobre-right {
-		min-height: auto;
-	}
-	.sobre-mi .row { min-height: 40vh; }
-	.sobre-left { padding-block: 2rem; }
-	.sobre-right { margin-top: 1rem; }
+.site-footer > .container {
+	width: min(90%, 1200px);
+	margin-inline: auto;
+	padding-inline: 0;
+}
+
+.site-footer__inner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding-block: 24px;
+	padding-left: clamp(2rem, 6vw, 4rem);
+	padding-right: clamp(4rem, 10vw, 8rem);
+	box-sizing: border-box;
+}
+
+.site-footer__brand,
+.site-footer__brand:link,
+.site-footer__brand:visited {
+	color: #fff;
+	text-decoration: none;
+}
+
+.site-footer__brand {
+	position: absolute;
+	left: clamp(8px, 2vw, 24px);
+	top: 50%;
+	transform: translateY(-50%);
+	padding-left: 0;
+}
+
+.footer-logo {
+	font-family: 'Funnel Display', sans-serif;
+	letter-spacing: -0.015em;
+	font-size: clamp(22px, 2vw, 34px);
+	color: currentColor;
+	line-height: 1;
+	display: inline-block;
+}
+
+.site-footer .logo-mark {
+	font-size: 0.82em;
+	margin-left: 0em;
+	vertical-align: baseline;
+}
+
+.site-footer__social {
+	position: absolute;
+	right: clamp(8px, 2vw, 24px);
+	top: 50%;
+	transform: translateY(-50%);
+	display: flex;
+	gap: 12px;
+	align-items: center;
+	z-index: 10;
+	padding: 0;
+}
+
+.social-link { display: inline-block; }
+.social-icon { width: 22px; height: 22px; display: block; }
+
+.site-footer__brand:hover, .social-link:hover { opacity: 0.85; }
+
+.services-page{
+  width: min(92%, 1200px);
+  margin-inline: auto;
+  padding-top: calc(var(--header-h) + 3rem);
+  padding-bottom: 5rem;
+  font-family: 'Source Code Pro', monospace;
+}
+
+.services-hero{
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid rgba(0,0,0,.2);
+}
+
+.services-title{
+  text-align: left;
+  font-family: 'Source Code Pro', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-weight: 500;
+  font-size: clamp(2.2rem, 4vw + 1rem, 4.2rem);
+  margin: 0 0 1rem 0;
+}
+
+.services-intro{
+  max-width: 68ch;
+  line-height: 1.7;
+  font-size: clamp(1rem, 1.2vw, 1.15rem);
+  margin: 0;
+  opacity: .9;
+}
+
+.services-list{ margin-top: 2.5rem; }
+
+.service{
+  border-bottom: 1px solid rgba(0,0,0,.18);
+  padding: 1.35rem 0;
+}
+
+.service__summary{
+  list-style: none;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  cursor: pointer;
+  gap: 1.5rem;
+}
+
+.service__summary::-webkit-details-marker{ display:none; }
+
+.service__name{
+  font-size: clamp(1.6rem, 2.2vw, 2.2rem);
+  letter-spacing: 0.02em;
+  font-weight: 500;
+}
+
+.service__toggle{
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.95rem;
+  opacity: .85;
+  white-space: nowrap;
+}
+
+.service[open] .service__toggle{ opacity: 1; }
+
+.service__content{
+  padding-top: 1.25rem;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.service__lead{
+  max-width: 70ch;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.service__pack{
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0,0,0,.12);
+}
+
+.pack__title{
+  margin: 0 0 .75rem 0;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.pack__title span{
+  letter-spacing: 0.02em;
+  text-transform: none;
+  font-weight: 500;
+}
+
+.pack__desc{
+  margin: 0 0 .75rem 0;
+  line-height: 1.7;
+  max-width: 75ch;
+}
+
+.pack__list{
+  margin: 0;
+  padding-left: 1.25rem;
+  line-height: 1.75;
+}
+.pack__list li{ margin: .15rem 0; }
+
+.pack__meta{
+  margin: .85rem 0 0 0;
+  opacity: .8;
+  font-size: .95rem;
+}
+
+/* Otros servicios */
+.services-extra{
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(0,0,0,.2);
+}
+
+.services-extra__title{
+  margin: 0 0 1rem 0;
+  font-size: clamp(1.6rem, 2.2vw, 2.2rem);
+  font-weight: 500;
+}
+
+.services-extra__text{
+  margin: 0 0 1.25rem 0;
+  line-height: 1.7;
+  max-width: 72ch;
+}
+
+.chips{
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem;
+}
+
+.chip{
+  border: 1px solid rgba(0,0,0,.25);
+  padding: .35rem .6rem;
+  font-size: .9rem;
+  letter-spacing: .02em;
+}
+
+/* CTA tipo underline (como tu estilo) */
+.services-cta{
+  display: inline-block;
+  position: relative;
+  color: #000;
+  text-decoration: none;
+  padding: 0;
+  margin-top: .75rem;
+}
+
+.services-cta__arrow{
+  display: inline-block;
+  margin-right: .6rem;
+  letter-spacing: .08em;
+}
+
+.services-cta__text{
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+
+.services-cta::after{
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -10px;
+  height: 1px;
+  background: currentColor;
+}
+
+.services-cta:hover{ opacity: .85; }
+
+/* Responsive */
+@media (max-width: 768px){
+  .services-page{
+    width: min(92%, 1200px);
+    padding-top: calc(var(--header-h) + 2.25rem);
+  }
+  .service__summary{ align-items: center; }
 }
