@@ -66,6 +66,15 @@
 html, body { background: #f2f2f0; }
 body { padding-top: var(--header-h); }
 
+/* Neutralize centered container constraints INSIDE hero only */
+.hero .container,
+.hero .hero-grid {
+	width: 100%;
+	max-width: none;
+	margin-inline: 0;
+	padding-inline: 0;
+}
+
 .hero-top {
 	background: #f2f2f0;
 	height: clamp(76vh, 80vh, 86vh);
@@ -73,7 +82,9 @@ body { padding-top: var(--header-h); }
 	flex-direction: column;
 	justify-content: flex-end;
 	position: relative;
-	padding-left: clamp(1px, 1vw, 1px);
+	width: 100%;
+	padding-left: var(--hero-edge-pad);
+	padding-right: var(--hero-edge-pad);
 	padding-top: 0;
 }
 
@@ -94,9 +105,10 @@ body { padding-top: var(--header-h); }
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-end;
-	gap: clamp(48px, 10vw, 160px);
-	padding-left: 8px;  
+	gap: clamp(32px, 6vw, 140px);
 	width: 100%;
+	padding-left: 0;
+	padding-right: 0;
 }
 
 /* Wordmark */
@@ -149,7 +161,9 @@ body { padding-top: var(--header-h); }
 	font-size: clamp(0.9rem, 1.4vw, 1.2rem);
 	line-height: 1;
 	margin: 0;
-	margin-left: clamp(80px, 14vw, 320px);
+	margin-left: 0;
+	max-width: min(42ch, 45vw);
+	overflow-wrap: anywhere;
 	transform: translateY(-6px);
 	transition: transform 160ms ease;
 }
@@ -237,6 +251,11 @@ body { padding-top: var(--header-h); }
 
 	.hero-grid { grid-template-columns: 1fr; }
 
+	.hero-bottom-row {
+		flex-wrap: wrap;
+		gap: clamp(24px, 5vw, 48px);
+	}
+
 	.hero-logo {
 		font-size: clamp(3.4rem, 16vw, 6.8rem);
 		text-align: left;
@@ -245,6 +264,8 @@ body { padding-top: var(--header-h); }
 	.hero-role {
 		text-align: left;
 		margin-top: 1rem;
+		max-width: none;
+		transform: translateY(-4px);
 	}
 }
 
@@ -432,13 +453,13 @@ body { padding-top: var(--header-h); }
   right: 50%;
   margin-left: -50vw;
   margin-right: -50vw;
-  margin-top: calc(var(--header-h));
+  margin-top: calc(-1 * var(--header-h));
 }
 
 .services-hero__inner{
   width: min(92%, 1200px);
   margin-inline: auto;
-  padding-top: clamp(2rem, 4vw, 3.5rem);
+  padding-top: calc(var(--header-h) + clamp(2rem, 4vw, 3.5rem));
   padding-bottom: clamp(2rem, 4vw, 3.5rem);
 }
 
@@ -628,4 +649,234 @@ body { padding-top: var(--header-h); }
     padding-top: calc(var(--header-h) + 2.25rem);
   }
   .service__summary{ align-items: center; }
+}
+
+/* ==========================================================================
+   CONTACT PAGE
+   ========================================================================== */
+
+/* Contact Hero (full-width black band) */
+.contact-hero {
+  width: 100vw;
+  background: #000;
+  color: #fff;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  margin-top: calc(-1 * var(--header-h));
+}
+
+.contact-hero__inner {
+  width: min(92%, 1200px);
+  margin-inline: auto;
+  padding-top: calc(var(--header-h) + clamp(2rem, 4vw, 3.5rem));
+  padding-bottom: clamp(2rem, 4vw, 3.5rem);
+}
+
+.contact-title {
+  font-family: 'Funnel Display', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: -0.015em;
+  font-weight: 500;
+  font-size: clamp(3rem, 6vw + 1.5rem, 6rem);
+  margin: 0 0 1.5rem 0;
+  color: #fff;
+}
+
+.contact-question {
+  font-family: 'Source Code Pro', monospace;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  color: #fff;
+}
+
+.contact-intro {
+  font-family: 'Source Code Pro', monospace;
+  max-width: 68ch;
+  line-height: 1.4;
+  font-size: clamp(1.15rem, 1.5vw, 1.35rem);
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+/* Contact Page Main Content */
+.contact-page {
+  width: min(92%, 1200px);
+  margin-inline: auto;
+  padding-top: clamp(3rem, 6vw, 5rem);
+  padding-bottom: clamp(3rem, 6vw, 5rem);
+}
+
+/* Contact Form Section */
+.contact-form-section {
+  margin-bottom: clamp(4rem, 8vw, 6rem);
+}
+
+.contact-form-wrapper {
+  max-width: 700px;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #000;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group select,
+.form-group textarea {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  background: #fff;
+  color: #000;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #000;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.form-checkbox {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.form-checkbox label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  text-transform: none;
+  font-weight: 400;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.form-checkbox input[type="checkbox"] {
+  margin-top: 0.25rem;
+  cursor: pointer;
+}
+
+.form-checkbox a {
+  color: #000;
+  text-decoration: underline;
+}
+
+.form-submit {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 1rem 2rem;
+  background: #000;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  align-self: flex-start;
+  margin-top: 2.5rem;
+}
+
+.form-submit:hover {
+  opacity: 0.85;
+}
+
+/* Instagram Section */
+.ig-section {
+  margin-top: clamp(4rem, 8vw, 6rem);
+  padding-top: clamp(3rem, 6vw, 4rem);
+  border-top: 1px solid #ddd;
+}
+
+.ig-wrapper {
+  max-width: 700px;
+}
+
+.ig-title {
+  font-family: 'Source Code Pro', monospace;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  color: #000;
+}
+
+.ig-text {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #000;
+}
+
+.ig-handle {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #000;
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 2rem;
+  transition: opacity 0.2s;
+}
+
+.ig-handle:hover {
+  opacity: 0.7;
+}
+
+.ig-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.ig-item {
+  aspect-ratio: 1;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+}
+
+/* Responsive Contact Page */
+@media (max-width: 768px) {
+  .contact-form-wrapper,
+  .ig-wrapper {
+    max-width: 100%;
+  }
+
+  .ig-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .form-submit {
+    width: 100%;
+  }
 }

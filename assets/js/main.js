@@ -331,33 +331,7 @@ function initActiveNav() {
 
 	const sections = document.querySelectorAll('#inicio, #servicios, #proyectos, #contacto');
 
-	// compute nav height and use it when building the observer rootMargin so
-	// intersections account for the sticky header height (prevents sections
-	// being hidden under the header)
-	function createObserver() {
-		// Use the fixed site header height when computing rootMargin so the
-		// 'active' detection accounts for the header covering part of the viewport.
-		const headerH = document.querySelector('.site-header')?.offsetHeight || navContainer.offsetHeight || 0;
-		const options = {
-			root: null,
-			rootMargin: `-${Math.round(headerH + 6)}px 0px -50% 0px`,
-			threshold: 0,
-		};
-
-		return new IntersectionObserver((entries) => {
-			entries.forEach((entry) => {
-				if (entry.isIntersecting) {
-					const id = entry.target.getAttribute('id');
-					const link = navContainer.querySelector(`.nav-link[href="#${id}"]`);
-					setActiveLink(link);
-				}
-			});
-		}, options);
-	}
-
-	let navObserver = createObserver();
-	sections.forEach((section) => navObserver.observe(section));
-
+	// Shared function to move underline under any link
 	function setActiveLink(link) {
 		links.forEach((l) => l.classList.remove('is-active'));
 		if (!link) return;
@@ -386,29 +360,103 @@ function initActiveNav() {
 		}
 	}
 
-	// Clicking a nav link should move the underline immediately while smooth scroll runs
+	// Page-based active state: detect current page and set active link
+	function setActiveNavByPage() {
+		const pathname = location.pathname;
+		const currentPage = pathname.split('/').pop() || 'index.html';
+		
+		// Normalize empty string to index.html
+		const normalizedPage = currentPage === '' ? 'index.html' : currentPage;
+		
+		// Find the link that matches current page
+		let matchedLink = null;
+		links.forEach((link) => {
+			const href = link.getAttribute('href') || '';
+			// Match if href ends with the current page name (ignore query/hash)
+			const hrefPage = href.split('?')[0].split('#')[0].split('/').pop();
+			if (hrefPage === normalizedPage || 
+			    (normalizedPage === 'index.html' && href.startsWith('#'))) {
+				matchedLink = link;
+			}
+		});
+
+		if (matchedLink) {
+			setActiveLink(matchedLink);
+		}
+	}
+
+	// Check if we're on index.html and have sections to observe
+	const isIndexPage = location.pathname.endsWith('index.html') || 
+	                     location.pathname === '/' || 
+	                     location.pathname.endsWith('/');
+	const hasSections = sections.length > 0;
+
+	if (isIndexPage && hasSections) {
+		// INDEX PAGE: Use scroll-based IntersectionObserver
+		// compute nav height and use it when building the observer rootMargin so
+		// intersections account for the sticky header height (prevents sections
+		// being hidden under the header)
+		function createObserver() {
+			// Use the fixed site header height when computing rootMargin so the
+			// 'active' detection accounts for the header covering part of the viewport.
+			const headerH = document.querySelector('.site-header')?.offsetHeight || navContainer.offsetHeight || 0;
+			const options = {
+				root: null,
+				rootMargin: `-${Math.round(headerH + 6)}px 0px -50% 0px`,
+				threshold: 0,
+			};
+
+			return new IntersectionObserver((entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						const id = entry.target.getAttribute('id');
+						const link = navContainer.querySelector(`.nav-link[href="#${id}"]`);
+						setActiveLink(link);
+					}
+				});
+			}, options);
+		}
+
+		let navObserver = createObserver();
+		sections.forEach((section) => navObserver.observe(section));
+
+		// Position the underline under INICIO by default
+		const startLink = navContainer.querySelector('.nav-link[href="#inicio"]') || links[0];
+		setActiveLink(startLink);
+
+		// Recalculate observer and underline on resize (debounced)
+		let resizeTimer = null;
+		window.addEventListener('resize', () => {
+			clearTimeout(resizeTimer);
+			resizeTimer = setTimeout(() => {
+				// Recreate observer to use updated navHeight
+				navObserver.disconnect();
+				navObserver = createObserver();
+				sections.forEach((section) => navObserver.observe(section));
+
+				// Reposition underline for the active link
+				const active = navContainer.querySelector('.nav-link.is-active') || startLink;
+				setActiveLink(active);
+			}, 120);
+		});
+	} else {
+		// OTHER PAGES: Use page-based active state
+		setActiveNavByPage();
+
+		// Recalculate underline position on resize
+		let resizeTimer = null;
+		window.addEventListener('resize', () => {
+			clearTimeout(resizeTimer);
+			resizeTimer = setTimeout(() => {
+				const active = navContainer.querySelector('.nav-link.is-active');
+				if (active) setActiveLink(active);
+			}, 120);
+		});
+	}
+
+	// Clicking a nav link should move the underline immediately
 	links.forEach((link) => {
 		link.addEventListener('click', () => setActiveLink(link));
-	});
-
-	// Position the underline under INICIO by default
-	const startLink = navContainer.querySelector('.nav-link[href="#inicio"]') || links[0];
-	setActiveLink(startLink);
-
-	// Recalculate observer and underline on resize (debounced)
-	let resizeTimer = null;
-	window.addEventListener('resize', () => {
-		clearTimeout(resizeTimer);
-		resizeTimer = setTimeout(() => {
-			// Recreate observer to use updated navHeight
-			navObserver.disconnect();
-			navObserver = createObserver();
-			sections.forEach((section) => navObserver.observe(section));
-
-			// Reposition underline for the active link
-			const active = navContainer.querySelector('.nav-link.is-active') || startLink;
-			setActiveLink(active);
-		}, 120);
 	});
 }
 
