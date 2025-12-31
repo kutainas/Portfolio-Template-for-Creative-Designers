@@ -129,22 +129,5 @@ body {
                     /* Default animation duration */
 }
 
-/* Dark minimal footer styling (kutainas site) */
-footer {
-  background: #0f0f0f;
-  font-family: 'Source Code Pro', monospace;
-}
-footer .text-body-secondary,
-footer a {
-  color: rgba(255,255,255,0.7) !important;
-}
-footer a:hover {
-  color: rgba(255,255,255,0.95) !important;
-}
-footer.border-top {
-  border-top: 1px solid rgba(255,255,255,0.12) !important;
-}
-.footer-logo {
-  font-family: 'Funnel Display', 'Source Code Pro', monospace;
-}
+/* Removed: Footer styling moved to layout.css .site-footer for consistency */
 
