@@ -1,23 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proyectos — kutainas</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Proyectos — kutainas</title>
+
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="./assets/css/index.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
-    <script src="./assets/js/main.js" defer></script>
+	<link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+	<link rel="stylesheet" href="./assets/css/index.css">
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
+	<script src="./assets/js/main.js" defer></script>
+
+	<!-- Page-only fixes: remove bottom white strip + prevent hover text clipping -->
+	<style>
+		/* -----------------------------------------------------------
+		   A) FULL BLACK TO THE VERY BOTTOM (fix white strip)
+		   This overrides any global html/body off-white background.
+		   ----------------------------------------------------------- */
+		html, body {
+			height: 100%;
+			margin: 0;
+			padding: 0;
+		}
+		body.page-proyectos {
+			min-height: 100vh;
+			background: #000 !important;
+			color: #fff;
+			display: flex;
+			flex-direction: column;
+		}
+		body.page-proyectos main {
+			flex: 1 0 auto;
+			background: #000 !important;
+		}
+		body.page-proyectos .site-footer {
+			flex-shrink: 0;
+			background: #000 !important;
+		}
+
+		/* -----------------------------------------------------------
+		   B) PREVENT HOVER TEXT FROM BEING CLIPPED
+		   The strip/track must allow vertical overflow + extra padding.
+		   ----------------------------------------------------------- */
+		body.page-proyectos .projects-catalog,
+		body.page-proyectos .projects-catalog__track {
+			overflow: visible !important;
+		}
+
+		/* Keep horizontal scroll, but allow vertical overflow for reveal text */
+		body.page-proyectos .projects-catalog__track {
+			overflow-x: auto !important;
+			overflow-y: visible !important;
+
+			/* Give real room above + below for title/meta reveal */
+			padding-top: clamp(56px, 8vh, 110px) !important;
+			padding-bottom: clamp(56px, 8vh, 110px) !important;
+
+			/* Avoid clipping in flex layouts */
+			align-items: flex-start !important;
+			position: relative;
+			z-index: 1;
+		}
+
+		/* Make sure each tile can “pop” over neighbours and show texts */
+		body.page-proyectos .project-tile {
+			position: relative;
+			overflow: visible !important;
+			z-index: 1;
+		}
+		body.page-proyectos .project-tile:hover,
+		body.page-proyectos .project-tile:focus-within {
+			z-index: 50;
+		}
+
+		/* Reveal texts: positioned so they don't push layout and don’t get cropped */
+		body.page-proyectos .project-tile__name,
+		body.page-proyectos .project-tile__meta {
+			position: absolute;
+			left: 0;
+			width: 100%;
+			opacity: 0;
+			pointer-events: none;
+			transform: translateY(6px);
+			transition: opacity 180ms ease, transform 180ms ease;
+		}
+
+		/* Title above image */
+		body.page-proyectos .project-tile__name {
+			top: -2.2rem; /* space above */
+			font-family: 'Funnel Display', sans-serif; /* titles font */
+			font-size: clamp(1.25rem, 2.2vw, 2rem);
+			line-height: 1;
+			letter-spacing: -0.01em;
+			color: #fff;
+		}
+
+		/* Meta below image */
+		body.page-proyectos .project-tile__meta {
+			top: calc(100% + 0.9rem); /* space below */
+		}
+
+		/* Keep your existing .project-tile__title if you still want it inside meta/title area.
+		   If you don't use it visually, it's harmless. */
+		body.page-proyectos .project-tile:hover .project-tile__name,
+		body.page-proyectos .project-tile:focus-within .project-tile__name,
+		body.page-proyectos .project-tile:hover .project-tile__meta,
+		body.page-proyectos .project-tile:focus-within .project-tile__meta {
+			opacity: 1;
+			transform: translateY(0);
+		}
+
+		/* Ensure the media doesn't clip (sometimes anchors/images inherit overflow) */
+		body.page-proyectos .project-tile__media {
+			display: block;
+			overflow: visible !important;
+		}
+
+		/* Accessibility: keyboard focus should also reveal */
+		body.page-proyectos .project-tile__media:focus {
+			outline: 2px solid rgba(255,255,255,0.35);
+			outline-offset: 6px;
+		}
+
+		/* Reduced motion */
+		@media (prefers-reduced-motion: reduce) {
+			body.page-proyectos .project-tile__name,
+			body.page-proyectos .project-tile__meta {
+				transition: none;
+			}
+		}
+	</style>
 </head>
-<body>
+
+<body class="page-proyectos">
 	<header class="site-header" role="banner">
 		<div class="container">
 			<nav class="hero-nav" aria-label="Primary">
@@ -33,65 +157,172 @@
 	</header>
 
 	<main id="main">
-		<section class="section">
-			<div class="container">
-				<h1>Proyectos</h1>
-				<p>Página de proyectos — en construcción. Los proyectos se moverán a esta página.</p>
+		<!-- Hero Section -->
+		<section class="projects-hero" data-nav-theme="dark">
+			<div class="projects-hero__inner">
+				<h1 class="projects-title">PROYECTOS</h1>
+				<p class="projects-intro">
+					Selección de trabajos donde concepto, diseño y ejecución van de la mano.
+				</p>
+			</div>
+		</section>
+
+		<!-- Projects Catalog (Horizontal Film Strip) -->
+		<section class="projects-catalog">
+			<div class="projects-catalog__track">
+				<!-- Project 1 -->
+				<article class="project-tile">
+					<div class="project-tile__name">Identidad Visual</div>
+					<div class="project-tile__title">Identidad Visual, 2025</div>
+					<a class="project-tile__media" href="#" aria-label="Open project: Identidad para marca cultural">
+						<img src="https://images.unsplash.com/photo-1558655146-d09347e92766?w=800&h=533&fit=crop" alt="Identidad para marca cultural" loading="lazy">
+					</a>
+					<div class="project-tile__meta">
+						<div class="project-tile__desc">Desarrollo de identidad visual flexible para proyecto cultural en crecimiento</div>
+						<div class="project-tile__tags">
+							<span class="tag">Branding</span>
+							<span class="tag">Dirección creativa</span>
+						</div>
+					</div>
+				</article>
+
+				<!-- Project 2 -->
+				<article class="project-tile">
+					<div class="project-tile__name">Editorial Fotográfico</div>
+					<div class="project-tile__title">Editorial Fotográfico, 2025</div>
+					<a class="project-tile__media" href="#" aria-label="Open project: Editorial fotográfico">
+						<img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=800&h=533&fit=crop" alt="Editorial fotográfico" loading="lazy">
+					</a>
+					<div class="project-tile__meta">
+						<div class="project-tile__desc">Serie fotográfica editorial centrada en narrativa visual y composición</div>
+						<div class="project-tile__tags">
+							<span class="tag">Fotografía</span>
+							<span class="tag">Moda</span>
+						</div>
+					</div>
+				</article>
+
+				<!-- Project 3 -->
+				<article class="project-tile">
+					<div class="project-tile__name">Contenido Audiovisual</div>
+					<div class="project-tile__title">Contenido Audiovisual, 2024</div>
+					<a class="project-tile__media" href="#" aria-label="Open project: Contenido audiovisual para redes">
+						<img src="https://images.unsplash.com/photo-1611162618071-b39a2ec055fb?w=800&h=533&fit=crop" alt="Contenido audiovisual para redes" loading="lazy">
+					</a>
+					<div class="project-tile__meta">
+						<div class="project-tile__desc">Piezas de video para formatos verticales y consumo rápido en redes sociales</div>
+						<div class="project-tile__tags">
+							<span class="tag">Video</span>
+							<span class="tag">Motion</span>
+						</div>
+					</div>
+				</article>
+
+				<!-- Project 4 -->
+				<article class="project-tile">
+					<div class="project-tile__name">Web Portfolio</div>
+					<div class="project-tile__title">Web Portfolio, 2024</div>
+					<a class="project-tile__media" href="#" aria-label="Open project: Web portfolio creativo">
+						<img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=533&fit=crop" alt="Web portfolio creativo" loading="lazy">
+					</a>
+					<div class="project-tile__meta">
+						<div class="project-tile__desc">Diseño y desarrollo de portfolio web con enfoque editorial</div>
+						<div class="project-tile__tags">
+							<span class="tag">Web</span>
+							<span class="tag">UI</span>
+						</div>
+					</div>
+				</article>
+
+				<!-- Project 5 -->
+				<article class="project-tile">
+					<div class="project-tile__name">Fotografía de Evento</div>
+					<div class="project-tile__title">Fotografía de Evento, 2024</div>
+					<a class="project-tile__media" href="#" aria-label="Open project: Fotografía de evento cultural">
+						<img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&h=533&fit=crop" alt="Fotografía de evento cultural" loading="lazy">
+					</a>
+					<div class="project-tile__meta">
+						<div class="project-tile__desc">Cobertura visual de evento cultural capturando atmósfera y momentos clave</div>
+						<div class="project-tile__tags">
+							<span class="tag">Fotografía</span>
+							<span class="tag">Evento</span>
+						</div>
+					</div>
+				</article>
+
+				<!-- Project 6 -->
+				<article class="project-tile">
+					<div class="project-tile__name">Identidad y Packaging</div>
+					<div class="project-tile__title">Identidad y Packaging, 2025</div>
+					<a class="project-tile__media" href="#" aria-label="Open project: Identidad y packaging">
+						<img src="https://images.unsplash.com/photo-1550399105-c4db5fb85c18?w=800&h=533&fit=crop" alt="Identidad y packaging" loading="lazy">
+					</a>
+					<div class="project-tile__meta">
+						<div class="project-tile__desc">Sistema gráfico aplicado a packaging con foco en concepto y materialidad</div>
+						<div class="project-tile__tags">
+							<span class="tag">Branding</span>
+							<span class="tag">Packaging</span>
+						</div>
+					</div>
+				</article>
 			</div>
 		</section>
 	</main>
 
-<footer class="site-footer">
-  <div class="container">
-    <div class="site-footer__inner">
-      <a href="index.html" class="site-footer__brand" aria-label="Home">
-        <span class="footer-logo">kutainas<span class="logo-mark">®</span></span>
-      </a>
+	<footer class="site-footer">
+		<div class="container">
+			<div class="site-footer__inner">
+				<a href="index.html" class="site-footer__brand" aria-label="Home">
+					<span class="footer-logo">kutainas<span class="logo-mark">®</span></span>
+				</a>
 
-      <nav class="site-footer__social" aria-label="Social links">
-        <a href="#" role="button" aria-label="WhatsApp" class="social-link" data-bs-toggle="modal" data-bs-target="#whatsappModal">
-          <svg class="social-icon" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false" role="img">
-            <path fill="currentColor" d="M20.5 3.5A11.9 11.9 0 0012 0C5.373 0 .001 5.373.001 12c0 2.116.555 4.145 1.606 5.94L0 24l6.202-1.601A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12 0-1.948-.486-3.78-1.5-5.4zM12 21.6c-1.756 0-3.45-.477-4.94-1.376l-.354-.21L4.2 20l.99-2.486-.21-.355A9.6 9.6 0 012.4 12 9.6 9.6 0 1112 21.6zM17.1 14.2c-.25-.125-1.48-.73-1.71-.815-.23-.085-.4-.125-.57.125-.18.25-.7.815-.86.985-.16.17-.32.19-.58.06-.26-.125-1.1-.405-2.09-1.29-.77-.68-1.29-1.52-1.44-1.78-.15-.265-.016-.41.116-.535.12-.12.27-.32.405-.48.13-.16.17-.28.26-.47.085-.19.042-.355-.02-.48-.06-.125-.57-1.37-.78-1.88-.2-.49-.4-.42-.57-.43-.15-.01-.32-.01-.49-.01s-.48.07-.73.355c-.25.29-.95.93-.95 2.25 0 1.32.98 2.6 1.12 2.78.13.18 1.94 3 4.7 4.2 1.31.56 2.33.9 3.13 1.15.84.26 1.61.22 2.22.135.68-.095 1.48-.6 1.69-1.18.21-.58.21-1.08.15-1.18-.06-.1-.22-.16-.48-.285z"></path>
-          </svg>
-        </a>
-        <a href="https://www.instagram.com/kutainas/" aria-label="Instagram" class="social-link" target="_blank" rel="noopener noreferrer">
-          <svg class="social-icon" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false" role="img">
-            <path fill="currentColor" d="M12 2.163c3.204 0 3.584.012 4.85.07 1.206.056 1.97.246 2.428.415.59.222 1.01.488 1.453.93.444.444.71.864.932 1.454.168.459.358 1.223.414 2.429.059 1.267.071 1.646.071 4.85s-.012 3.584-.071 4.85c-.056 1.206-.246 1.97-.414 2.429-.222.59-.488 1.01-.932 1.453-.444.444-.864.71-1.454.932-.459.168-1.223.358-2.429.414-1.267.059-1.646.071-4.85.071s-3.584-.012-4.85-.071c-1.206-.056-1.97-.246-2.429-.414-.59-.222-1.01-.488-1.453-.932-.444-.444-.71-.864-.932-1.454-.168-.459-.358-1.223-.414-2.429C2.175 15.584 2.163 15.204 2.163 12s.012-3.584.071-4.85c.056-1.206.246-1.97.414-2.429.222-.59.488-1.01.932-1.453.444-.444.864-.71 1.454-.932.459-.168 1.223-.358 2.429-.414C8.416 2.175 8.796 2.163 12 2.163zm0-2.163C8.736 0 8.332.013 7.052.072 5.776.13 4.88.333 4.1.637c-.88.36-1.63.84-2.378 1.588C.975 3.875.495 4.624.136 5.504c-.304.78-.507 1.676-.565 2.952C-.013 10.332 0 10.736 0 12s.013 1.668.072 2.948c.058 1.276.261 2.172.565 2.952.36.88.84 1.63 1.588 2.378.749.748 1.498 1.229 2.378 1.588.78.304 1.676.507 2.952.565 1.28.059 1.684.072 2.948.072s1.668-.013 2.948-.072c1.276-.058 2.172-.261 2.952-.565.88-.36 1.63-.84 2.378-1.588.748-.749 1.229-1.498 1.588-2.378.304-.78.507-1.676.565-2.952.059-1.28.072-1.684.072-2.948s-.013-1.668-.072-2.948c-.058-1.276-.261-2.172-.565-2.952-.36-.88-.84-1.63-1.588-2.378C20.63.975 19.881.495 19.001.136c-.78-.304-1.676-.507-2.952-.565C13.668.013 13.264 0 12 0zM12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zm0 10.162a3.999 3.999 0 110-7.998 3.999 3.999 0 010 7.998zm6.406-11.845a1.44 1.44 0 11-2.881 0 1.44 1.44 0 012.881 0z"></path>
-          </svg>
-        </a>
-        <a href="404.html" aria-label="YouTube" class="social-link">
-          <svg class="social-icon" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false" role="img">
-            <path fill="currentColor" d="M23.499 6.203a2.998 2.998 0 00-2.108-2.118C19.86 3.5 12 3.5 12 3.5s-7.86 0-9.39.585A2.998 2.998 0 00.502 6.203 31.02 31.02 0 000 12a31.02 31.02 0 00.502 5.797 2.998 2.998 0 002.108 2.118C4.14 20.5 12 20.5 12 20.5s7.86 0 9.39-.585a2.998 2.998 0 002.108-2.118A31.02 31.02 0 0024 12a31.02 31.02 0 00-.501-5.797zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"></path>
-          </svg>
-        </a>
-        <a href="https://www.linkedin.com/in/lucas-ucelay-de-luis-552256308" aria-label="LinkedIn" class="social-link" target="_blank" rel="noopener noreferrer">
-          <svg class="social-icon" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false" role="img">
-            <path fill="currentColor" d="M20.447 20.452H17.21v-5.569c0-1.328-.027-3.036-1.85-3.036-1.852 0-2.135 1.445-2.135 2.94v5.665H9.009V9h3.051v1.561h.043c.425-.803 1.464-1.65 3.012-1.65 3.223 0 3.818 2.122 3.818 4.879v6.662zM5.337 7.433a1.767 1.767 0 110-3.534 1.767 1.767 0 010 3.534zM6.987 20.452H3.687V9h3.3v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.732v20.535C0 23.226.792 24 1.771 24h20.451C23.206 24 24 23.226 24 22.268V1.732C24 .774 23.206 0 22.225 0z"></path>
-          </svg>
-        </a>
-      </nav>
-    </div>
-  </div>
-</footer>
+				<nav class="site-footer__social" aria-label="Social links">
+					<a href="#" role="button" aria-label="WhatsApp" class="social-link" data-bs-toggle="modal" data-bs-target="#whatsappModal">
+						<svg class="social-icon" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false" role="img">
+							<path fill="currentColor" d="M20.5 3.5A11.9 11.9 0 0012 0C5.373 0 .001 5.373.001 12c0 2.116.555 4.145 1.606 5.94L0 24l6.202-1.601A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12 0-1.948-.486-3.78-1.5-5.4zM12 21.6c-1.756 0-3.45-.477-4.94-1.376l-.354-.21L4.2 20l.99-2.486-.21-.355A9.6 9.6 0 012.4 12 9.6 9.6 0 1112 21.6zM17.1 14.2c-.25-.125-1.48-.73-1.71-.815-.23-.085-.4-.125-.57.125-.18.25-.7.815-.86.985-.16.17-.32.19-.58.06-.26-.125-1.1-.405-2.09-1.29-.77-.68-1.29-1.52-1.44-1.78-.15-.265-.016-.41.116-.535.12-.12.27-.32.405-.48.13-.16.17-.28.26-.47.085-.19.042-.355-.02-.48-.06-.125-.57-1.37-.78-1.88-.2-.49-.4-.42-.57-.43-.15-.01-.32-.01-.49-.01s-.48.07-.73.355c-.25.29-.95.93-.95 2.25 0 1.32.98 2.6 1.12 2.78.13.18 1.94 3 4.7 4.2 1.31.56 2.33.9 3.13 1.15.84.26 1.61.22 2.22.135.68-.095 1.48-.6 1.69-1.18.21-.58.21-1.08.15-1.18-.06-.1-.22-.16-.48-.285z"></path>
+						</svg>
+					</a>
 
-<!-- WhatsApp modal -->
-<div class="modal fade" id="whatsappModal" tabindex="-1" aria-labelledby="whatsappModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="whatsappModalLabel">WhatsApp</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-      </div>
-      <div class="modal-body">
-        <p class="mb-2">+34 689 57 18 25</p>
-        <div class="d-flex gap-2">
-          <button type="button" class="btn btn-outline-secondary" id="copyWhatsAppBtn" aria-label="Copiar número">Copiar</button>
-          <a href="https://wa.me/34689571825" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Abrir WhatsApp</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+					<a href="https://www.instagram.com/kutainas/" aria-label="Instagram" class="social-link" target="_blank" rel="noopener noreferrer">
+						<svg class="social-icon" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false" role="img">
+							<path fill="currentColor" d="M12 2.163c3.204 0 3.584.012 4.85.07 1.206.056 1.97.246 2.428.415.59.222 1.01.488 1.453.93.444.444.71.864.932 1.454.168.459.358 1.223.414 2.429.059 1.267.071 1.646.071 4.85s-.012 3.584-.071 4.85c-.056 1.206-.246 1.97-.414 2.429-.222.59-.488 1.01-.932 1.453-.444.444-.864.71-1.454.932-.459.168-1.223.358-2.429.414-1.267.059-1.646.071-4.85.071s-3.584-.012-4.85-.071c-1.206-.056-1.97-.246-2.429-.414-.59-.222-1.01-.488-1.453-.932-.444-.444-.71-.864-.932-1.454-.168-.459-.358-1.223-.414-2.429C2.175 15.584 2.163 15.204 2.163 12s.012-3.584.071-4.85c.056-1.206.246-1.97.414-2.429.222-.59.488-1.01.932-1.453.444-.444.864-.71 1.454-.932.459-.168 1.223-.358 2.429-.414C8.416 2.175 8.796 2.163 12 2.163zm0-2.163C8.736 0 8.332.013 7.052.072 5.776.13 4.88.333 4.1.637c-.88.36-1.63.84-2.378 1.588C.975 3.875.495 4.624.136 5.504c-.304.78-.507 1.676-.565 2.952C-.013 10.332 0 10.736 0 12s.013 1.668.072 2.948c.058 1.276.261 2.172.565 2.952.36.88.84 1.63 1.588 2.378.749.748 1.498 1.229 2.378 1.588.78.304 1.676.507 2.952.565 1.28.059 1.684.072 2.948.072s1.668-.013 2.948-.072c1.276-.058 2.172-.261 2.952-.565.88-.36 1.63-.84 2.378-1.588.748-.749 1.229-1.498 1.588-2.378.304-.78.507-1.676.565-2.952.059-1.28.072-1.684.072-2.948s-.013-1.668-.072-2.948c-.058-1.276-.261-2.172-.565-2.952-.36-.88-.84-1.63-1.588-2.378C20.63.975 19.881.495 19.001.136c-.78-.304-1.676-.507-2.952-.565C13.668.013 13.264 0 12 0zM12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zm0 10.162a3.999 3.999 0 110-7.998 3.999 3.999 0 010 7.998zm6.406-11.845a1.44 1.44 0 11-2.881 0 1.44 1.44 0 012.881 0z"></path>
+						</svg>
+					</a>
+
+					<a href="404.html" aria-label="YouTube" class="social-link">
+						<svg class="social-icon" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false" role="img">
+							<path fill="currentColor" d="M23.499 6.203a2.998 2.998 0 00-2.108-2.118C19.86 3.5 12 3.5 12 3.5s-7.86 0-9.39.585A2.998 2.998 0 00.502 6.203 31.02 31.02 0 000 12a31.02 31.02 0 00.502 5.797 2.998 2.998 0 002.108 2.118C4.14 20.5 12 20.5 12 20.5s7.86 0 9.39-.585a2.998 2.998 0 002.108-2.118A31.02 31.02 0 0024 12a31.02 31.02 0 00-.501-5.797zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"></path>
+						</svg>
+					</a>
+
+					<a href="https://www.linkedin.com/in/lucas-ucelay-de-luis-552256308" aria-label="LinkedIn" class="social-link" target="_blank" rel="noopener noreferrer">
+						<svg class="social-icon" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false" role="img">
+							<path fill="currentColor" d="M20.447 20.452H17.21v-5.569c0-1.328-.027-3.036-1.85-3.036-1.852 0-2.135 1.445-2.135 2.94v5.665H9.009V9h3.051v1.561h.043c.425-.803 1.464-1.65 3.012-1.65 3.223 0 3.818 2.122 3.818 4.879v6.662zM5.337 7.433a1.767 1.767 0 110-3.534 1.767 1.767 0 010 3.534zM6.987 20.452H3.687V9h3.3v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.732v20.535C0 23.226.792 24 1.771 24h20.451C23.206 24 24 23.226 24 22.268V1.732C24 .774 23.206 0 22.225 0z"></path>
+						</svg>
+					</a>
+				</nav>
+			</div>
+		</div>
+	</footer>
+
+	<!-- WhatsApp modal -->
+	<div class="modal fade" id="whatsappModal" tabindex="-1" aria-labelledby="whatsappModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="whatsappModalLabel">WhatsApp</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+				</div>
+				<div class="modal-body">
+					<p class="mb-2">+34 689 57 18 25</p>
+					<div class="d-flex gap-2">
+						<button type="button" class="btn btn-outline-secondary" id="copyWhatsAppBtn" aria-label="Copiar número">Copiar</button>
+						<a href="https://wa.me/34689571825" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Abrir WhatsApp</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 </body>
 </html>
