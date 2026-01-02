@@ -494,6 +494,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	console.log('🚀 Grade 1 Demo: Vanilla scroll animations initialized');
 
+	// Services accordion behavior (only one service open at a time)
+	const serviceDetails = document.querySelectorAll('.service');
+	serviceDetails.forEach(detail => {
+		detail.addEventListener('toggle', () => {
+			if (detail.open) {
+				serviceDetails.forEach(other => {
+					if (other !== detail && other.open) {
+						other.removeAttribute('open');
+					}
+				});
+			}
+		});
+	});
+
 	// WhatsApp copy-to-clipboard handler (uses Clipboard API)
 	const copyBtn = document.getElementById('copyWhatsAppBtn');
 	if (copyBtn) {
