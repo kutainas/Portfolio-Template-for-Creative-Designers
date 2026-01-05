@@ -322,7 +322,7 @@ body { padding-top: var(--header-h); }
 .sobre-left {
 	background: #000;
 	color: #ffffff;
-	padding-block: clamp(2rem, 6vw, 4rem);
+	padding-block: 0;
 }
 
 .sobre-left .container {
@@ -330,6 +330,9 @@ body { padding-top: var(--header-h); }
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	padding-top: 0;
+	padding-bottom: 6rem;
+	overflow: visible;
 }
 
 .sobre-left .text-block p {
@@ -364,7 +367,7 @@ body { padding-top: var(--header-h); }
 	color: #fff;
 	text-decoration: none;
 	padding: 0;
-	margin-top: 1rem;
+	margin-top: -3rem;
 }
 
 .about-frame__cta-arrow{
@@ -651,6 +654,18 @@ body { padding-top: var(--header-h); }
   font-size: clamp(3rem, 6vw + 1.5rem, 6rem);
   margin: 0 0 1.5rem 0;
   color: #fff;
+}
+
+.sobre-title {
+  text-align: left;
+  font-family: 'Funnel Display', sans-serif;
+  text-transform: capitalize;
+  letter-spacing: -0.015em;
+  font-weight: 500;
+  font-size: clamp(3rem, 6vw + 1.5rem, 6rem);
+  margin: 0 0 1.5rem 0;
+  color: #fff;
+  margin-top: -2rem;
 }
 
 .services-intro{
@@ -1227,21 +1242,33 @@ body.page-proyectos html {
   flex: 0 0 auto;
   width: clamp(220px, 22vw, 360px);
   scroll-snap-align: center;
-  transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1), opacity 260ms ease;
-  transform-origin: center center;
+  transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 260ms ease;
+  transform-origin: bottom center;
   position: relative;
   overflow: visible;
   z-index: 1;
+  
+  /* NEW: Flexbox layout para evitar solapamiento */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
 }
 
-/* Dim neighboring tiles on track hover */
-.projects-catalog__track:hover .project-tile {
-  opacity: 0.6;
+/* Dim neighboring tiles on track hover - usando overlay en imagen */
+.projects-catalog__track:hover .project-tile:not(:hover):not(:focus-within) .project-tile__media::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  z-index: 2;
+  transition: opacity 260ms ease;
 }
 
-.projects-catalog__track:hover .project-tile:hover,
-.projects-catalog__track:hover .project-tile:focus-within {
-  opacity: 1;
+.projects-catalog__track:hover .project-tile:hover .project-tile__media::before,
+.projects-catalog__track:hover .project-tile:focus-within .project-tile__media::before {
+  opacity: 0;
 }
 
 /* Featured Behavior — Hover/Focus Scale */
@@ -1255,7 +1282,7 @@ body.page-proyectos html {
 .project-tile__media {
   display: block;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   border-radius: 2px;
 }
 
@@ -1264,6 +1291,8 @@ body.page-proyectos html {
   aspect-ratio: 3 / 2;
   object-fit: cover;
   display: block;
+  position: relative;
+  z-index: 1;
 }
 
 /* Focus Visible for Keyboard Navigation */
@@ -1272,11 +1301,8 @@ body.page-proyectos html {
   outline-offset: 6px;
 }
 
-/* BIG Project Name Above Image — Absolutely positioned to prevent clipping */
+/* BIG Project Name Above Image — Ahora en flujo normal */
 .project-tile__name {
-  position: absolute;
-  left: 0;
-  top: -2.8rem;
   width: 100%;
   font-family: 'Funnel Display', sans-serif;
   font-size: clamp(1.5rem, 2.5vw, 2.25rem);
@@ -1284,17 +1310,17 @@ body.page-proyectos html {
   letter-spacing: -0.015em;
   color: #fff;
   opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 200ms ease, transform 200ms ease;
+  transition: opacity 200ms ease;
   pointer-events: none;
   line-height: 1.1;
+  margin-bottom: 0.25rem;
+  order: -2; /* Aparece primero */
+  position: relative;
+  z-index: 10;
 }
 
-/* Small Title Below Name — Absolutely positioned */
+/* Small Title Below Name — Ahora en flujo normal */
 .project-tile__title {
-  position: absolute;
-  left: 0;
-  top: -1.2rem;
   width: 100%;
   font-family: 'Source Code Pro', monospace;
   font-size: 0.75rem;
@@ -1303,23 +1329,25 @@ body.page-proyectos html {
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.7);
   opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 180ms ease, transform 180ms ease;
+  transition: opacity 180ms ease;
   pointer-events: none;
+  margin-bottom: 0.5rem;
+  order: -1; /* Aparece segundo */
+  position: relative;
+  z-index: 10;
 }
 
-/* Meta Below Image — Absolutely positioned to prevent clipping */
+/* Meta Below Image — Ahora en flujo normal */
 .project-tile__meta {
-  position: absolute;
-  left: 0;
-  top: calc(100% + 0.75rem);
   width: 100%;
   font-family: 'Source Code Pro', monospace;
   color: #fff;
   opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 180ms ease, transform 180ms ease;
+  transition: opacity 180ms ease;
   pointer-events: none;
+  margin-top: 0.5rem;
+  position: relative;
+  z-index: 10;
 }
 
 .project-tile__desc {
@@ -1355,7 +1383,6 @@ body.page-proyectos html {
 .project-tile:focus-within .project-tile__title,
 .project-tile:focus-within .project-tile__meta {
   opacity: 1;
-  transform: translateY(0);
 }
 
 /* Mobile: Ensure horizontal scroll works smoothly */
@@ -1376,7 +1403,6 @@ body.page-proyectos html {
 
   .project-tile__name {
     font-size: clamp(1.25rem, 5vw, 1.75rem);
-    top: -2.2rem;
   }
 }
 
