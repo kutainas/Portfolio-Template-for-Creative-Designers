@@ -1232,8 +1232,8 @@ body.page-proyectos html {
   overflow-x: auto;
   overflow-y: visible;
   padding-inline: clamp(16px, 4vw, 56px);
-  padding-top: clamp(24px, 4vw, 56px);
-  padding-bottom: clamp(24px, 4vw, 56px);
+  padding-top: clamp(90px, 12vw, 150px);
+  padding-bottom: clamp(80px, 10vw, 140px);
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
@@ -1268,12 +1268,6 @@ body.page-proyectos html {
   position: relative;
   overflow: visible;
   z-index: 1;
-  
-  /* NEW: Flexbox layout para evitar solapamiento */
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.5rem;
 }
 
 /* Dim neighboring tiles on track hover - usando overlay en imagen */
@@ -1305,6 +1299,7 @@ body.page-proyectos html {
   position: relative;
   overflow: visible;
   border-radius: 2px;
+  margin-top: 3rem;
 }
 
 .project-tile__media img,
@@ -1324,7 +1319,7 @@ body.page-proyectos html {
   outline-offset: 6px;
 }
 
-/* BIG Project Name Above Image — Ahora en flujo normal */
+/* BIG Project Name Above Image — Positioned absolutely above the image */
 .project-tile__name {
   width: 100%;
   font-family: 'Funnel Display', sans-serif;
@@ -1336,13 +1331,14 @@ body.page-proyectos html {
   transition: opacity 200ms ease;
   pointer-events: none;
   line-height: 1.1;
-  margin-bottom: 0.25rem;
-  order: -2; /* Aparece primero */
-  position: relative;
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  margin-bottom: -2.6rem;
   z-index: 10;
 }
 
-/* Small Title Below Name — Ahora en flujo normal */
+/* Small Title Below Name — Positioned absolutely above the image, below the name */
 .project-tile__title {
   width: 100%;
   font-family: 'Source Code Pro', monospace;
@@ -1354,13 +1350,14 @@ body.page-proyectos html {
   opacity: 0;
   transition: opacity 180ms ease;
   pointer-events: none;
-  margin-bottom: 0.5rem;
-  order: -1; /* Aparece segundo */
-  position: relative;
-  z-index: 10;
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  margin-bottom: -0.3rem;
+  z-index: 9;
 }
 
-/* Meta Below Image — Ahora en flujo normal */
+/* Meta Below Image — Positioned absolutely below the image */
 .project-tile__meta {
   width: 100%;
   font-family: 'Source Code Pro', monospace;
@@ -1368,8 +1365,10 @@ body.page-proyectos html {
   opacity: 0;
   transition: opacity 180ms ease;
   pointer-events: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
   margin-top: 0.5rem;
-  position: relative;
   z-index: 10;
 }
 
