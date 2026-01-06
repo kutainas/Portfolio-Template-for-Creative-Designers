@@ -1,9 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<!-- CUSTOMIZABLE: Idioma del sitio -->
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CUSTOMIZABLE: Título y descripción -->
     <title>Contacto — kutainas</title>
+    <meta name="description" content="Contacta con kutainas para tu proyecto de diseño gráfico y audiovisual.">
+    
+    <!-- Preconnect for performance -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
@@ -18,35 +23,41 @@
     <script src="./assets/js/main.js" defer></script>
 </head>
 <body>
+	<!-- CUSTOMIZABLE: Header y navegación -->
 	<header class="site-header" role="banner">
 		<div class="container">
-			<nav class="hero-nav" aria-label="Primary">
-				<a href="index.html" class="nav-left nav-link"><span class="nav-text">INICIO</span></a>
-				<ul class="nav-right">
+			<nav class="hero-nav" aria-label="Navegación principal">
+				<a href="index.html" class="nav-left nav-link" aria-label="Ir a inicio">
+					<span class="nav-text">INICIO</span>
+				</a>
+				<ul class="nav-right" role="list">
 					<li><a href="servicios.html" class="nav-link"><span class="nav-text">SERVICIOS</span></a></li>
 					<li><a href="proyectos.html" class="nav-link"><span class="nav-text">PROYECTOS</span></a></li>
-					<li><a href="contacto.html" class="nav-link"><span class="nav-text">CONTACTO</span></a></li>
+					<li><a href="contacto.html" class="nav-link" aria-current="page"><span class="nav-text">CONTACTO</span></a></li>
 				</ul>
 				<span class="nav-underline" aria-hidden="true"></span>
 			</nav>
 		</div>
 	</header>
 
-	<!-- Hero negro full-width -->
-	<section class="contact-hero" data-nav-theme="dark">
+	<!-- CUSTOMIZABLE: Hero de contacto -->
+	<section class="contact-hero" data-nav-theme="dark" aria-labelledby="contact-title">
 		<div class="contact-hero__inner">
-			<h1 class="contact-title">CONTACTO</h1>
+			<!-- CUSTOMIZABLE: Títulos y texto introductorio -->
+			<h1 id="contact-title" class="contact-title">CONTACTO</h1>
 			<h2 class="contact-question">¿Hablamos 30 minutos?</h2>
 			<p class="contact-intro">Lo más fácil para ajustar el servicio a tu proyecto es una charla breve. Cuéntame en qué punto estás, qué necesitas y qué objetivos tienes; con eso te preparo una propuesta clara y a medida.</p>
 			<p class="contact-intro">Rellena el formulario y te respondo con los siguientes pasos.</p>
 		</div>
 	</section>
 
-	<main class="contact-page" data-nav-theme="light">
-		<!-- Formulario -->
-		<section class="contact-form-section">
+	<main class="contact-page" data-nav-theme="light" role="main">
+		<!-- CUSTOMIZABLE: Sección de formulario -->
+		<section class="contact-form-section" aria-labelledby="form-title">
+			<h2 id="form-title" class="visually-hidden">Formulario de contacto</h2>
 			<div class="contact-form-wrapper">
-				<form class="contact-form" action="#" method="post">
+				<!-- CUSTOMIZABLE: Campos del formulario -->
+				<form class="contact-form" action="#" method="post" aria-label="Formulario de contacto">
 					<div class="form-group">
 						<label for="nombre">NOMBRE *</label>
 						<input type="text" id="nombre" name="nombre" required>

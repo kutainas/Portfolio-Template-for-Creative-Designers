@@ -1,9 +1,12 @@
 <!doctype html>
+<!-- CUSTOMIZABLE: Idioma del sitio -->
 <html lang="es">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- CUSTOMIZABLE: Título y descripción -->
   <title>Servicios — kutainas</title>
+  <meta name="description" content="Servicios de diseño gráfico, branding, packaging, fotografía y video de kutainas.">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,13 +19,15 @@
 </head>
 
 <body>
-  <!-- HEADER (cópialo tal cual desde index.html para que sea idéntico) -->
+  <!-- CUSTOMIZABLE: Header y navegación -->
   <header class="site-header" role="banner">
     <div class="container">
-      <nav class="hero-nav" aria-label="Primary">
-        <a class="nav-left nav-link" href="index.html"><span class="nav-text">INICIO</span></a>
-        <ul class="nav-right">
-          <li><a class="nav-link" href="servicios.html"><span class="nav-text">SERVICIOS</span></a></li>
+      <nav class="hero-nav" aria-label="Navegación principal">
+        <a class="nav-left nav-link" href="index.html" aria-label="Ir a inicio">
+          <span class="nav-text">INICIO</span>
+        </a>
+        <ul class="nav-right" role="list">
+          <li><a class="nav-link" href="servicios.html" aria-current="page"><span class="nav-text">SERVICIOS</span></a></li>
           <li><a class="nav-link" href="proyectos.html"><span class="nav-text">PROYECTOS</span></a></li>
           <li><a class="nav-link" href="contacto.html"><span class="nav-text">CONTACTO</span></a></li>
         </ul>
@@ -31,20 +36,22 @@
     </div>
   </header>
 
-  <!-- Franja negra de encabezado -->
-  <section class="services-hero" data-nav-theme="dark">
+  <!-- CUSTOMIZABLE: Franja de encabezado -->
+  <section class="services-hero" data-nav-theme="dark" aria-labelledby="services-title">
     <div class="services-hero__inner">
-      <h1 class="services-title">SERVICIOS</h1>
+      <!-- CUSTOMIZABLE: Título y descripción -->
+      <h1 id="services-title" class="services-title">SERVICIOS</h1>
       <p class="services-intro">
         Cada servicio está pensado como parte de un proceso claro y flexible, adaptado a las necesidades de cada proyecto y al momento de cada marca.
       </p>
     </div>
   </section>
 
-  <main class="services-page" data-nav-theme="light">
-  <section class="services-list">
+  <main class="services-page" data-nav-theme="light" role="main">
+    <!-- CUSTOMIZABLE: Lista de servicios -->
+    <section class="services-list" aria-label="Lista de servicios disponibles">
 
-    <!-- Servicio 1 -->
+    <!-- CUSTOMIZABLE: Servicio 1 - Branding -->
     <details class="service">
       <summary class="service__summary">
         <span class="service__name">Branding</span>

@@ -1,96 +1,50 @@
 /**
  * ==========================================================================
- * GRADE 1: VANILLA JAVASCRIPT PORTFOLIO DEMO
- * Scroll animations using IntersectionObserver
- * No frameworks, no dependencies — just modern JavaScript!
+ * PORTFOLIO - VANILLA JAVASCRIPT
+ * Animaciones de scroll, navegación activa y comportamiento de UI
  * ==========================================================================
  *
- * 🎓 LEARNING OBJECTIVES:
- * - Understand the IntersectionObserver API for scroll-based triggers
- * - Learn why IntersectionObserver is better than scroll event listeners
- * - Implement accessible animations with prefers-reduced-motion
- * - Master the observer pattern for performant scroll detection
+ * CARACTERÍSTICAS:
+ * - Animaciones de scroll usando IntersectionObserver (mejor rendimiento)
+ * - Navegación con indicador visual animado
+ * - Cursor personalizado con smooth follow
+ * - Scroll suave accesible
+ * - Respeta preferencias de reduced motion
  *
- * 📚 WHAT IS INTERSECTIONOBSERVER?
- * IntersectionObserver is a browser API that efficiently detects when elements
- * enter or leave the viewport (or any ancestor element). It's the modern
- * replacement for scroll event listeners.
- *
- * ⚡ WHY NOT USE addEventListener('scroll', ...)?
- * - scroll events fire on EVERY PIXEL of scroll (60+ times per second!)
- * - This blocks the main thread and causes "jank" (stuttering)
- * - IntersectionObserver is optimized by the browser, runs asynchronously,
- *   and only fires when intersection state actually changes
- *
- * 🔗 MDN DOCS: https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
+ * CUSTOMIZABLE: Configuraciones marcadas con "// CUSTOMIZABLE:" pueden
+ * modificarse para ajustar comportamiento, duraciones y umbrales.
  */
 
 // ==========================================================================
-// 1. INTERSECTIONOBSERVER CONFIGURATION
+// CONFIGURATION
 // ==========================================================================
 
-/**
- * Observer options control WHEN the callback fires.
- *
- * 📐 UNDERSTANDING THE OPTIONS:
- *
- * root: The element to use as the viewport for checking visibility.
- *       - null = browser viewport (most common)
- *       - element = custom scroll container
- *
- * rootMargin: Expands or shrinks the root's bounding box.
- *       - Format: "top right bottom left" (like CSS margin)
- *       - Negative values shrink the detection area
- *       - "0px 0px -10% 0px" means: trigger when element is 10% INTO the viewport
- *         (not at the very edge, which feels more natural)
- *
- * threshold: What percentage of the element must be visible to trigger.
- *       - 0 = trigger as soon as 1 pixel is visible
- *       - 0.1 = trigger when 10% is visible
- *       - 1.0 = trigger only when 100% visible
- *       - [0, 0.5, 1] = trigger at multiple thresholds
- */
-
+// CUSTOMIZABLE: Opciones del IntersectionObserver
 const observerOptions = {
 	root: null,
-	rootMargin: '0px 0px -10% 0px',
-	threshold: 0.1,
+	rootMargin: '0px 0px -10% 0px', // Activa cuando elemento entra 10% en viewport
+	threshold: 0.1,                  // Trigger cuando 10% del elemento es visible
 };
 
+// ==========================================================================
+// SCROLL ANIMATIONS
+// ==========================================================================
+
 /**
- * CALLBACK: Single-element reveals
- *
- * This function is called by IntersectionObserver whenever an observed
- * element's intersection state changes.
- *
- * @param {IntersectionObserverEntry[]} entries - Array of intersection events
- * @param {IntersectionObserver} observer - The observer instance (for cleanup)
- *
- * 📐 WHAT'S IN AN ENTRY?
- * - entry.isIntersecting: boolean - is element currently visible?
- * - entry.intersectionRatio: number - how much is visible (0-1)
- * - entry.target: Element - the DOM element being observed
- * - entry.boundingClientRect: DOMRect - element's position/size
+ * Callback para revelar elementos individuales al hacer scroll
  */
 const revealOnScroll = (entries, observer) => {
 	entries.forEach((entry) => {
 		if (entry.isIntersecting) {
-			// Add class that triggers CSS transition (see style.css)
 			entry.target.classList.add('visible');
-
-			// 🎯 PERFORMANCE OPTIMIZATION: Stop observing after reveal
-			// Once an element is revealed, we don't need to watch it anymore.
-			// This reduces work for the observer and prevents re-triggering.
+			// Deja de observar después de revelar (optimización)
 			observer.unobserve(entry.target);
 		}
 	});
 };
 
 /**
- * CALLBACK: Staggered container reveals
- *
- * Same pattern, but adds 'revealed' class to containers.
- * CSS handles the staggered animation of children via transition-delay.
+ * Callback para revelar contenedores con animación escalonada
  */
 const revealStaggered = (entries, observer) => {
 	entries.forEach((entry) => {
@@ -98,88 +52,44 @@ const revealStaggered = (entries, observer) => {
 			entry.target.classList.add('revealed');
 			observer.unobserve(entry.target);
 		}
+		}
 	});
 };
 
-/**
- * CREATE OBSERVER INSTANCES
- *
- * We create two separate observers because they add different classes.
- * You could use one observer with logic to determine which class to add,
- * but separate observers are clearer and more maintainable.
- */
+// Crear instancias de observers
 const singleObserver = new IntersectionObserver(revealOnScroll, observerOptions);
 const staggerObserver = new IntersectionObserver(revealStaggered, observerOptions);
 
 // ==========================================================================
-// 2. INITIALIZE OBSERVERS
+// INITIALIZATION
 // ==========================================================================
 
 /**
- * Main initialization function for scroll animations.
- *
- * 🎓 KEY CONCEPT: PROGRESSIVE ENHANCEMENT
- * We check for reduced motion FIRST, before setting up any animations.
- * This ensures users who need reduced motion get a good experience immediately.
- *
- * 📐 THE FLOW:
- * 1. Check if user prefers reduced motion
- * 2. If yes → make everything visible immediately, skip animations
- * 3. If no → set up observers to trigger animations on scroll
+ * Inicializar animaciones de scroll
+ * Respeta preferencia de reduced motion del usuario
  */
 function initScrollAnimations() {
-	/**
-	 * CHECK FOR REDUCED MOTION PREFERENCE
-	 *
-	 * window.matchMedia() is like CSS media queries, but in JavaScript!
-	 * It returns a MediaQueryList object with a .matches boolean property.
-	 *
-	 * This respects the user's OS-level accessibility settings:
-	 * - macOS: System Preferences → Accessibility → Display → Reduce motion
-	 * - Windows: Settings → Ease of Access → Display → Show animations
-	 * - iOS: Settings → Accessibility → Motion → Reduce Motion
-	 *
-	 * ⚠️ IMPORTANT: Always check this BEFORE initializing animations!
-	 */
+	// Verificar si el usuario prefiere animaciones reducidas
 	const prefersReducedMotion = window.matchMedia(
 		'(prefers-reduced-motion: reduce)'
 	).matches;
 
 	if (prefersReducedMotion) {
-		/**
-		 * GRACEFUL DEGRADATION FOR REDUCED MOTION
-		 *
-		 * Instead of animations, we immediately show all content.
-		 * Users get the same information, just without the motion.
-		 *
-		 * This is NOT about removing features — it's about providing
-		 * an equivalent experience for users who need it.
-		 */
+		// Mostrar todo inmediatamente sin animaciones
 		document.querySelectorAll('.animate-on-scroll').forEach((el) => {
 			el.classList.add('visible');
 		});
 		document.querySelectorAll('[data-reveal-stagger]').forEach((el) => {
 			el.classList.add('revealed');
 		});
-		return; // Exit early — no observers needed
+		return;
 	}
 
-	/**
-	 * OBSERVE ELEMENTS FOR SCROLL-TRIGGERED ANIMATIONS
-	 *
-	 * querySelectorAll returns a NodeList (array-like).
-	 * forEach loops through each element and tells the observer to watch it.
-	 *
-	 * Once observed, the callback (revealOnScroll) will fire when the
-	 * element enters the viewport according to our observerOptions.
-	 */
-
-	// Single element reveals (e.g., headings, paragraphs)
+	// Observar elementos para animaciones
 	document.querySelectorAll('.animate-on-scroll').forEach((el) => {
 		singleObserver.observe(el);
 	});
 
-	// Staggered container reveals (e.g., skill grids, project cards)
 	document.querySelectorAll('[data-reveal-stagger]').forEach((el) => {
 		staggerObserver.observe(el);
 	});

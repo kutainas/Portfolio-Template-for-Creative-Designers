@@ -1,13 +1,20 @@
-/* --------------------------------------------------------------------------
-   3. Layout Components
-   -------------------------------------------------------------------------- */
+/* ==========================================================================
+   LAYOUT COMPONENTS
+   Grid, containers, sections, and page structure
+   ========================================================================== */
+
+/* CUSTOMIZABLE: Contenedor principal */
 .container {
 	width: min(90%, 1200px);
 	margin-inline: auto;
 }
 
-.section { padding: var(--space-2xl) 0; }
+/* CUSTOMIZABLE: Espaciado de secciones */
+.section { 
+	padding: var(--space-2xl) 0; 
+}
 
+/* CUSTOMIZABLE: Estilos de títulos de sección */
 .section-title {
 	font-size: var(--text-3xl);
 	font-weight: 700;
@@ -42,29 +49,34 @@
 	overflow: hidden;	
 }
 
-/* Scroll indicator link (used in hero section) */
+/* CUSTOMIZABLE: Indicador de scroll */
 .scroll-indicator__link {
 	font-size: clamp(0.95rem, 1.6vw, 1.5rem);
 	font-weight: 700;
-	color: #000000;
+	color: var(--color-black);
 	text-decoration: none;
 	padding: 0;
 	background: none;
 	border-radius: 0;
 	box-shadow: none;
-	transition: color 0.12s ease;
+	transition: color var(--duration-fast) ease;
 }
 .scroll-indicator__link:hover,
 .scroll-indicator__link:focus {
-	color: #000000;
+	color: var(--color-black);
 	text-decoration: none;
 }
 
 /* Editorial hero blocks */
-:root { --header-h: 72px; }
+/* Variables ya definidas en theme.css */
 
-html, body { background: #f2f2f0; }
-body { padding-top: var(--header-h); }
+html, body { 
+	background: var(--color-bg-secondary); 
+}
+
+body { 
+	padding-top: var(--header-height); 
+}
 
 /* Neutralize centered container constraints INSIDE hero only */
 .hero .container,
@@ -75,8 +87,9 @@ body { padding-top: var(--header-h); }
 	padding-inline: 0;
 }
 
+/* CUSTOMIZABLE: Sección superior del hero */
 .hero-top {
-	background: #f2f2f0;
+	background: var(--color-bg-secondary);
 	height: clamp(76vh, 80vh, 86vh);
 	display: flex;
 	flex-direction: column;
@@ -88,8 +101,9 @@ body { padding-top: var(--header-h); }
 	padding-top: 0;
 }
 
+/* CUSTOMIZABLE: Sección inferior del hero */
 .hero-bottom {
-	background: #000;
+	background: var(--color-bg-dark);
 	height: 45vh;
 	width: 100%;
 }
@@ -111,7 +125,7 @@ body { padding-top: var(--header-h); }
 	padding-right: 0;
 }
 
-/* Wordmark */
+/* CUSTOMIZABLE: Logo/wordmark principal */
 .hero-logo {
 	display: inline-flex;
 	align-items: baseline;
@@ -119,9 +133,9 @@ body { padding-top: var(--header-h); }
 	white-space: nowrap;
 	word-break: keep-all;
 	overflow-wrap: normal;
-	font-family: 'Funnel Display', sans-serif;
-	font-size: clamp(4.8rem, 16vw, 13.6rem);
-	color: #000;
+	font-family: var(--font-display);
+	font-size: var(--text-hero);
+	color: var(--color-black);
 	margin: 0;
 	line-height: 0.9;
 	letter-spacing: -0.015em;
@@ -198,7 +212,7 @@ body { padding-top: var(--header-h); }
 
 .hero-nav .nav-left,
 .hero-nav .nav-right .nav-link {
-	font-family: 'Source Code Pro', monospace;
+	font-family: var(--font-mono);
 	text-transform: uppercase;
 	font-weight: 400;
 	font-size: clamp(0.95rem, 1.1vw, 1rem);
@@ -235,26 +249,26 @@ body { padding-top: var(--header-h); }
 	min-width: max-content;
 }
 
-.site-header.nav-on-light { color: #000; }
-.site-header.nav-on-dark { color: #fff; }
+.site-header.nav-on-light { color: var(--color-black); }
+.site-header.nav-on-dark { color: var(--color-white); }
 .site-header .nav-link { 
 	color: currentColor;
 	position: relative;
 }
 .site-header .nav-link:hover { opacity: 0.85; }
 
-.site-header.nav-on-dark .nav-underline { background: #fff; }
-.site-header.nav-on-light .nav-underline { background: #000; }
+.site-header.nav-on-dark .nav-underline { background: var(--color-white); }
+.site-header.nav-on-light .nav-underline { background: var(--color-black); }
 
 .nav-underline {
 	position: absolute;
 	left: 0;
 	bottom: 12px;
 	height: 1px;
-	background: #000;
+	background: var(--color-black);
 	width: 0;
 	transform: translateX(0) translateZ(0);
-	transition: transform 220ms cubic-bezier(0.22,1,0.36,1), width 220ms cubic-bezier(0.22,1,0.36,1);
+	transition: transform 220ms var(--ease-out), width 220ms var(--ease-out);
 	will-change: transform;
 	pointer-events: none;
 	backface-visibility: hidden;
@@ -319,9 +333,10 @@ body { padding-top: var(--header-h); }
 .sobre-mi { width: 100%; }
 .sobre-mi .row { min-height: 60vh; }
 
+/* CUSTOMIZABLE: Panel editorial izquierdo */
 .sobre-left {
-	background: #000;
-	color: #ffffff;
+	background: var(--color-bg-dark);
+	color: var(--color-white);
 	padding-block: 0;
 }
 
@@ -335,10 +350,11 @@ body { padding-top: var(--header-h); }
 	overflow: visible;
 }
 
+/* CUSTOMIZABLE: Texto de presentación */
 .sobre-left .text-block p {
-	font-family: 'Source Code Pro', monospace;
-	color: #fff;
-	line-height: 1.6;
+	font-family: var(--font-mono);
+	color: var(--color-white);
+	line-height: var(--leading-relaxed);
 	margin-bottom: 1rem;
 	font-size: clamp(1.05rem, 1.2vw, 1.2rem);
 }
