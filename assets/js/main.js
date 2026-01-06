@@ -529,7 +529,7 @@ document.addEventListener('DOMContentLoaded', () => {
  * For traditional multi-page sites, this isn't needed (page reload cleans up).
  */
 window.cleanupScrollObservers = () => {
-	singleObserver.disconnect();  // Stop observing all elements
+	singleObserver.disconnect();
 	staggerObserver.disconnect();
 	console.log('🧹 Observers cleaned up');
 };
