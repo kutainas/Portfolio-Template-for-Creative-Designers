@@ -52,7 +52,6 @@ const revealStaggered = (entries, observer) => {
 			entry.target.classList.add('revealed');
 			observer.unobserve(entry.target);
 		}
-		}
 	});
 };
 

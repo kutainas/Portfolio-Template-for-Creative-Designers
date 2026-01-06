@@ -1,14 +1,21 @@
-/* --------------------------------------------------------------------------
-   6. Button
-   -------------------------------------------------------------------------- */
+/* ==========================================================================
+   UI COMPONENTS
+   Botones, tarjetas, grids y otros componentes reutilizables
+   ========================================================================== */
+
+/* CUSTOMIZABLE: Estilos de botones */
 .btn {
 	display: inline-block;
 	padding: var(--space-sm) var(--space-lg);
 	background: var(--color-accent);
-	color: white;
+	color: var(--color-white);
 	font-weight: 600;
 	border-radius: 8px;
-	transition: background 0.3s, transform 0.3s;
+	transition: background var(--duration-normal) ease, 
+	            transform var(--duration-normal) ease;
+	border: none;
+	cursor: pointer;
+	font-family: inherit;
 }
 
 .btn:hover,
@@ -17,9 +24,10 @@
 	transform: translateY(-2px);
 }
 
-/* --------------------------------------------------------------------------
-   7. About Section
-   -------------------------------------------------------------------------- */
+/* ==========================================================================
+   ABOUT SECTION
+   ========================================================================== */
+
 .about {
 	background: var(--color-bg-alt);
 }
@@ -41,9 +49,11 @@
 	color: var(--color-text-muted);
 }
 
-/* --------------------------------------------------------------------------
-   8. Projects Section
-   -------------------------------------------------------------------------- */
+/* ==========================================================================
+   PROJECT GRID & CARDS
+   ========================================================================== */
+
+/* CUSTOMIZABLE: Grid de proyectos */
 .projects-grid {
 	display: grid;
 	gap: var(--space-lg);
@@ -61,16 +71,19 @@
 	}
 }
 
+/* CUSTOMIZABLE: Tarjetas de proyecto */
 .project-card {
 	background: var(--color-bg-alt);
 	border-radius: 16px;
 	overflow: hidden;
-	transition: transform 0.3s, box-shadow 0.3s;
+	transition: transform var(--duration-normal) ease, 
+	            box-shadow var(--duration-normal) ease;
 }
 
-.project-card:hover {
+.project-card:hover,
+.project-card:focus-within {
 	transform: translateY(-8px);
-	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+	box-shadow: var(--shadow-lg);
 }
 
 .project-image {
@@ -82,10 +95,11 @@
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
-	transition: transform 0.5s;
+	transition: transform var(--duration-slow) ease;
 }
 
-.project-card:hover .project-image img {
+.project-card:hover .project-image img,
+.project-card:focus-within .project-image img {
 	transform: scale(1.05);
 }
 

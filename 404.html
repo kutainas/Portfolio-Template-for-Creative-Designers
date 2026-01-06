@@ -1,32 +1,46 @@
 <!DOCTYPE html>
+<!-- CUSTOMIZABLE: Idioma del sitio -->
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CUSTOMIZABLE: Título de la página 404 -->
     <title>404 - Página no encontrada | kutainas®</title>
+    <meta name="description" content="Página no encontrada. Regresa al inicio del portfolio de kutainas.">
+    
+	<!-- Preconnect for performance -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	
+	<!-- Fuentes -->
 	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="./assets/css/index.css">
+    
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
     <script src="./assets/js/main.js" defer></script>
 </head>
 
 <body class="page-404">
-	<!-- Skip link for accessibility -->
-	<a href="#main" class="skip-link">Skip to main content</a>
+	<!-- Skip link para accesibilidad -->
+	<a href="#main" class="skip-link">Saltar al contenido principal</a>
 
+	<!-- Header y navegación -->
 	<header class="site-header" role="banner">
 		<div class="container">
-			<nav class="hero-nav" aria-label="Primary">
-				<a href="index.html" class="nav-left nav-link"><span class="nav-text">INICIO</span></a>
-				<ul class="nav-right">
+			<nav class="hero-nav" aria-label="Navegación principal">
+				<a href="index.html" class="nav-left nav-link" aria-label="Ir a inicio">
+					<span class="nav-text">INICIO</span>
+				</a>
+				<ul class="nav-right" role="list">
 					<li><a class="nav-link" href="servicios.html"><span class="nav-text">SERVICIOS</span></a></li>
 					<li><a href="proyectos.html" class="nav-link"><span class="nav-text">PROYECTOS</span></a></li>
 					<li><a href="contacto.html" class="nav-link"><span class="nav-text">CONTACTO</span></a></li>
@@ -36,17 +50,18 @@
 		</div>
 	</header>
 
-	<main id="main">
-		<!-- 404 Section -->
-		<section class="error-404" data-nav-theme="light">
+	<main id="main" role="main">
+		<!-- CUSTOMIZABLE: Contenido de error 404 -->
+		<section class="error-404" data-nav-theme="light" aria-labelledby="error-title">
 			<div class="error-404__inner">
 				<div class="error-404__code" aria-hidden="true">404</div>
-				<h1 class="error-404__title">PÁGINA NO ENCONTRADA</h1>
+				<h1 id="error-title" class="error-404__title">PÁGINA NO ENCONTRADA</h1>
+				<!-- CUSTOMIZABLE: Texto del mensaje de error -->
 				<p class="error-404__text">
-				Parece que te has perdido.
-			</p>
-			<p class="error-404__text">
-				Esta página no existe o ha sido movida.
+					Parece que te has perdido.
+				</p>
+				<p class="error-404__text">
+					Esta página no existe o ha sido movida.
 				</p>
 				<a href="index.html" class="error-404__cta" aria-label="Volver al inicio">
 					<span class="error-404__cta-arrow" aria-hidden="true">←</span>
