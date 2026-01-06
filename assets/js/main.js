@@ -1,51 +1,17 @@
-/**
- * ==========================================================================
- * PORTFOLIO - VANILLA JAVASCRIPT
- * Animaciones de scroll, navegación activa y comportamiento de UI
- * ==========================================================================
- *
- * CARACTERÍSTICAS:
- * - Animaciones de scroll usando IntersectionObserver (mejor rendimiento)
- * - Navegación con indicador visual animado
- * - Cursor personalizado con smooth follow
- * - Scroll suave accesible
- * - Respeta preferencias de reduced motion
- *
- * CUSTOMIZABLE: Configuraciones marcadas con "// CUSTOMIZABLE:" pueden
- * modificarse para ajustar comportamiento, duraciones y umbrales.
- */
-
-// ==========================================================================
-// CONFIGURATION
-// ==========================================================================
-
-// CUSTOMIZABLE: Opciones del IntersectionObserver
 const observerOptions = {
 	root: null,
-	rootMargin: '0px 0px -10% 0px', // Activa cuando elemento entra 10% en viewport
-	threshold: 0.1,                  // Trigger cuando 10% del elemento es visible
+	rootMargin: '0px 0px -10% 0px',
+	threshold: 0.1,
 };
-
-// ==========================================================================
-// SCROLL ANIMATIONS
-// ==========================================================================
-
-/**
- * Callback para revelar elementos individuales al hacer scroll
- */
 const revealOnScroll = (entries, observer) => {
 	entries.forEach((entry) => {
 		if (entry.isIntersecting) {
 			entry.target.classList.add('visible');
-			// Deja de observar después de revelar (optimización)
 			observer.unobserve(entry.target);
 		}
 	});
 };
 
-/**
- * Callback para revelar contenedores con animación escalonada
- */
 const revealStaggered = (entries, observer) => {
 	entries.forEach((entry) => {
 		if (entry.isIntersecting) {
@@ -55,26 +21,15 @@ const revealStaggered = (entries, observer) => {
 	});
 };
 
-// Crear instancias de observers
 const singleObserver = new IntersectionObserver(revealOnScroll, observerOptions);
 const staggerObserver = new IntersectionObserver(revealStaggered, observerOptions);
 
-// ==========================================================================
-// INITIALIZATION
-// ==========================================================================
-
-/**
- * Inicializar animaciones de scroll
- * Respeta preferencia de reduced motion del usuario
- */
 function initScrollAnimations() {
-	// Verificar si el usuario prefiere animaciones reducidas
 	const prefersReducedMotion = window.matchMedia(
 		'(prefers-reduced-motion: reduce)'
 	).matches;
 
 	if (prefersReducedMotion) {
-		// Mostrar todo inmediatamente sin animaciones
 		document.querySelectorAll('.animate-on-scroll').forEach((el) => {
 			el.classList.add('visible');
 		});
@@ -84,7 +39,6 @@ function initScrollAnimations() {
 		return;
 	}
 
-	// Observar elementos para animaciones
 	document.querySelectorAll('.animate-on-scroll').forEach((el) => {
 		singleObserver.observe(el);
 	});
@@ -94,58 +48,25 @@ function initScrollAnimations() {
 	});
 }
 
-// ==========================================================================
-// 3. SMOOTH SCROLL FOR ANCHOR LINKS
-// ==========================================================================
-
-/**
- * Enhanced smooth scrolling for in-page navigation.
- *
- * 🎓 WHY NOT JUST USE CSS scroll-behavior: smooth?
- * CSS smooth scrolling works great, but it has limitations:
- * 1. Can't account for fixed header height
- * 2. Can't update URL without page jump
- * 3. Less control over timing/easing
- *
- * This JavaScript approach gives us full control while still being simple.
- *
- * 📐 THE PATTERN:
- * 1. Find all links starting with "#" (anchor links)
- * 2. On click, prevent default jump behavior
- * 3. Calculate target position accounting for fixed nav height
- * 4. Smoothly scroll to that position
- * 5. Update URL for bookmarking/sharing
- */
 function updateHeaderHeight(){
 	const header = document.querySelector('.site-header');
 	const h = header ? header.offsetHeight : 0;
-	// Update CSS var so CSS-based offsets (body padding) remain correct
 	document.documentElement.style.setProperty('--header-h', `${h}px`);
-	// Trigger a resize so other components (observers, underline) recalculate
 	window.dispatchEvent(new Event('resize'));
 	return h;
 }
 
 function initSmoothScroll() {
-	// Select all anchor links (href starts with "#")
 	document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
 		anchor.addEventListener('click', (e) => {
 			const targetId = anchor.getAttribute('href');
 
-			// Ignore links that are just "#" (often used for JavaScript triggers)
 			if (targetId === '#') return;
 
 			const target = document.querySelector(targetId);
 			if (target) {
-				// Prevent the default "jump to anchor" behavior
 				e.preventDefault();
 
-				/**
-				 * CALCULATE SCROLL POSITION
-				 *
-				 * We need to account for the fixed site header height, otherwise
-				 * the target would be hidden behind it.
-				 */
 				const headerH = document.querySelector('.site-header')?.offsetHeight || 0;
 				const targetPosition = target.getBoundingClientRect().top + window.scrollY - headerH;
 
@@ -160,31 +81,10 @@ function initSmoothScroll() {
 	});
 }
 
-// ==========================================================================
-// 4. ACTIVE NAVIGATION STATE
-// ==========================================================================
-
-/**
- * Highlight the nav link corresponding to the currently visible section.
- *
- * 🎓 UX PRINCIPLE: LOCATION AWARENESS
- * Users should always know where they are in the page. Highlighting the
- * active nav link provides this feedback without requiring user action.
- *
- * 📐 THE APPROACH:
- * We use IntersectionObserver again! But with different rootMargin settings
- * that define a "detection zone" in the middle of the viewport.
- *
- * rootMargin: '-50% 0px -50% 0px' means:
- * - Shrink the detection area by 50% from top AND bottom
- * - This creates a narrow band in the middle of the viewport
- * - Only the section crossing this band is considered "active"
- */
 function initActiveNav() {
 	const navContainer = document.querySelector('.hero-nav');
 	if (!navContainer) return;
 
-	// Also initialize the theme observer that toggles header light/dark classes
 	function initNavThemeObserver(){
 		const header = document.querySelector('.site-header');
 		if (!header) return;
@@ -202,7 +102,6 @@ function initActiveNav() {
 				});
 			}, {
 				root: null,
-				// Narrow detection band at the top of viewport (just under header)
 				rootMargin: `-${headerH + 4}px 0px -${window.innerHeight - headerH - 4}px 0px`,
 				threshold: 0,
 			});
@@ -211,7 +110,6 @@ function initActiveNav() {
 		let themeObserver = createThemeObserver();
 		themed.forEach((el) => themeObserver.observe(el));
 
-		// Initial theme heuristic (element at header position)
 		(function setInitial(){
 			const headerH = header.offsetHeight || 0;
 			const el = document.elementFromPoint(10, headerH + 2);
@@ -221,7 +119,6 @@ function initActiveNav() {
 			header.classList.add(`nav-on-${theme}`);
 		})();
 
-		// Recreate observer on resize
 		let tResize = null;
 		window.addEventListener('resize', () => {
 			clearTimeout(tResize);
@@ -241,7 +138,6 @@ function initActiveNav() {
 
 	const sections = document.querySelectorAll('#inicio, #servicios, #proyectos, #contacto');
 
-	// Shared function to move underline under any link
 	function setActiveLink(link) {
 		links.forEach((l) => l.classList.remove('is-active'));
 		if (!link) return;
@@ -249,40 +145,31 @@ function initActiveNav() {
 
 		if (!underline) return;
 
-		// Measure text and container and compute left relative to container
 		const containerRect = navContainer.getBoundingClientRect();
 		const textEl = link.querySelector('.nav-text') || link;
 		const textRect = textEl.getBoundingClientRect();
 		const offset = Math.round(textRect.left - containerRect.left + navContainer.scrollLeft);
 		const width = Math.round(textRect.width);
 
-		// Apply measured width & transform. Using translateX keeps layout stable.
 		underline.style.width = `${width}px`;
 		underline.style.transform = `translateX(${offset}px)`;
 
-		// If user prefers reduced motion, jump instantly (no transition)
 		if (prefersReducedMotion) {
 			underline.style.transition = 'none';
-			// Force a reflow to ensure the style takes effect then remove none so
-			// future interactions (if motion allowed) will animate.
 			underline.getBoundingClientRect();
 			underline.style.transition = '';
 		}
 	}
 
-	// Page-based active state: detect current page and set active link
 	function setActiveNavByPage() {
 		const pathname = location.pathname;
 		const currentPage = pathname.split('/').pop() || 'index.html';
 		
-		// Normalize empty string to index.html
 		const normalizedPage = currentPage === '' ? 'index.html' : currentPage;
 		
-		// Find the link that matches current page
 		let matchedLink = null;
 		links.forEach((link) => {
 			const href = link.getAttribute('href') || '';
-			// Match if href ends with the current page name (ignore query/hash)
 			const hrefPage = href.split('?')[0].split('#')[0].split('/').pop();
 			if (hrefPage === normalizedPage || 
 			    (normalizedPage === 'index.html' && href.startsWith('#'))) {
@@ -295,20 +182,13 @@ function initActiveNav() {
 		}
 	}
 
-	// Check if we're on index.html and have sections to observe
 	const isIndexPage = location.pathname.endsWith('index.html') || 
 	                     location.pathname === '/' || 
 	                     location.pathname.endsWith('/');
 	const hasSections = sections.length > 0;
 
 	if (isIndexPage && hasSections) {
-		// INDEX PAGE: Use scroll-based IntersectionObserver
-		// compute nav height and use it when building the observer rootMargin so
-		// intersections account for the sticky header height (prevents sections
-		// being hidden under the header)
 		function createObserver() {
-			// Use the fixed site header height when computing rootMargin so the
-			// 'active' detection accounts for the header covering part of the viewport.
 			const headerH = document.querySelector('.site-header')?.offsetHeight || navContainer.offsetHeight || 0;
 			const options = {
 				root: null,
@@ -330,30 +210,24 @@ function initActiveNav() {
 		let navObserver = createObserver();
 		sections.forEach((section) => navObserver.observe(section));
 
-		// Position the underline under INICIO by default
 		const startLink = navContainer.querySelector('.nav-link[href="#inicio"]') || links[0];
 		setActiveLink(startLink);
 
-		// Recalculate observer and underline on resize (debounced)
 		let resizeTimer = null;
 		window.addEventListener('resize', () => {
 			clearTimeout(resizeTimer);
 			resizeTimer = setTimeout(() => {
-				// Recreate observer to use updated navHeight
 				navObserver.disconnect();
 				navObserver = createObserver();
 				sections.forEach((section) => navObserver.observe(section));
 
-				// Reposition underline for the active link
 				const active = navContainer.querySelector('.nav-link.is-active') || startLink;
 				setActiveLink(active);
 			}, 120);
 		});
 	} else {
-		// OTHER PAGES: Use page-based active state
 		setActiveNavByPage();
 
-		// Recalculate underline position on resize
 		let resizeTimer = null;
 		window.addEventListener('resize', () => {
 			clearTimeout(resizeTimer);
@@ -364,38 +238,19 @@ function initActiveNav() {
 		});
 	}
 
-	// Clicking a nav link should move the underline immediately
 	links.forEach((link) => {
 		link.addEventListener('click', () => setActiveLink(link));
 	});
 }
 
-// ==========================================================================
-// 5. INITIALIZATION
-// ==========================================================================
-
-/**
- * DOMContentLoaded: The safe time to run DOM-manipulating JavaScript.
- *
- * 🎓 WHY DOMContentLoaded?
- * - Fires when HTML is fully parsed (DOM is ready)
- * - Doesn't wait for images/stylesheets to load (that's 'load' event)
- * - Safe to query and manipulate DOM elements
- *
- * If your script is in <head> without 'defer', this is essential.
- * If your script is at end of <body> or has 'defer', it's optional but good practice.
- */
 document.addEventListener('DOMContentLoaded', () => {
-	// Ensure CSS variable for header height is accurate before other init
 	updateHeaderHeight();
 	initScrollAnimations();
 	initSmoothScroll();
 	initActiveNav();
 
-	// Recompute header height after fonts/layout settle
 	setTimeout(updateHeaderHeight, 250);
 
-	// Keep header height accurate on resize (debounced)
 	let headerResizeTimer;
 	window.addEventListener('resize', () => {
 		clearTimeout(headerResizeTimer);
@@ -404,7 +259,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	console.log('🚀 Grade 1 Demo: Vanilla scroll animations initialized');
 
-	// Services accordion behavior (only one service open at a time)
 	const serviceDetails = document.querySelectorAll('.service');
 	serviceDetails.forEach(detail => {
 		detail.addEventListener('toggle', () => {
@@ -418,7 +272,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	});
 
-	// WhatsApp copy-to-clipboard handler (uses Clipboard API)
 	const copyBtn = document.getElementById('copyWhatsAppBtn');
 	if (copyBtn) {
 		copyBtn.addEventListener('click', async () => {
@@ -451,7 +304,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	const LERP_POS = 0.14;
 	const LERP_SCALE = Math.min(0.22, LERP_POS + 0.06);
 
-	// State
 	let targetX = -9999, targetY = -9999;
 	let currentX = -9999, currentY = -9999;
 	let targetScale = 1, currentScale = 1;
@@ -509,25 +361,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	};
 })();
 
-// ==========================================================================
-// 6. CLEANUP (FOR SPA ENVIRONMENTS)
-// ==========================================================================
-
-/**
- * Cleanup function for Single Page Application (SPA) routing.
- *
- * 🎓 WHY IS CLEANUP IMPORTANT?
- * In SPAs (React, Vue, etc.), pages don't fully reload when navigating.
- * If you don't disconnect observers, they keep watching elements that
- * may have been removed, causing memory leaks and bugs.
- *
- * 📐 WHEN TO CALL THIS:
- * - Before navigating away from this page in an SPA
- * - In React: useEffect cleanup function
- * - In Vue: onUnmounted lifecycle hook
- *
- * For traditional multi-page sites, this isn't needed (page reload cleans up).
- */
 window.cleanupScrollObservers = () => {
 	singleObserver.disconnect();
 	staggerObserver.disconnect();
