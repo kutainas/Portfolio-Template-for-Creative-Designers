@@ -1286,7 +1286,9 @@ body.page-proyectos html {
   border-radius: 2px;
 }
 
-.project-tile__media img {
+.project-tile__media img,
+.project-tile__media video,
+.project-tile__media canvas {
   width: 100%;
   aspect-ratio: 3 / 2;
   object-fit: cover;
@@ -1418,6 +1420,162 @@ body.page-proyectos html {
   .project-tile:hover,
   .project-tile:focus-within {
     transform: none;
+  }
+}
+
+/* ==========================================================================
+   MEDIA LIGHTBOX MODAL
+   ========================================================================== */
+
+.lightbox-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+
+.lightbox-modal.is-open {
+  display: flex;
+  opacity: 1;
+}
+
+.lightbox-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.95);
+  cursor: pointer;
+}
+
+.lightbox-content {
+  position: relative;
+  z-index: 10000;
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: -3rem;
+  left: 0;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  transition: opacity 200ms ease;
+  z-index: 10001;
+}
+
+.lightbox-close:hover,
+.lightbox-close:focus {
+  opacity: 0.7;
+}
+
+.lightbox-close:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+}
+
+.lightbox-media-container {
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* For single images/videos */
+.lightbox-media-container img,
+.lightbox-media-container video {
+  max-width: 100%;
+  max-height: 90vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.lightbox-media-container video {
+  max-width: 90vw;
+}
+
+/* PDF Scroll Container */
+.pdf-scroll-container {
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+  background: #000;
+  border-radius: 0;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+}
+
+.pdf-scroll-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.pdf-scroll-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.pdf-scroll-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+.pdf-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.pdf-page-wrapper {
+  display: block;
+  width: 100%;
+}
+
+.pdf-page-wrapper canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #fff;
+}
+
+/* PDF Controls - Hidden by default, shown only for scroll indicator */
+.pdf-controls {
+  display: none;
+}
+
+/* PDF Preview - uses static image */
+.project-tile__media[data-type="pdf"] {
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .lightbox-content {
+    max-width: 95vw;
+    max-height: 85vh;
+  }
+  
+  .lightbox-close {
+    top: -2.5rem;
+    font-size: 1.5rem;
+  }
+
+  .pdf-scroll-container {
+    max-width: 95vw;
+    max-height: 85vh;
   }
 }
 

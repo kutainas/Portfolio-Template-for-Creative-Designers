@@ -2,11 +2,11 @@
  * ─────────────────────────────────────────────
  *  CSS Barrel Index
  * ─────────────────────────────────────────────
+ *  ✅ CUSTOMIZABLE: Order matters - don't change unless you know CSS specificity
 */
 
-@import url("reset.css");
-@import url("theme.css");
-@import url("base.css");
-@import url("navegation.css");
-@import url("layout.css");
-@import url("components.css");
+@import url("theme.css");      /* Color palette & design tokens */
+@import url("base.css");       /* Base typography & general styles */
+@import url("navegation.css"); /* Navigation & header styles */
+@import url("layout.css");     /* Page layouts & sections */
+@import url("components.css"); /* Reusable components */

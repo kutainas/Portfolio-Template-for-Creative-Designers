@@ -120,9 +120,9 @@
 ```
 
 ### Ajustes específicos:
-- Hero padding: reducir en mobile para mejor aprovechamiento vertical
-- Cards: en mobile, stacking natural; considerar imagen más pequeña o aspect-ratio ajustado
-- Overlay: en mobile, puede estar siempre visible o activarse con tap (CSS `hover` funciona en touch)
+- Hero padding: reducir en móvil para mejor aprovechamiento vertical
+- Cards: en móvil, stacking natural; considerar imagen más pequeña o aspect-ratio ajustado
+- Overlay: en móvil, puede estar siempre visible o activarse con tap (CSS `hover` funciona en touch)
 
 ---
 
@@ -245,16 +245,3 @@ El JavaScript existente (`main.js`) ya gestiona el estado activo:
   - Contraste y legibilidad
   - Nav activo en "PROYECTOS"
   - Sin regresiones en otras páginas
-
----
-
-## 9. Resultado Esperado
-
-✅ Página de proyectos visualmente coherente con Servicios y Contacto  
-✅ Grid limpio de 6 proyectos con imágenes placeholder  
-✅ Hover/focus reveal suave y accesible  
-✅ Totalmente responsive (3/2/1 columnas)  
-✅ Sin JavaScript adicional (CSS-only interactions)  
-✅ Navegación activa funcional  
-✅ Respeta `prefers-reduced-motion`  
-✅ Semántica HTML correcta y accesible

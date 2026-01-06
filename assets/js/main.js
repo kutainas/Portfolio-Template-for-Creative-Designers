@@ -50,10 +50,11 @@
  *       - 1.0 = trigger only when 100% visible
  *       - [0, 0.5, 1] = trigger at multiple thresholds
  */
+
 const observerOptions = {
-	root: null,                        // Use the browser viewport
-	rootMargin: '0px 0px -10% 0px',    // Trigger 10% before fully visible
-	threshold: 0.1,                     // Need 10% visibility to trigger
+	root: null,
+	rootMargin: '0px 0px -10% 0px',
+	threshold: 0.1,
 };
 
 /**
@@ -530,23 +531,15 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 });
 
-// -------------------------------------------------------------------------
-// CURSOR FOLLOWER
-// -------------------------------------------------------------------------
-// Implements a small red circular element that follows the user's cursor
-// with a slight delay. Uses e.clientX and e.clientY as requested. The
-// element must have the class `cursor-follower` and is non-interactive.
-// -------------------------------------------------------------------------
 (function () {
 	const follower = document.querySelector('.cursor-follower');
 	if (!follower) return;
 
-	// --- CONFIG (adjustable) ---
 	const BASE_DIAM = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--cf-base-size')) || 40;
-	const DEFAULT_GROW_SCALE = 1.6;   // generic interactive
-	const NAV_GROW_SCALE = 2.5;       // nav links
-	const BUTTON_GROW_SCALE = 2.2;    // buttons
-	const LERP_POS = 0.14;            // small lag but responsive
+	const DEFAULT_GROW_SCALE = 1.6;
+	const NAV_GROW_SCALE = 2.5;
+	const BUTTON_GROW_SCALE = 2.2;
+	const LERP_POS = 0.14;
 	const LERP_SCALE = Math.min(0.22, LERP_POS + 0.06);
 
 	// State

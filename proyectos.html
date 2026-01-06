@@ -18,6 +18,7 @@
 	<link rel="stylesheet" href="./assets/css/index.css">
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" defer></script>
 	<script src="./assets/js/main.js" defer></script>
 
 	<!-- Page-only fixes: remove bottom white strip + prevent hover text clipping -->
@@ -155,13 +156,14 @@
 
 	<main id="main">
 		<!-- Hero Section -->
+		<!-- ✅ CUSTOMIZABLE: Change page title and intro text below -->
 		<section class="projects-hero" data-nav-theme="dark">
 			<div class="projects-hero__inner">
 				<h1 class="projects-title">PROYECTOS</h1>
 				<p class="projects-intro">
 					Una selección cuidada de proyectos donde concepto, diseño y ejecución dialogan entre sí. Referencias reales del tipo de trabajo que tu marca podría viene reflejado.
 				</p>
-				<a href="#" class="projects-hero__cta" aria-label="Échale un vistazo a mi currículum">
+			<a href="#" class="projects-hero__cta" aria-label="Échale un vistazo a mi currículum" data-type="pdf" data-src="https://ik.imagekit.io/4e9wbrqbyt/CV_Kutaias.pdf">
 					<span class="projects-hero__cta-arrow" aria-hidden="true">→</span>
 					<span class="projects-hero__cta-text">¡ÉCHALE UN VISTAZO A MI CURRÍCULUM!</span>
 				</a>
@@ -172,48 +174,52 @@
 		<section class="projects-catalog">
 			<div class="projects-catalog__track">
 				<!-- Project 1 -->
+				<!-- ✅ CUSTOMIZABLE: Duplicate this <article> block for each new project -->
 				<article class="project-tile">
-					<div class="project-tile__name">Identidad Visual</div>
-					<div class="project-tile__title">Identidad Visual, 2025</div>
+					<!-- ✅ CUSTOMIZABLE: Project category name -->
+					<div class="project-tile__name">Contenido Documental</div>
+					<!-- ✅ CUSTOMIZABLE: Project title and year -->
+					<div class="project-tile__title">Vietnam Trip, 2025</div>
+					<!-- ✅ CUSTOMIZABLE: Project media - can be <video>, <img>, or PDF (see Branding project) -->
 					<a class="project-tile__media" href="#" aria-label="Open project: Identidad para marca cultural">
-						<img src="https://images.unsplash.com/photo-1558655146-d09347e92766?w=800&h=533&fit=crop" alt="Identidad para marca cultural" loading="lazy">
+						<!-- ✅ CUSTOMIZABLE: For VIDEO - replace src with your video URL -->
+						<video src="https://ik.imagekit.io/4e9wbrqbyt/Vietnam_Trip_kutainas.mp4" autoplay loop muted playsinline preload="auto"></video>
 					</a>
 					<div class="project-tile__meta">
-						<div class="project-tile__desc">Desarrollo de identidad visual flexible para proyecto cultural en crecimiento</div>
+						<div class="project-tile__desc">Video documental sobre un viaje a Vietnam. Adaptado a redes sociales y plataformas digitales.</div>
 						<div class="project-tile__tags">
-							<span class="tag">Branding</span>
-							<span class="tag">Dirección creativa</span>
+							<span class="tag">Video</span>
+							<span class="tag">Filmmaking</span>
 						</div>
-					</div>
 				</article>
 
 				<!-- Project 2 -->
 				<article class="project-tile">
-					<div class="project-tile__name">Editorial Fotográfico</div>
-					<div class="project-tile__title">Editorial Fotográfico, 2025</div>
+					<div class="project-tile__name">Videos Deportivos</div>
+					<div class="project-tile__title">European Hockey League, CCVM, 2025</div>
 					<a class="project-tile__media" href="#" aria-label="Open project: Editorial fotográfico">
-						<img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=800&h=533&fit=crop" alt="Editorial fotográfico" loading="lazy">
+						<video src="https://ik.imagekit.io/4e9wbrqbyt/Video_EHL_CCVM_kutainas.mov" autoplay loop muted playsinline preload="auto"></video>
 					</a>
 					<div class="project-tile__meta">
-						<div class="project-tile__desc">Serie fotográfica editorial centrada en narrativa visual y composición</div>
+						<div class="project-tile__desc">Pieza audiovisual para el Club de Campo Villa de Madrid. Participación en la Final de la European Hockey League 2025.</div>
 						<div class="project-tile__tags">
-							<span class="tag">Fotografía</span>
-							<span class="tag">Moda</span>
+							<span class="tag">Deporte</span>
+							<span class="tag">Acción</span>
 						</div>
 					</div>
 				</article>
 
 				<!-- Project 3 -->
 				<article class="project-tile">
-					<div class="project-tile__name">Contenido Audiovisual</div>
-					<div class="project-tile__title">Contenido Audiovisual, 2024</div>
+					<div class="project-tile__name">Motion Graphics</div>
+					<div class="project-tile__title">Olympics Branding, 2025</div>
 					<a class="project-tile__media" href="#" aria-label="Open project: Contenido audiovisual para redes">
-						<img src="https://images.unsplash.com/photo-1611162618071-b39a2ec055fb?w=800&h=533&fit=crop" alt="Contenido audiovisual para redes" loading="lazy">
+						<video src="https://ik.imagekit.io/4e9wbrqbyt/Video_MotionGraphics_kutainas.MP4?updatedAt=1767633991169" autoplay loop muted playsinline preload="auto"></video>
 					</a>
 					<div class="project-tile__meta">
-						<div class="project-tile__desc">Piezas de video para formatos verticales y consumo rápido en redes sociales</div>
+						<div class="project-tile__desc">Dirección creativa y animación de gráficos en movimiento para la identidad visual de los Juegos Olímpicos 2025.</div>
 						<div class="project-tile__tags">
-							<span class="tag">Video</span>
+							<span class="tag">Branding</span>
 							<span class="tag">Motion</span>
 						</div>
 					</div>
@@ -221,29 +227,29 @@
 
 				<!-- Project 4 -->
 				<article class="project-tile">
-					<div class="project-tile__name">Web Portfolio</div>
-					<div class="project-tile__title">Web Portfolio, 2024</div>
-					<a class="project-tile__media" href="#" aria-label="Open project: Web portfolio creativo">
-						<img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=533&fit=crop" alt="Web portfolio creativo" loading="lazy">
+					<div class="project-tile__name">Branding</div>
+					<div class="project-tile__title">Brut. Creative Studies, 2025</div>
+					<a class="project-tile__media" href="#" aria-label="Open project: Web portfolio creativo" data-type="pdf" data-src="https://ik.imagekit.io/4e9wbrqbyt/BRUT.pdf">
+						<img src="https://ik.imagekit.io/4e9wbrqbyt/Portada_BRUT.png" alt="Brut. Creative Studies" loading="lazy">
 					</a>
 					<div class="project-tile__meta">
-						<div class="project-tile__desc">Diseño y desarrollo de portfolio web con enfoque editorial</div>
+						<div class="project-tile__desc">Diseño y desarrollo de la identidad visual de una Universidad de Diseño ubicada en Madrid.</div>
 						<div class="project-tile__tags">
-							<span class="tag">Web</span>
-							<span class="tag">UI</span>
+							<span class="tag">Dirección Creativa</span>
+							<span class="tag">Branding</span>
 						</div>
 					</div>
 				</article>
 
 				<!-- Project 5 -->
 				<article class="project-tile">
-					<div class="project-tile__name">Fotografía de Evento</div>
-					<div class="project-tile__title">Fotografía de Evento, 2024</div>
-					<a class="project-tile__media" href="#" aria-label="Open project: Fotografía de evento cultural">
-						<img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&h=533&fit=crop" alt="Fotografía de evento cultural" loading="lazy">
+					<div class="project-tile__name">Fotografía de Eventos</div>
+					<div class="project-tile__title">Mercedes-Benz Fashion Week Madrid, 2024</div>
+					<a class="project-tile__media" href="#" aria-label="Open project: Fotografía de evento cultural" data-type="pdf" data-src="https://ik.imagekit.io/4e9wbrqbyt/MBFW.pdf">
+						<img src="https://ik.imagekit.io/4e9wbrqbyt/Portada_MBFW.JPG" alt="Mercedes-Benz Fashion Week Madrid" loading="lazy">
 					</a>
 					<div class="project-tile__meta">
-						<div class="project-tile__desc">Cobertura visual de evento cultural capturando atmósfera y momentos clave</div>
+						<div class="project-tile__desc">Cobertura visual del evento. Pasarela de moda y modelos diseñados.	</div>
 						<div class="project-tile__tags">
 							<span class="tag">Fotografía</span>
 							<span class="tag">Evento</span>
@@ -254,12 +260,12 @@
 				<!-- Project 6 -->
 				<article class="project-tile">
 					<div class="project-tile__name">Identidad y Packaging</div>
-					<div class="project-tile__title">Identidad y Packaging, 2025</div>
-					<a class="project-tile__media" href="#" aria-label="Open project: Identidad y packaging">
-						<img src="https://images.unsplash.com/photo-1550399105-c4db5fb85c18?w=800&h=533&fit=crop" alt="Identidad y packaging" loading="lazy">
+					<div class="project-tile__title">Chef Who Tao, 2024</div>
+					<a class="project-tile__media" href="#" aria-label="Open project: Identidad y packaging" data-type="pdf" data-src="https://ik.imagekit.io/4e9wbrqbyt/CHEF_WHO_TAO.pdf">
+						<img src="https://ik.imagekit.io/4e9wbrqbyt/Portada_ChefWhoTao.png" alt="Chef Who Tao - Identidad y packaging" loading="lazy">
 					</a>
 					<div class="project-tile__meta">
-						<div class="project-tile__desc">Sistema gráfico aplicado a packaging con foco en concepto y materialidad</div>
+						<div class="project-tile__desc">Sistema gráfico aplicado a packaging para un restaurante de comida asiática.</div>
 						<div class="project-tile__tags">
 							<span class="tag">Branding</span>
 							<span class="tag">Packaging</span>
@@ -324,6 +330,216 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- Media Lightbox Modal -->
+	<div id="mediaLightbox" class="lightbox-modal" role="dialog" aria-modal="true" aria-hidden="true">
+		<div class="lightbox-overlay"></div>
+		<div class="lightbox-content">
+			<button class="lightbox-close" aria-label="Close lightbox">
+				<span aria-hidden="true">←</span>
+			</button>
+			<div class="lightbox-media-container"></div>
+			<div class="pdf-controls" style="display: none;">
+				<button class="pdf-nav-btn pdf-prev" aria-label="Previous page">←</button>
+				<span class="pdf-page-indicator"></span>
+				<button class="pdf-nav-btn pdf-next" aria-label="Next page">→</button>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		// Configure PDF.js worker
+		if (typeof pdfjsLib !== 'undefined') {
+			pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+		}
+
+		// Media Lightbox functionality (enhanced with PDF support)
+		(function() {
+			const lightbox = document.getElementById('mediaLightbox');
+			if (!lightbox) return;
+
+			const overlay = lightbox.querySelector('.lightbox-overlay');
+			const closeBtn = lightbox.querySelector('.lightbox-close');
+			const mediaContainer = lightbox.querySelector('.lightbox-media-container');
+			const pdfControls = lightbox.querySelector('.pdf-controls');
+			const pdfPrevBtn = lightbox.querySelector('.pdf-prev');
+			const pdfNextBtn = lightbox.querySelector('.pdf-next');
+			const pdfPageIndicator = lightbox.querySelector('.pdf-page-indicator');
+			const projectsTrack = document.querySelector('.projects-catalog__track');
+			
+			let currentMedia = null;
+			let currentPdf = null;
+			let currentPdfPage = 1;
+			let totalPdfPages = 0;
+
+			async function renderAllPdfPagesInModal() {
+				if (!currentPdf) return;
+
+				// Create scrollable container
+				const scrollContainer = document.createElement('div');
+				scrollContainer.className = 'pdf-scroll-container';
+				mediaContainer.appendChild(scrollContainer);
+
+				// Calculate scale for all pages
+				const maxWidth = (window.innerWidth * 0.9) - 32; // Account for padding
+				
+				// Render each page
+				for (let pageNum = 1; pageNum <= totalPdfPages; pageNum++) {
+					const page = await currentPdf.getPage(pageNum);
+					const viewport = page.getViewport({ scale: 1.0 });
+					
+					// Scale to fit width
+					const scale = maxWidth / viewport.width;
+					const scaledViewport = page.getViewport({ scale });
+					
+					// Create wrapper for this page
+					const pageWrapper = document.createElement('div');
+					pageWrapper.className = 'pdf-page-wrapper';
+					
+					// Create canvas for this page
+					const canvas = document.createElement('canvas');
+					canvas.width = scaledViewport.width;
+					canvas.height = scaledViewport.height;
+					
+					const context = canvas.getContext('2d');
+					context.fillStyle = '#fff';
+					context.fillRect(0, 0, canvas.width, canvas.height);
+					
+					await page.render({
+						canvasContext: context,
+						viewport: scaledViewport
+					}).promise;
+					
+					pageWrapper.appendChild(canvas);
+					scrollContainer.appendChild(pageWrapper);
+				}
+			}
+
+			async function openLightbox(mediaElement, mediaLink) {
+				const isPdf = mediaLink?.getAttribute('data-type') === 'pdf';
+				
+				mediaContainer.innerHTML = '';
+				pdfControls.style.display = 'none';
+
+				if (isPdf) {
+					const pdfUrl = mediaLink.getAttribute('data-src');
+					try {
+						// Show loading message
+						mediaContainer.innerHTML = '<p style="color: #fff; text-align: center; padding: 2rem;">Cargando PDF...</p>';
+						
+						const loadingTask = pdfjsLib.getDocument(pdfUrl);
+						currentPdf = await loadingTask.promise;
+						totalPdfPages = currentPdf.numPages;
+						currentPdfPage = 1;
+
+						mediaContainer.innerHTML = '';
+						await renderAllPdfPagesInModal();
+						currentMedia = 'pdf';
+
+					} catch (error) {
+						console.error('Error loading PDF in lightbox:', error);
+						mediaContainer.innerHTML = '<p style="color: #fff; text-align: center;">Error cargando PDF</p>';
+					}
+				} else {
+					const isVideo = mediaElement.tagName === 'VIDEO';
+					const mediaSrc = mediaElement.src;
+
+					if (isVideo) {
+						const video = document.createElement('video');
+						video.src = mediaSrc;
+						video.controls = true;
+						video.autoplay = true;
+						video.playsInline = true;
+						video.muted = false;
+						mediaContainer.appendChild(video);
+						currentMedia = video;
+					} else {
+						const img = document.createElement('img');
+						img.src = mediaSrc;
+						img.alt = mediaElement.alt || 'Project media';
+						mediaContainer.appendChild(img);
+						currentMedia = img;
+					}
+				}
+
+				lightbox.setAttribute('aria-hidden', 'false');
+				lightbox.classList.add('is-open');
+				closeBtn.focus();
+				document.body.style.overflow = 'hidden';
+			}
+
+			function closeLightbox() {
+				if (currentMedia && currentMedia.tagName === 'VIDEO') {
+					currentMedia.pause();
+					currentMedia.currentTime = 0;
+				}
+
+				lightbox.classList.remove('is-open');
+				lightbox.setAttribute('aria-hidden', 'true');
+				document.body.style.overflow = '';
+				currentMedia = null;
+				currentPdf = null;
+				currentPdfPage = 1;
+				totalPdfPages = 0;
+			}
+
+			// Click handler for project tiles
+			if (projectsTrack) {
+				projectsTrack.addEventListener('click', (e) => {
+					const mediaLink = e.target.closest('.project-tile__media');
+					if (!mediaLink) return;
+
+					e.preventDefault();
+					
+					const isPdf = mediaLink.getAttribute('data-type') === 'pdf';
+					if (isPdf) {
+						openLightbox(null, mediaLink);
+					} else {
+						const media = mediaLink.querySelector('img, video');
+						if (media) openLightbox(media, mediaLink);
+					}
+				});
+			}
+
+			// Click handler for CV button (download + view)
+			const cvButton = document.querySelector('.projects-hero__cta[data-type="pdf"]');
+			if (cvButton) {
+				cvButton.addEventListener('click', async (e) => {
+					e.preventDefault();
+					
+					const pdfUrl = cvButton.getAttribute('data-src');
+					
+					// Trigger download programmatically
+					try {
+						const response = await fetch(pdfUrl);
+						const blob = await response.blob();
+						const url = window.URL.createObjectURL(blob);
+						const link = document.createElement('a');
+						link.href = url;
+						link.download = 'CV_Kutainas.pdf';
+						document.body.appendChild(link);
+						link.click();
+						document.body.removeChild(link);
+						window.URL.revokeObjectURL(url);
+					} catch (error) {
+						console.error('Error downloading PDF:', error);
+					}
+					
+					// Open in modal
+					openLightbox(null, cvButton);
+				});
+			}
+
+			closeBtn.addEventListener('click', closeLightbox);
+			overlay.addEventListener('click', closeLightbox);
+			
+			document.addEventListener('keydown', (e) => {
+				if (lightbox.classList.contains('is-open') && e.key === 'Escape') {
+					closeLightbox();
+				}
+			});
+		})();
+	</script>
 
 </body>
 </html>
