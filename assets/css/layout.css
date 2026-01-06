@@ -11,7 +11,7 @@
 
 /* CUSTOMIZABLE: Espaciado de secciones */
 .section { 
-	padding: var(--space-2xl) 0; 
+	padding: 0;
 }
 
 /* CUSTOMIZABLE: Estilos de títulos de sección */
@@ -330,7 +330,12 @@ body {
 /* --------------------------------------------------------------------------
    Sobre Mi editorial frame
    -------------------------------------------------------------------------- */
-.sobre-mi { width: 100%; }
+.sobre-mi { 
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	background: var(--color-bg-dark);
+}
 .sobre-mi .row { min-height: 60vh; }
 
 /* CUSTOMIZABLE: Panel editorial izquierdo */
